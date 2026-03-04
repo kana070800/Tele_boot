@@ -1,6 +1,30 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h> 
 #include "mylib.h"
+#define SIZE(a) (sizeof(a)/sizeof(a[0]))
+
+struct _stARY {
+	char* msg;
+	int (*func)(int*, int);
+};
+
+struct _stARY stARY[] = {
+	{"exit", NULL},
+	{"read data", scanf_ary},
+	{"print data", print_ary},
+	{"max data", findmax_ary},
+	{"min data", findmin_ary},
+	{"sum data", sum_ary},
+	{"avg data", avg_ary},
+	{"sort data(up)", sort_ary},
+	{"sort data(down)", sort_ary_desc} };
+
+void tmp(int *ary, int n) {
+	struct _stARY stARY = {"read data", scanf_ary};
+	printf("%s", stARY.msg);
+	stARY.func(ary, n);
+}
+
 
 int menu_print()
 {
@@ -16,6 +40,18 @@ int menu_print()
 	printf("6. calculate average\n");
 	printf("7. sort data\n");
 	printf("0. exit\n");
+	printf(" cmd >> ");
+	scanf("%d", &num);
+	return num;
+}
+
+
+int menu_print2()
+{
+	int num;
+	for (int i = 0; i < SIZE(stARY); i++) {
+		printf("%d. %s\n", i, stARY[i].msg);
+	}
 	printf(" cmd >> ");
 	scanf("%d", &num);
 	return num;
@@ -54,6 +90,29 @@ int ary_control(int c, int* ary, int n) {
 	system("pause");
 	system("cls");
 }
+
+/*
+int ary_control2(int c, void* ary, int n) {
+	int result = 0;
+	//printf("return : %d\n", ((int (*)(int*, int))(ary+c))(ary, 5));
+	if ((c >= eMENU_MAX) && (c <= eMENU_AVG))
+		printf("%d\n", result);
+
+	system("pause");
+	system("cls");
+}
+*/
+int ary_control3(int c, void* ary, int n) {
+	int result = 0;
+	result = stARY[c].func(ary, n);
+	if ((c >= eMENU_MAX) && (c <= eMENU_AVG))
+		printf("%d\n", result);
+
+	system("pause");
+	system("cls");
+}
+
+
 
 int scanf_ary(int* pa, int n) {
 	for (int i = 0; i < n; i++) {
@@ -105,6 +164,20 @@ int sort_ary(int* pa, int n) {
 	for (int i = 0; i < n; i++) {
 		for (int j = i+1; j < n; j++) { //같을 때 교환 필요 x
 			if (*(pa + i) > *(pa + j)) {
+				tmp = *(pa + i);
+				*(pa + i) = *(pa + j);
+				*(pa + j) = tmp;
+			}
+		}
+	}
+	return n;
+}
+
+int sort_ary_desc(int* pa, int n) {
+	int tmp = 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = i + 1; j < n; j++) { //같을 때 교환 필요 x
+			if (*(pa + i) < *(pa + j)) {
 				tmp = *(pa + i);
 				*(pa + i) = *(pa + j);
 				*(pa + j) = tmp;

@@ -13,7 +13,9 @@ enum {
 	eMENU_MAX_VAL
 };
 int menu_print(void);
+int menu_print2(void);
 int ary_control(int, int*, int);
+int ary_control3(int, int*, int);
 int scanf_ary(int* pa, int n);
 int print_ary(int* pa, int n);
 int findmax_ary(int* pa, int n);
@@ -22,5 +24,5 @@ int sum_ary(int* pa, int n);
 int avg_ary(int* pa, int n); //평균 반올림해서 정수로 반환
 //void var_ary(int* pa, int n);
 int sort_ary(int* pa, int n);
-
+int sort_ary_desc(int* pa, int n);
 #endif

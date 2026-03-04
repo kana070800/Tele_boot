@@ -146,7 +146,7 @@ int main(void)
 	func(arr, 5);
 }
 #endif
-
+//------------------------------------------------
 #if 0
 #include "mylib.h"
 #define SIZE(a) (sizeof(a)/sizeof(a[0]))
@@ -163,7 +163,7 @@ int main(void)
 }
 #endif //switch case 
 
-#if 01
+#if 0
 #include "mylib.h"
 
 int main(void)
@@ -172,9 +172,12 @@ int main(void)
 	void *cmds[8] = {NULL, scanf_ary , print_ary , findmax_ary, findmin_ary, sum_ary, avg_ary, sort_ary};
 	//int (*cmds[8])(int*, int) = { NULL, scanf_ary , print_ary , findmax_ary, findmin_ary, sum_ary, avg_ary, sort_ary };
 	int ary[5] = { 0 };
-
+	
 	while(num = menu_print()) {
-		printf("return : %d\n",((int (*)(int*, int))cmds[num])(ary, 5));
+		if ((num > eMENU_EXIT) || (num <= eMENU_MAX_VAL))
+			printf("return : %d\n", ((int (*)(int*, int))cmds[num])(ary, 5));
+		else
+			printf("wrong input");
 	}
 
 	return 0;
@@ -303,5 +306,89 @@ int main(void) {
 	}
 
 	printf("종료 \n");
+}
+#endif
+
+#if 0
+#include "mylib.h"
+#define SIZE(a) (sizeof(a)/sizeof((a)[0]))
+
+int main(void)
+{
+	int ary[5] = { 0 };
+	int c;
+
+	while (c = menu_print2())
+		ary_control3(c, ary, SIZE(ary));
+	
+	return 0;
+}
+#endif //구조체
+//---------------------------------------
+
+#if 0
+int main(void)
+{
+	char ch1, ch2;
+	//scanf("%c%c", &ch1, &ch2);  //공백, enter를 입력으로 인식
+	//scanf("%c %c", &ch1, &ch2);  // 공백, enter를 입력으로 인식 안함
+	ch1 = getchar();
+	ch2 = getchar();
+	putchar(ch1);
+	putchar(ch2);
+	printf("[%c%c]", ch1, ch2);
+	return 0;
+}
+#endif
+
+#if 0
+#define SIZE(a) (sizeof(a)/sizeof((a)[0]))
+void my_gets(char* s, int n) {
+	for (int i = 0; i < n - 1; i++) {
+		*(s + i) = getchar();
+		if (*(s + i) == '\n') {
+			*(s + i) = '\0';
+			break;
+		}
+	}
+	*(s + n - 1) = '\0';
+}
+int main(void)
+{
+	char str[6];
+	my_gets(str, SIZE(str));
+	printf("%s\n", str);
+}
+#endif
+
+
+#if 1
+#define SIZE(a) (sizeof(a)/sizeof((a)[0]))
+
+char * to_upper(char* s) {
+	int i = 0;
+	while(*(s + i)) {
+		if ((*(s + i) >= 'a') && (*(s + i) <= 'z'))
+			*(s + i) -= ('a'-'A');
+		i++;
+	}
+	return s;
+}
+
+char* to_upper1(char* s) {
+	char* save = s;
+	while (*s) {
+		if ((*(s) >= 'a') && (*(s) <= 'z'))
+			*(s) -= ('a' - 'A');
+		s++;
+	}
+	return save;
+}
+
+int main(void)
+{
+	char str[40] = "Tom & Jerry";
+	printf("%s\n", to_upper1(str));
+	printf("%s\n", to_upper(str));
 }
 #endif

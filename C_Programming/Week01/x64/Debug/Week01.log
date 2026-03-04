@@ -1,3 +1,2 @@
-﻿  test.c
-C:\Telechips4\C_Programming\Week01\test.c(35,11): warning C4305: '초기화 중': 'int'에서 'char'(으)로 잘립니다.
-  Week01.vcxproj -> C:\Telechips4\C_Programming\x64\Debug\Week01.exe
+﻿  day04.c
+  Week01.vcxproj -> C:\Telechips4\C_Programming\c_100\x64\Debug\Week01.exe
