@@ -362,7 +362,7 @@ int main(void)
 #endif
 
 
-#if 1
+#if 0
 #define SIZE(a) (sizeof(a)/sizeof((a)[0]))
 
 char * to_upper(char* s) {

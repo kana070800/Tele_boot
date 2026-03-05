@@ -178,18 +178,87 @@ int main(void)
 #if 0
 #define _CRT_SECURE_NO_WARNINGS // Visual Studio에서 보안 경고를 무시하고 컴파일을 진행할 때 사용하는 매크로
 #include <stdio.h>
+#include <string.h>
+
+int Check_Z(int left, int right, char* buffer, int * count)
+{
+	if (buffer[left] == ' ')
+		left++;
+	if ('0' == buffer[left])
+		return 0;
+
+	
+	int i = (int)(buffer[right - 1] - '0');
+	count[i]++;
+	
+	return 1;
+
+}
+
+int Set_right(int left, char* buffer)
+{
+	left++;
+	while ((buffer[left]) && (buffer[left] != ' ')) //null 이나 ' ' 이면 루프 종료
+		left++;
+	return left;
+}
+
 int main(void)
 {
-	int a;
-	int temp = 0;
-	printf("input num : ");
-	scanf("%d", &a);
-	for (int i = 1; i < a; i = i*10)
+	int right = 0, left = 0, flag = 1;
+	char buffer[200];
+	int count[10] = { 0 };
+
+	printf("input nums : ");
+	fgets(buffer, sizeof(buffer), stdin);
+	
+	while (flag) {
+		left = right;
+		right = Set_right(left, buffer);
+		flag = Check_Z(left, right, buffer, count);
+	}
+	
+	for (int i = 0; i < 10; i++)
+		printf("%d\n", count[i]);
+		
+	printf("%s", buffer);
+
+	/*
+	for (int i = 1; i < a; i = i * 10)
 	{
 		temp *= 10;
 		temp += a / i % 10;
 	}
-	printf("output num : %d\n", temp);
+	
+	printf("output num : %d\n", temp);*/
 	return 0;
 }
-#endif // reverse number
+#endif // fitst number count
+
+#if 01
+#include <stdbool.h>
+
+int if_Find_solution(int * index)
+{
+	int count = 0;
+	while (*index++)
+		printf("%d", *index);
+	return count;
+}
+
+int main(void)
+{
+	int N, tmp=0,value=0;
+	int index[100] = { 0 };
+	scanf("%d", &N);
+	for (int i = 0; i < N; i++)
+	{
+		scanf("%d", &tmp);
+		getchar();
+		index[tmp] = 1;
+	}
+	
+	printf("%d", if_Find_solution(index));
+	return 0;
+}
+#endif
