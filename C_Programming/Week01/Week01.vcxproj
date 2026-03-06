@@ -127,6 +127,7 @@
     <ClCompile Include="day03.c" />
     <ClCompile Include="day04.c" />
     <ClCompile Include="day06.c" />
+    <ClCompile Include="day07.c" />
     <ClCompile Include="func.c" />
     <ClCompile Include="mylib.c" />
     <ClCompile Include="num.c" />

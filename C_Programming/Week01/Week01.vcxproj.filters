@@ -36,6 +36,9 @@
     <ClCompile Include="num.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="day07.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="score1.txt" />

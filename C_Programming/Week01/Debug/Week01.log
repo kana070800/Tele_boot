@@ -1,4 +1,4 @@
-﻿  day06.c
+﻿  day07.c
   참고: 포함 파일: C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\stdio.h
   참고: 포함 파일:  C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\corecrt.h
   참고: 포함 파일:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime.h
@@ -20,9 +20,5 @@
   참고: 포함 파일:  C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\corecrt_wstdlib.h
   참고: 포함 파일:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\limits.h
   test.c
-  참고: 포함 파일: C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdbool.h
   코드를 생성하고 있습니다...
-C:\Telechips4\C_Programming\Week01\test.c(245,3): warning C4013: 'printf'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\Telechips4\C_Programming\Week01\test.c(253,2): warning C4013: 'scanf'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\Telechips4\C_Programming\Week01\test.c(257,3): warning C4013: 'getchar'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
   Week01.vcxproj -> C:\Telechips4\C_Programming\Debug\Week01.exe

@@ -175,6 +175,15 @@ int main(void)
 }
 #endif // char calculation
 
+
+
+
+
+
+
+
+
+
 #if 0
 #define _CRT_SECURE_NO_WARNINGS // Visual Studio에서 보안 경고를 무시하고 컴파일을 진행할 때 사용하는 매크로
 #include <stdio.h>
@@ -235,21 +244,37 @@ int main(void)
 }
 #endif // fitst number count
 
-#if 01
+#if 0
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
 #include <stdbool.h>
 
-int if_Find_solution(int * index)
+int _first(int a, bool *index) 
+{
+	while (!*(index + a))
+		a++;  // 0 0 1 0 1 1 1 0 0      5 24567     0 0 > 1에서 멈춤 2리턴 0 > 2 2 > 3에서 멈춤 4리턴 2 > 4 4 > 5
+	return a+1;
+}
+
+
+
+int _cal(int first, int second, bool *index)
 {
 	int count = 0;
-	while (*index++)
-		printf("%d", *index);
+	int d = second + (second - first); // 1 3 4 7 10 >> 6 ~ 8 >> 8 ~ 11
+	int max = second + 2*(second - first); // 01011001001
+	for (int i = d - 1; i < max; i++)
+		if (index[i])
+			count++;
+
 	return count;
 }
 
+
 int main(void)
 {
-	int N, tmp=0,value=0;
-	int index[100] = { 0 };
+	int N, tmp = 0, init = 0,init1=0, first = 0, second = 0;
+	bool index[100] = { 0 };
 	scanf("%d", &N);
 	for (int i = 0; i < N; i++)
 	{
@@ -257,8 +282,62 @@ int main(void)
 		getchar();
 		index[tmp] = 1;
 	}
-	
-	printf("%d", if_Find_solution(index));
+	tmp = 0;
+
+	for (int i = 0; i < N-2; i++)
+	{
+		init = first;
+		first = _first(init, index); //init에서 first 선정
+		//printf("%d\n", first);
+		
+		second = first;
+		
+		for (int j = 0; j < N - 2 - i; j++) {
+			init1 = second;
+			
+			second = _first(init1, index); //first에서 second 선정 >> 내부에서 _first를 N - 1 - i 번 수행
+			//printf("%d %d\n", first, second);
+			//printf("%d\n", _cal(first, second, index));
+			tmp += _cal(first, second, index);
+		}
+	}
+	printf("%d\n", tmp);
+	(void)if_Find_solution(index);
 	return 0;
 }
+#endif //확장이 , 예외처리 추가
+/*
+
+예외처리는 나중에 추가 (N 범위)
+
+1. 크기가 정해진 배열에 입력된 인덱스 요소에 표시
+
+2. 인덱스 간 관계를 통해 경우의 수를 연산 >  _first 를 N-2번 반복
+		1) find next int value 1 >> _first (index[0]에서 부터 for 돌면서 1 찾기, 찾으면 정지, 인덱스 반환)
+		2) choose next 1 index >> _second (받은 인덱스에서 부터 for 돌면서 1 찾기, 찾으면 정지, 인덱스 반환)
+		3) is there any 1 in 범위 >> 범위를 연산하고 연산된 범위 사이에 1 이 있는지 탐색
+	
+
+1. 입력 수 만큼 연꽃 구조체(위치 포함) 생성
+2. 구조체에 저장된 위치를 통해 경우의 수를 연산
+	위치값들 정렬 필요
+	연산 자체는 용이
+	*/
+
+
+#if 01
+
+int main(void)
+{
+	int N, d, k, c;
+	scanf("%d %d %d %d", &N, &d, &k, &c);
+	return 0;
+}
+
 #endif
+
+
+
+
+
+//5, 10, 11, 10, 11, 11, 22, 11, 12, 12, 22, 22, 22, 23
