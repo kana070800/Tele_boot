@@ -325,19 +325,136 @@ int main(void)
 	*/
 
 
-#if 01
+#if 0
 
 int main(void)
 {
-	int N, d, k, c;
+	int N, d, k, c, value = 0, tmp, flag_x, flag_c;
 	scanf("%d %d %d %d", &N, &d, &k, &c);
+
+	if ((N < 2)||(N > 30000))//범위지정
+		return 1;
+
+	int* arr = (int*)malloc(sizeof(int) * (N+k-1)); // 접시수 만큼 배열생성
+	//int* cham = (int*)malloc(sizeof(int) * (k));    // 참조값들 저장 배열
+	//d = 초밥 가지수 >> 입력 시 범위를 지정한다
+	for (int i = 0; i < N; i++) {
+		scanf("%d", arr + i);
+		getchar();
+	}
+	for (int i = 0; i < (k - 1); i++) //연속참조 횟수-1만큼 배열 추가
+		arr[N + i] = arr[i];
+	//k = 연속 섭취수 >> 참조횟수
+	//c = 쿠폰 번호 >> 참조중 발견시 k+1 반환
+	//1. 순차적으로 연산하여 발견하면 k+1, or k 반환
+	//2. 판별만 하면 되잖아 >> 문제 발생 (가짓수가 적을때 판별 곤란)
+
+	//배열을 N번 순차적으로 k번 참조
+	//참조 중 각기 다른 것을 먹는 횟수를 반환
+	//		1) c를 포함시
+	//			1) k 보다 작다
+	//			2) k 만큼 
+	//				>> 다른 것을 먹는 횟수를 반환
+	//		2) c를 포함 안할 시
+	//			1) k 보다 작다
+	//			2) k 만큼
+	//				>> 다른 것을 먹는 횟수를 반환 + 1
+	// 반복된 반환값 중 최댓값이 결론
+
+	/*
+	printf("%d %d %d %d\n", N, d, k, c);
+	for (int i = 0; i < N - 1 + k; i++)
+		printf("%d ", arr[i]);
+		*/
+	
+	for (int i = 0; i < N; i++)
+	{
+		tmp = 0;
+		flag_c = 1; //c 발견시 0
+		for (int j = 0; j < k; j++) //잘라진 N+k-1배열에서 일일이 참조하고 
+		{//1 2 3 3 4  일때 4 반환, c 인지 판별 
+			flag_x = 1; // 중복 발견시 0
+			for (int x = 0; x < k - j; x++) {
+				if (arr[i + j + x + 1] == arr[i + j]) //배열 [i] ~ [i+k-1] 까지 발견 안되면 +1
+					flag_x = 0;
+				if (arr[i + j + x + 1] == c)
+					flag_c = 0;
+			}
+			tmp += flag_x;
+		}
+		tmp += flag_c;
+		value = (value > tmp) ? value : tmp;
+
+		if (value == (k + 1))
+			break;
+	}
+	
+	printf("%d", value);
+
+/*
+8 30 4 30
+7
+9
+7
+30
+2
+7
+9
+25
+*/
+
+	free(arr);
+
 	return 0;
 }
 
 #endif
 
+#if 0
+int main(void)
+{
+	int N, d, k, c, value = 0, tmp, flag_x, flag_c;
+	scanf("%d %d %d %d", &N, &d, &k, &c);
+
+	if ((N < 2) || (N > 30000))//범위지정
+		return 1;
+
+	int* arr = (int*)malloc(sizeof(int) * (N + k - 1)); // 접시수 만큼 배열생성
+	//int* cham = (int*)malloc(sizeof(int) * (k));    // 참조값들 저장 배열
+	//d = 초밥 가지수 >> 입력 시 범위를 지정한다
+	for (int i = 0; i < N; i++) {
+		scanf("%d", arr + i);
+		getchar();
+	}
+	for (int i = 0; i < (k - 1); i++) //연속참조 횟수-1만큼 배열 추가
+		arr[N + i] = arr[i];
+	//k = 연속 섭취수 >> 참조횟수
+	//c = 쿠폰 번호 >> 참조중 발견시 k+1 반환
+	//1. 순차적으로 연산하여 발견하면 k+1, or k 반환
+	//2. 판별만 하면 되잖아 >> 문제 발생 (가짓수가 적을때 판별 곤란)
+
+	//배열을 N번 순차적으로 k번 참조
+	//참조 중 각기 다른 것을 먹는 횟수를 반환
+	//		1) c를 포함시
+	//			1) k 보다 작다
+	//			2) k 만큼 
+	//				>> 다른 것을 먹는 횟수를 반환
+	//		2) c를 포함 안할 시
+	//			1) k 보다 작다
+	//			2) k 만큼
+	//				>> 다른 것을 먹는 횟수를 반환 + 1
+	// 반복된 반환값 중 최댓값이 결론
 
 
+	printf("%d", value);
+
+
+	free(arr);
+
+	return 0;
+}
+
+#endif
 
 
 //5, 10, 11, 10, 11, 11, 22, 11, 12, 12, 22, 22, 22, 23
