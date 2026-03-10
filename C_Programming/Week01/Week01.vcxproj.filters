@@ -39,6 +39,9 @@
     <ClCompile Include="day07.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="day08.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="day09.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -46,6 +49,7 @@
   <ItemGroup>
     <Text Include="score1.txt" />
     <Text Include="score2.txt" />
+    <Text Include="data.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mylib.h">

@@ -458,3 +458,45 @@ int main(void)
 
 
 //5, 10, 11, 10, 11, 11, 22, 11, 12, 12, 22, 22, 22, 23
+
+
+
+
+
+#if 0
+//중간 매개로 파일에 저장해 둔 값을 불러오기
+//단순 입력이 아닌 끌어오는 방법 고민
+int main(void)
+{
+	double trace_7_now = 0;  //7일 trace
+	double trace_7_B = 0;    //7일전
+	double day_now = 0;   //당일 종가 for 특수 case2
+	double day_B =      //전일 종가
+	double aver_120 = 0;
+
+	int can_use = 0;  //가용 
+	int in_zoo = 0;   //주식
+	int in_bank = 0;  //저축
+
+	int flag_case_2 = 0;  //특수 case 2 횟수, 2번 이상 시 중단
+
+	//freopen(?)  //을 통해 파일 오픈하여 입력을 받기
+
+	/*
+	scanf("%d", &);
+	scanf("%d", &);
+	scanf("%d", &);
+	scanf("%d", &);
+	scanf("%d", &);
+	*/
+	
+	/*
+	매일 장 마감 시 한번 실행
+	if ()
+	*/
+
+
+
+	return 0;
+}
+#endif
