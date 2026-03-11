@@ -464,39 +464,104 @@ int main(void)
 
 
 #if 0
+
+#include <stdbool.h>
+
+
+typedef struct A {
+	double trace_7_now;  //7일 trace
+	double trace_7_B;    //7일전
+	double day_now;   //당일 종가 for 특수 case2
+	double day_B;     //전일 종가
+	double aver_120;
+
+	int can_use;  //가용 
+	int in_zoo ;   //주식
+	int in_bank;  //저축
+
+	int flag_case_2;  //특수 case 2 횟수, 2번 이상 시 중단
+
+	bool month_change;
+	int day;
+}STA;
+
+
+void value_load(STA* my);
+void value_update(STA* my);
+void day_update(STA* my);
+void check_scase_2(STA* my);
+void check_scase_1(STA* my);
+void check_gcase(STA* my);
+void account_adjust(STA* my);
+void perform(STA* my);
+
 //중간 매개로 파일에 저장해 둔 값을 불러오기
 //단순 입력이 아닌 끌어오는 방법 고민
 int main(void)
 {
-	double trace_7_now = 0;  //7일 trace
-	double trace_7_B = 0;    //7일전
-	double day_now = 0;   //당일 종가 for 특수 case2
-	double day_B =      //전일 종가
-	double aver_120 = 0;
-
-	int can_use = 0;  //가용 
-	int in_zoo = 0;   //주식
-	int in_bank = 0;  //저축
-
-	int flag_case_2 = 0;  //특수 case 2 횟수, 2번 이상 시 중단
-
-	//freopen(?)  //을 통해 파일 오픈하여 입력을 받기
-
-	/*
-	scanf("%d", &);
-	scanf("%d", &);
-	scanf("%d", &);
-	scanf("%d", &);
-	scanf("%d", &);
-	*/
 	
 	/*
-	매일 장 마감 시 한번 실행
-	if ()
+	매일 장 마감 직전 변수 갱신, 불러오기
+	if)이번 주 특수 case2가 2번 발생했었는지 점검
+	특수 case2 인지 확인
+
+	한주 기준날 확인
+		특수 case1 인지 확인
+		일반 case에서 어떤 상황인지 확인
+
+	매달 기준날인지 확인 후 조정
+	변수 저장
 	*/
 
+	STA my_info = { 0 };
 
+	value_load(&my_info);
 
+	day_update(&my_info);
+
+	if (2 > my_info.flag_case_2) {
+		check_scase_2(&my_info);
+
+		if (1 == my_info.day) {
+			check_scase_1(&my_info);
+			check_gcase(&my_info);
+		}
+
+	}
+
+	if (my_info.month_change) {
+		account_adjust(&my_info);
+	}
+
+	perform(&my_info);
+	value_update(&my_info);
+	printf("%d", 1);
 	return 0;
 }
+void value_load(STA* my) { //파일 불러오기, 웹 사이트에서 불러오기*******how?
+
+}
+void day_update(STA* my){ //현재 날짜를 통해 날짜 정보 update
+
+}
+void check_scase_2(STA *my){ //특수 case2 확인
+
+}
+void check_scase_1(STA* my){ //특수 case1 확인
+
+}
+void check_gcase(STA* my){ //일반 case 확인  >>  수수료 고려 필요, 너무 작은 변동일 경우 거래 x
+
+}
+void account_adjust(STA* my){ // 매달 계좌 조정 확인
+
+}
+void perform(STA* my) { // 거래 진행 및 반영
+
+}
+void value_update(STA* my) { //파일에 저장
+
+}
+
+
 #endif

@@ -130,6 +130,7 @@
     <ClCompile Include="day07.c" />
     <ClCompile Include="day08.c" />
     <ClCompile Include="day09.c" />
+    <ClCompile Include="day10.c" />
     <ClCompile Include="func.c" />
     <ClCompile Include="mylib.c" />
     <ClCompile Include="num.c" />
@@ -139,6 +140,7 @@
     <Text Include="data.txt" />
     <Text Include="score1.txt" />
     <Text Include="score2.txt" />
+    <Text Include="stu.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mylib.h" />

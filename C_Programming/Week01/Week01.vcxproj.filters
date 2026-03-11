@@ -45,11 +45,15 @@
     <ClCompile Include="day09.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="day10.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="score1.txt" />
     <Text Include="score2.txt" />
     <Text Include="data.txt" />
+    <Text Include="stu.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="mylib.h">
