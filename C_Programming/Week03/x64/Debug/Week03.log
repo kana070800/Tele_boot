@@ -1,0 +1,3 @@
+﻿  01_reculsive.c
+C:\Telechips4\C_Programming\Week03\01_reculsive.c(15,1): warning C4717: 'test': 모든 제어 경로에서 재귀적입니다. 함수로 인해 런타임 스택 오버플로가 발생합니다.
+  Week03.vcxproj -> C:\Telechips4\C_Programming\x64\Debug\Week03.exe

@@ -1,4 +1,4 @@
-﻿  day10.c
+﻿  test.c
   참고: 포함 파일: C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\stdio.h
   참고: 포함 파일:  C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\corecrt.h
   참고: 포함 파일:   C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\vcruntime.h
@@ -20,4 +20,5 @@
   참고: 포함 파일:  C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0\ucrt\corecrt_wstdlib.h
   참고: 포함 파일:  C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\limits.h
   참고: 포함 파일: C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdint.h
+  참고: 포함 파일: C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\stdbool.h
   Week01.vcxproj -> C:\Telechips4\C_Programming\Debug\Week01.exe

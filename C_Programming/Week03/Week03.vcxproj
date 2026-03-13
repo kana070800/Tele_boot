@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c92ccdd1-ba89-4231-becc-f6da68b1e6c5}</ProjectGuid>
-    <RootNamespace>Week01</RootNamespace>
+    <ProjectGuid>{a11b06d9-faf2-4f55-baa7-2ad830f23539}</ProjectGuid>
+    <RootNamespace>Week03</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -76,7 +76,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,27 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="day03.c" />
-    <ClCompile Include="day04.c" />
-    <ClCompile Include="day06.c" />
-    <ClCompile Include="day07.c" />
-    <ClCompile Include="day08.c" />
-    <ClCompile Include="day09.c" />
-    <ClCompile Include="day10.c" />
-    <ClCompile Include="day11.c" />
-    <ClCompile Include="func.c" />
-    <ClCompile Include="mylib.c" />
-    <ClCompile Include="num.c" />
-    <ClCompile Include="test.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="data.txt" />
-    <Text Include="score1.txt" />
-    <Text Include="score2.txt" />
-    <Text Include="stu.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="mylib.h" />
+    <ClCompile Include="01_reculsive.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

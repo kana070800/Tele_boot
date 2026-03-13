@@ -1,5 +1,9 @@
-
-
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdint.h>
+#define SIZE(a) (sizeof(a)/ sizeof((a)[0]))
 
 #if 0
 #include <stdio.h>
@@ -230,21 +234,13 @@ int main(void)
 	for (int i = 0; i < 10; i++)
 		printf("%d\n", count[i]);
 		
-	printf("%s", buffer);
+	//printf("%s", buffer);
 
-	/*
-	for (int i = 1; i < a; i = i * 10)
-	{
-		temp *= 10;
-		temp += a / i % 10;
-	}
-	
-	printf("output num : %d\n", temp);*/
 	return 0;
 }
 #endif // fitst number count
 
-#if 0
+#if 01
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdbool.h>
@@ -274,7 +270,7 @@ int _cal(int first, int second, bool *index)
 int main(void)
 {
 	int N, tmp = 0, init = 0,init1=0, first = 0, second = 0;
-	bool index[100] = { 0 };
+	bool index[1000] = { 0 };
 	scanf("%d", &N);
 	for (int i = 0; i < N; i++)
 	{
@@ -302,7 +298,6 @@ int main(void)
 		}
 	}
 	printf("%d\n", tmp);
-	(void)if_Find_solution(index);
 	return 0;
 }
 #endif //확장이 , 예외처리 추가
@@ -327,13 +322,12 @@ int main(void)
 
 #if 0
 
+
 int main(void)
 {
 	int N, d, k, c, value = 0, tmp, flag_x, flag_c;
 	scanf("%d %d %d %d", &N, &d, &k, &c);
 
-	if ((N < 2)||(N > 30000))//범위지정
-		return 1;
 
 	int* arr = (int*)malloc(sizeof(int) * (N+k-1)); // 접시수 만큼 배열생성
 	//int* cham = (int*)malloc(sizeof(int) * (k));    // 참조값들 저장 배열
@@ -416,9 +410,6 @@ int main(void)
 	int N, d, k, c, value = 0, tmp, flag_x, flag_c;
 	scanf("%d %d %d %d", &N, &d, &k, &c);
 
-	if ((N < 2) || (N > 30000))//범위지정
-		return 1;
-
 	int* arr = (int*)malloc(sizeof(int) * (N + k - 1)); // 접시수 만큼 배열생성
 	//int* cham = (int*)malloc(sizeof(int) * (k));    // 참조값들 저장 배열
 	//d = 초밥 가지수 >> 입력 시 범위를 지정한다
@@ -466,7 +457,7 @@ int main(void)
 #if 0
 
 #include <stdbool.h>
-
+#include <stdint.h>
 
 typedef struct A {
 	double trace_7_now;  //7일 trace
@@ -479,21 +470,22 @@ typedef struct A {
 	int in_zoo ;   //주식
 	int in_bank;  //저축
 
-	int flag_case_2;  //특수 case 2 횟수, 2번 이상 시 중단
-
+	int scase_2_cnt;  //특수 case 2 횟수, 2번 이상 시 중단
+	char flag_case_2 ;
+	char flag_case_2 ;
 	bool month_change;
 	int day;
-}STA;
+}Status;
 
 
-void value_load(STA* my);
-void value_update(STA* my);
-void day_update(STA* my);
-void check_scase_2(STA* my);
-void check_scase_1(STA* my);
-void check_gcase(STA* my);
-void account_adjust(STA* my);
-void perform(STA* my);
+void value_load(Status* my);
+void value_update(Status* my);
+void day_update(Status* my);
+void check_scase_2(Status* my);
+void check_scase_1(Status* my);
+void check_gcase(Status* my);
+void account_adjust(Status* my);
+void perform(Status* my);
 
 //중간 매개로 파일에 저장해 둔 값을 불러오기
 //단순 입력이 아닌 끌어오는 방법 고민
@@ -513,7 +505,7 @@ int main(void)
 	변수 저장
 	*/
 
-	STA my_info = { 0 };
+	Status my_info = { 0 };
 
 	value_load(&my_info);
 
@@ -538,29 +530,39 @@ int main(void)
 	printf("%d", 1);
 	return 0;
 }
-void value_load(STA* my) { //파일 불러오기, 웹 사이트에서 불러오기*******how?
+void value_load(Status* my) { //파일 불러오기, 웹 사이트에서 불러오기*******how?
 
 }
-void day_update(STA* my){ //현재 날짜를 통해 날짜 정보 update
+void day_update(Status* my){ //현재 날짜를 통해 날짜 정보, flag update
+	
+}
+void check_scase_2(Status*my){ //특수 case2 확인
+	if (my->day_now > (my->day_B) * 1.05) {
+		my->scase_2_cnt++;
+		my->flag_2_up = 1;
+	}
+	if (my->day_now < (my->day_B) * 0.95) {
+		my->scase_2_cnt++;
+		my->flag_2_dn = 1;
+	}
+}
+void check_scase_1(SStatus* my){ //특수 case1 확인
 
 }
-void check_scase_2(STA *my){ //특수 case2 확인
+void check_gcase(Status* my){ //일반 case 확인  >>  수수료 고려 필요, 너무 작은 변동일 경우 거래 x
 
 }
-void check_scase_1(STA* my){ //특수 case1 확인
+void account_adjust(Status* my){ // 매달 계좌 조정 확인
 
 }
-void check_gcase(STA* my){ //일반 case 확인  >>  수수료 고려 필요, 너무 작은 변동일 경우 거래 x
+void perform(Status* my) { // 거래 진행 및 반영
 
 }
-void account_adjust(STA* my){ // 매달 계좌 조정 확인
-
-}
-void perform(STA* my) { // 거래 진행 및 반영
-
-}
-void value_update(STA* my) { //파일에 저장
-
+void value_update(Status* my) { //정보 update 및 파일에 저장
+	if ((my->day % 7) == 0)
+		my->scase_2_cnt = 0;
+	my->flag_2_dn = 0;
+	my->flag_2_up = 0;
 }
 
 

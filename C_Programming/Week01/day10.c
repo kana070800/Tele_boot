@@ -225,7 +225,7 @@ int main(void)
 }
 #endif
 
-#if 01
+#if 0
 struct IP_Header {
 	uint8_t Version : 3;
 	uint8_t IHL : 5;
