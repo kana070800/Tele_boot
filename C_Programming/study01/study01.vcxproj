@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a11b06d9-faf2-4f55-baa7-2ad830f23539}</ProjectGuid>
-    <RootNamespace>Week03</RootNamespace>
+    <ProjectGuid>{8fa8eebc-e51a-4973-97e6-c53a80db2ace}</ProjectGuid>
+    <RootNamespace>study01</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -123,22 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="01_reculsive.c" />
-    <ClCompile Include="02_reculsive.c" />
-    <ClCompile Include="03_dll_lib.c" />
-    <ClCompile Include="03_dll_main.c" />
-    <ClCompile Include="03_sll_lib.c" />
-    <ClCompile Include="03_sll_main.c" />
-    <ClCompile Include="04_queue_lib.c" />
-    <ClCompile Include="04_queue_main.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="B2606.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="03_dll.h" />
-    <ClInclude Include="03_sll.h" />
-    <ClInclude Include="04_queue.h" />
+    <ClCompile Include="hanoi.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

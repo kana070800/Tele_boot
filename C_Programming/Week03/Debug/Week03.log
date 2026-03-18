@@ -1,3 +1,4 @@
-﻿  01_reculsive.c
-C:\Telechips4\C_Programming\Week03\01_reculsive.c(421,9): warning C4477: 'scanf' : 서식 문자열 '%1d'에 'int *' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'bool *'입니다.
+﻿  04_queue_lib.c
+C:\Telechips4\C_Programming\Week03\04_queue_lib.c(7,12): warning C4133: '초기화 중': 'QElement *'과(와) 'ArrQueue *' 사이의 형식이 호환되지 않습니다.
+C:\Telechips4\C_Programming\Week03\04_queue_lib.c(23,12): warning C4133: '초기화 중': 'QElement *'과(와) 'ArrQueue *' 사이의 형식이 호환되지 않습니다.
   Week03.vcxproj -> C:\Telechips4\C_Programming\Debug\Week03.exe
