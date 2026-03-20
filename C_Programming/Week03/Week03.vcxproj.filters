@@ -39,9 +39,17 @@
     <ClCompile Include="04_queue_lib.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="05_bfs.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="B2606.txt" />
+    <Text Include="..\study01\j1078.txt" />
+    <Text Include="j1661.txt" />
+    <Text Include="j2613.txt" />
+    <Text Include="j1111.txt" />
+    <Text Include="B1726.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="03_sll.h">

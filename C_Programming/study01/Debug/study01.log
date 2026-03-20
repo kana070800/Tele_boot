@@ -1,3 +1,2 @@
 ﻿  hanoi.c
-C:\Telechips4\C_Programming\study01\hanoi.c(76,2): warning C4098: 'hanoi_tower': 'void' 함수에서 값을 반환하고 있습니다.
   study01.vcxproj -> C:\Telechips4\C_Programming\Debug\study01.exe
