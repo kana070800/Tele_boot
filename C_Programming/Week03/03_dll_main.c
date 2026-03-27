@@ -215,3 +215,32 @@ int main(void)
     return 0;
 }
 #endif
+
+
+#if 01
+int main(void)
+{
+    DLL_node* Head;
+    DLL_node* Tail;
+    Head = DLL_CreateNode("Head");
+    Tail = DLL_CreateNode("Tail");
+
+    Head->next = Tail;
+    Tail->prev = Head;
+
+    Enqueue("Dog", Head, Tail);
+    Enqueue("Cat", Head, Tail);
+    Enqueue("Tiger", Head, Tail);
+    Enqueue("Elephant", Head, Tail);
+    Enqueue("Ai", Head, Tail);
+
+
+    for (int i = 0; i < 5; ++i) {
+        DLL_node* temp = Dequeue(Head, Tail);
+        if (temp != NULL)
+            printf("%s ", temp->data);
+    }
+    printf("\n");
+    return 0;
+}
+#endif

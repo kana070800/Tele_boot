@@ -30,10 +30,51 @@
     <ClCompile Include="ex.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="game.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="share.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="background.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="spritesheet.png">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="0.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="1.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="2.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="3.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="4.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="5.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="GameIMG.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

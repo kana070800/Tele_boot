@@ -651,7 +651,7 @@ int main() {
 #endif // 등산로2
 
 
-#if 01
+#if 0
 
 #define MAX_N (100+2)
 int map[MAX_N][MAX_N];

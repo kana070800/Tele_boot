@@ -6,6 +6,9 @@
  * ./game
  */
 
+
+#if 0
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
@@ -356,7 +359,7 @@ typedef struct SHOT
     bool used;
 } SHOT;
 
-#define SHOTS_N 128
+#define SHOTS_N 5
 SHOT shots[SHOTS_N];
 
 void shots_init()
@@ -516,7 +519,7 @@ void shots_draw()
 
 // --- ship ---
 
-#define SHIP_SPEED 15
+#define SHIP_SPEED 1
 #define SHIP_MAX_X (BUFFER_W - SHIP_W)
 #define SHIP_MAX_Y (BUFFER_H - SHIP_H)
 
@@ -842,7 +845,7 @@ void hud_init()
     font = al_create_builtin_font();
     must_init(font, "font");
 
-    score_display = 0;
+    score_display = 10;
 }
 
 void hud_deinit()
@@ -884,7 +887,7 @@ void hud_draw()
             al_map_rgb_f(1, 1, 1),
             BUFFER_W / 2, BUFFER_H / 2,
             ALLEGRO_ALIGN_CENTER,
-            "G A M E  O V E R"
+            "surrender"//
         );
 }
 
@@ -896,7 +899,7 @@ int main()
     must_init(al_init(), "allegro");
     must_init(al_install_keyboard(), "keyboard");
 
-    ALLEGRO_TIMER* timer = al_create_timer(1.0 / 60.0);
+    ALLEGRO_TIMER* timer = al_create_timer(1.0 / 300.0);
     must_init(timer, "timer");
 
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
@@ -995,3 +998,5 @@ int main()
 
     return 0;
 }
+
+#endif

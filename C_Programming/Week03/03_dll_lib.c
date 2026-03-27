@@ -117,3 +117,38 @@ int Insert_DLLNode(DLLElent data, DLL_node* t_prev, DLL_node* t) {
 
 	return 0;
 }
+
+
+
+DLL_node* Search_P_Node(DLLElent data, DLL_node* Head, DLL_node* Tail) {
+	DLL_node* curr = Head;
+	while (curr != Tail) {
+		curr = curr->next;
+		if (1 == strcmp(curr->data, data))
+			return curr->prev;
+	}
+	return Tail->prev;
+}
+
+
+void Enqueue(DLLElent data, DLL_node* Head, DLL_node* Tail) {
+
+	DLL_node* prev = Search_P_Node(data, Head, Tail);
+	//if (!prev)
+		//return;
+
+	Insert_DLLNode(data, prev, prev->next);
+	return;
+}
+//
+DLL_node* Dequeue(DLL_node* Head, DLL_node* Tail) {
+
+	if (Head->next == Tail)
+		return NULL;
+	DLL_node* tmp = Head->next;
+
+	Head->next->next->prev = Head;
+	Head->next = Head->next->next;
+	
+	return tmp;
+}

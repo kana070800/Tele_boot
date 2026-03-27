@@ -136,10 +136,25 @@
     <None Include="shot.flac" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="background.c" />
+    <ClCompile Include="enemy.c" />
     <ClCompile Include="ex.c" />
+    <ClCompile Include="game.c" />
+    <ClCompile Include="share.c" />
+    <ClCompile Include="Player.c" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="0.png" />
+    <Image Include="1.png" />
+    <Image Include="2.png" />
+    <Image Include="3.png" />
+    <Image Include="4.png" />
+    <Image Include="5.png" />
+    <Image Include="GameIMG.png" />
     <Image Include="spritesheet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

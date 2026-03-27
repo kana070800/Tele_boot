@@ -28,4 +28,9 @@ int InsertFront_DLLNode(DLLElent data, DLL_node* Head);
 int InsertAfter_DLLNode(DLLElent data, DLL_node* target);
 int InsertBefore_DLLNode(DLLElent data, DLL_node* target);
 int Insert_DLLNode(DLLElent data, DLL_node* t_prev, DLL_node* t);
+
+
+void Enqueue(DLLElent data, DLL_node* Head, DLL_node* Tail);
+DLL_node* Dequeue(DLL_node* Head, DLL_node* Tail);
+DLL_node* Search_P_Node(DLLElent data, DLL_node* Head, DLL_node* Tail);
 #endif
