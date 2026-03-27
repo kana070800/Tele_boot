@@ -1,5 +1,5 @@
 #include "game.h"
-#if 0
+#if 01
 
 extern const int ITEM_W[];
 extern const int ITEM_H[];
@@ -13,7 +13,7 @@ extern int chest_cnt;
 extern Item it[MAX_ITEMS];
 extern Player p;
 extern GAME_STATE state;
-extern Enemy en[MAX_ENEMIES];
+extern Enemy enemy[MAX_ENEMIES];
 extern ALLEGRO_SAMPLE* snd_hit;
 extern ALLEGRO_SAMPLE* snd_die;
 extern GAME_MODE mode;
@@ -23,9 +23,10 @@ extern SPRITES sprites;
 void pi_init()
 {
 	p.x = BUFFER_W / 2;
-	p.y = BUFFER_H - 50;
+	p.y = BUFFER_H / 2;
 	p.hp = 3; p.inv_timer = 0;
 	p.barrier = false;
+	p.gender = 2;
 	p.barrier_timer = 0;
 	frame = 1;
 	chest_cnt = 0;
@@ -65,13 +66,13 @@ void player_update()
 	// 적군 충돌 루프 (독립적)
 	for (int i = 0; i < MAX_ENEMIES; i++)
 	{
-		if (!en[i].active)
+		if (!enemy[i].active)
 			continue;
 
 		// p.inv_timer == 0일 때만 충돌 판정
 		if (p.inv_timer == 0 &&
 			collide((int)p.x, (int)p.y, (int)p.x + current_w, (int)p.y + current_h,
-				(int)en[i].x, (int)en[i].y, (int)en[i].x + ENEMY_W[en[i].type], (int)en[i].y + ENEMY_H[en[i].type]))
+				(int)enemy[i].x, (int)enemy[i].y, (int)enemy[i].x + ENEMY_W[enemy[i].type], (int)enemy[i].y + ENEMY_H[enemy[i].type]))
 		{
 			if (p.barrier)
 			{
@@ -84,7 +85,7 @@ void player_update()
 				p.inv_timer = 120;
 			}
 
-			en[i].active = false;
+			enemy[i].active = false;
 
 			if (p.hp <= 0)
 			{
@@ -122,7 +123,7 @@ void player_update()
 				p.barrier = true;
 				p.barrier_timer = 300;
 			}
-			else if (it[i].type == ITEM_TREASURE_CHEST_TIME)
+			else if (it[i].type == ITEM_TREASURE_CHEST)  //??????
 			{
 				chest_cnt++;
 			}
@@ -130,7 +131,9 @@ void player_update()
 	}
 
 	// 플레이어 키보드 입력 및 이동 (루프 밖에서 단 한 번만)
-	if (key[ALLEGRO_KEY_UP] && p.y > 0)
+
+	
+	if ((key[ALLEGRO_KEY_UP]) && p.y > 0)
 		p.y -= 2.5;
 	if (key[ALLEGRO_KEY_DOWN] && p.y < BUFFER_H - current_h)
 		p.y += 2.5;
@@ -144,7 +147,8 @@ void player_update()
 		p.x += 2.5;
 		p.last_dir = DIR_RIGHT;
 	}
-
+	
+	
 	// 경계값 보정
 	if (p.x < 0) p.x = 0;
 	if (p.y < 0) p.y = 0;
@@ -155,9 +159,10 @@ void player_update()
 void item_update()
 {
 	// 게임 플레이 중 아니면 종료
+	
 	if (state != STATE_PLAYING)
 		return;
-
+		
 	// 5초마다 하나씩 아이템 생성
 	if (frame % 300 == 0)
 	{

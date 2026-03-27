@@ -11,51 +11,88 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_image.h>
+#include <math.h>
+#define MAX_ENEMIES 200
+#define MAX_ITEMS   8
+#define MAX_RANK    10
 
-#define BUFFER_W 1200            // 게임 화면의 내부 가로 너비 (해상도)
-#define BUFFER_H 900            // 게임 화면의 내부 세로 높이
-#define DISP_SCALE 1          // 화면 확대 비율 (창 크기 조절용)
-#define MAX_ENEMIES 200         // 화면에 동시에 존재할 수 있는 최대 적 수
-#define MAX_ITEMS 8             // 화면에 동시에 존재할 수 있는 최대 아이템 수
-#define MAX_RANK 10             // 랭킹 시스템에 저장될 최대 순위 개수
+#define BUFFER_W 1200
+#define BUFFER_H 900
 
-// 플레이어
-const int PLAYER_W[3];
-const int PLAYER_H[3];
+#define DISP_SCALE 1
+#define DISP_W (BUFFER_W * DISP_SCALE)
+#define DISP_H (BUFFER_H * DISP_SCALE)
 
-#define PLAYER1_W    PLAYER_W[0]
-#define PLAYER1_H    PLAYER_H[0]
-#define PLAYER2_W    PLAYER_W[1]
-#define PLAYER2_H    PLAYER_H[1]
-#define PLAYER3_W    PLAYER_W[2]
-#define PLAYER3_H    PLAYER_H[2]
+/* -------------------- game state -------------------- */
 
+typedef enum {
+    STATE_MENU,
+    STATE_MODE_SELECT,
+    STATE_GENDER_SELECT,
+    STATE_PLAYING,
+    STATE_INPUT_NAME,
+    STATE_RANKING,
+    STATE_GAMEOVER,
+    STATE_VICTORY
+} GAME_STATE;
 
-// 아이템
-const int ITEM_W[3];
-const int ITEM_H[3];
+typedef enum {
+    MODE_STORY,
+    MODE_CHALLENGE,
+    MODE_BOSS_ONLY
+} GAME_MODE;
 
-#define ITEM1_W     ITEM_W[0]
-#define ITEM1_H     (ITEM_H[0])
-#define ITEM2_W     (ITEM_W[1])
-#define ITEM2_H     (ITEM_H[1])
-#define ITEM3_W     (ITEM_W[2])
-#define ITEM3_H     (ITEM_H[2])
+/* -------------------- enemy / item types -------------------- */
 
-// 적
-const int ENEMY_W[4];
-const int ENEMY_H[4];
+typedef enum {
+    ENEMY_SPEAR,
+    ENEMY_BOMB,
+    ENEMY_FIREBALL,
+    ENEMY_HOMING,
+    ENEMY_TYPE_N
+} ENEMY_TYPE;
 
-#define ENEMY_DAGGER_W      (ENEMY_W[0])
-#define ENEMY_DAGGER_H      (ENEMY_H[0])
-#define ENEMY_BOMB_W        (ENEMY_W[1])
-#define ENEMY_BOMB_H        (ENEMY_H[1])
-#define ENEMY_FIREBALL_W    (ENEMY_W[2])
-#define ENEMY_FIREBALL_H    (ENEMY_H[2])
-#define ENEMY_HOMING_W      (ENEMY_W[3])
-#define ENEMY_HOMING_H      (ENEMY_H[3])
+typedef enum {
+    ITEM_HEART,
+    ITEM_BARRIER,
+    ITEM_TREASURE_CHEST,
+    ITEM_TYPE_N
+} ITEM_TYPE;
 
+/* -------------------- size tables -------------------- */
 
+extern const int PLAYER_W[3];
+extern const int PLAYER_H[3];
+
+extern const int ITEM_W[ITEM_TYPE_N];
+extern const int ITEM_H[ITEM_TYPE_N];
+
+extern const int ENEMY_W[ENEMY_TYPE_N];
+extern const int ENEMY_H[ENEMY_TYPE_N];
+
+#define PLAYER1_W  (PLAYER_W[0])
+#define PLAYER1_H  (PLAYER_H[0])
+#define PLAYER2_W  (PLAYER_W[1])
+#define PLAYER2_H  (PLAYER_H[1])
+#define PLAYER3_W  (PLAYER_W[2])
+#define PLAYER3_H  (PLAYER_H[2])
+
+#define ITEM_HEART_W           (ITEM_W[ITEM_HEART])
+#define ITEM_HEART_H           (ITEM_H[ITEM_HEART])
+#define ITEM_BARRIER_W         (ITEM_W[ITEM_BARRIER])
+#define ITEM_BARRIER_H         (ITEM_H[ITEM_BARRIER])
+#define ITEM_TREASURE_CHEST_W  (ITEM_W[ITEM_TREASURE_CHEST])
+#define ITEM_TREASURE_CHEST_H  (ITEM_H[ITEM_TREASURE_CHEST])
+
+#define ENEMY_SPEAR_W      (ENEMY_W[ENEMY_SPEAR])
+#define ENEMY_SPEAR_H      (ENEMY_H[ENEMY_SPEAR])
+#define ENEMY_BOMB_W       (ENEMY_W[ENEMY_BOMB])
+#define ENEMY_BOMB_H       (ENEMY_H[ENEMY_BOMB])
+#define ENEMY_FIREBALL_W   (ENEMY_W[ENEMY_FIREBALL])
+#define ENEMY_FIREBALL_H   (ENEMY_H[ENEMY_FIREBALL])
+#define ENEMY_HOMING_W     (ENEMY_W[ENEMY_HOMING])
+#define ENEMY_HOMING_H     (ENEMY_H[ENEMY_HOMING])
+/*
 // 게임의 현재 흐름을 제어하는 상태 (메뉴, 게임 중, 결과창 등)
 typedef enum {
     STATE_MENU, STATE_MODE_SELECT, STATE_GENDER_SELECT,
@@ -86,7 +123,7 @@ typedef enum {
     ITEM_BARRIER,               // 방어막 생성
     ITEM_TREASURE_CHEST_TIME    // 보물상자 혹은 시간 관련 아이템
 } ITEM_TYPE;
-
+*/
 // 랭킹 정보 (이름과 클리어 타임)
 typedef struct { char name[16]; float time; } Rank;
 Rank rank;
@@ -161,14 +198,14 @@ void player_draw();
 void item_draw();
 
 // enemy 함수 선언
-//void enemy_init();
-//void enemy_update();
-//void enemy_draw();
+void enemy1_init();
+void enemy1_update();
+void enemy1_draw();
 
 // hud 함수 선언
-void hud_init();
-void hud_update();
-void hud_draw();
+//void hud_init();
+//void hud_update();
+//void hud_draw();
 
 // 공용체 함수
 void must_init(bool test, const char* description);
@@ -198,4 +235,5 @@ void fx_draw();
 
 int __title(ALLEGRO_EVENT_QUEUE * q);
 int __end(ALLEGRO_EVENT_QUEUE* q);
+
 #endif

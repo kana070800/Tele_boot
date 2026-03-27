@@ -99,6 +99,87 @@ void keyboard_update(ALLEGRO_EVENT* event)
     }
 }
 // --- sprites ---
+
+
+ALLEGRO_BITMAP* sprite_grab(int x, int y, int w, int h)
+{
+    ALLEGRO_BITMAP* sprite = al_create_sub_bitmap(sprites._sheet, x, y, w, h);
+    must_init(sprite, "sprite grab");
+    return sprite;
+}
+
+void sprites_init(void)
+{
+    sprites._sheet = al_load_bitmap("GameIMG.png");
+    must_init(sprites._sheet, "spritesheet");
+
+    /* player: [gender][state][dir] */
+
+    /* male */
+    sprites.player[0][0][0] = sprite_grab(5, 10, PLAYER1_W, PLAYER1_H);
+    sprites.player[0][0][1] = sprite_grab(48, 10, PLAYER1_W, PLAYER1_H);
+
+    sprites.player[0][1][0] = sprite_grab(10, 82, PLAYER2_W, PLAYER2_H);
+    sprites.player[0][1][1] = sprite_grab(45, 78, PLAYER2_W, PLAYER2_H);
+
+    sprites.player[0][2][0] = sprite_grab(178, 80, PLAYER3_W, PLAYER3_H);
+    sprites.player[0][2][1] = sprite_grab(230, 80, PLAYER3_W, PLAYER3_H);
+
+    /* female */
+    sprites.player[1][0][0] = sprite_grab(95, 10, PLAYER1_W, PLAYER1_H);
+    sprites.player[1][0][1] = sprite_grab(140, 8, PLAYER1_W, PLAYER1_H);
+
+    sprites.player[1][1][0] = sprite_grab(92, 81, PLAYER2_W, PLAYER2_H);
+    sprites.player[1][1][1] = sprite_grab(138, 80, PLAYER2_W, PLAYER2_H);
+
+    sprites.player[1][2][0] = sprite_grab(178, 5, PLAYER3_W, PLAYER3_H);
+    sprites.player[1][2][1] = sprite_grab(228, 5, PLAYER3_W, PLAYER3_H);
+
+    /* item */
+    sprites.item[ITEM_HEART] = sprite_grab(4, 200, ITEM_HEART_W, ITEM_HEART_H);
+    sprites.item[ITEM_BARRIER] = sprite_grab(52, 196, ITEM_BARRIER_W, ITEM_BARRIER_H);
+    sprites.item[ITEM_TREASURE_CHEST] = sprite_grab(10, 155, ITEM_TREASURE_CHEST_W, ITEM_TREASURE_CHEST_H);
+
+    /* enemy */
+    sprites.enemy[ENEMY_SPEAR] = sprite_grab(67, 155, ENEMY_SPEAR_W, ENEMY_SPEAR_H);
+    sprites.enemy[ENEMY_BOMB] = sprite_grab(105, 145, ENEMY_BOMB_W, ENEMY_BOMB_H);
+    sprites.enemy[ENEMY_FIREBALL] = sprite_grab(167, 154, ENEMY_FIREBALL_W, ENEMY_FIREBALL_H);
+    sprites.enemy[ENEMY_HOMING] = sprite_grab(212, 148, ENEMY_HOMING_W, ENEMY_HOMING_H);
+}
+
+void sprites_deinit(void)
+{
+    for (int gender = 0; gender < 2; gender++) {
+        for (int state = 0; state < 3; state++) {
+            for (int dir = 0; dir < 2; dir++) {
+                if (sprites.player[gender][state][dir]) {
+                    al_destroy_bitmap(sprites.player[gender][state][dir]);
+                    sprites.player[gender][state][dir] = NULL;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < ITEM_TYPE_N; i++) {
+        if (sprites.item[i]) {
+            al_destroy_bitmap(sprites.item[i]);
+            sprites.item[i] = NULL;
+        }
+    }
+
+    for (int i = 0; i < ENEMY_TYPE_N; i++) {
+        if (sprites.enemy[i]) {
+            al_destroy_bitmap(sprites.enemy[i]);
+            sprites.enemy[i] = NULL;
+        }
+    }
+
+    if (sprites._sheet) {
+        al_destroy_bitmap(sprites._sheet);
+        sprites._sheet = NULL;
+    }
+}
+/*
 ALLEGRO_BITMAP* sprite_grab(int x, int y, int w, int h)
 {
     ALLEGRO_BITMAP* sprite = al_create_sub_bitmap(sprites._sheet, x, y, w, h);
@@ -169,7 +250,7 @@ void sprites_deinit()
 
     al_destroy_bitmap(sprites._sheet);
 }
-
+*/
 // --- audio ---
 
 ALLEGRO_SAMPLE* sample_shot;
@@ -197,3 +278,55 @@ void audio_deinit()
     al_destroy_sample(sample_explode[1]);
 }
 
+/*
+void hud_init()
+{
+    font = al_create_builtin_font();
+    must_init(font, "font");
+
+    score_display = 10;
+}
+
+void hud_deinit()
+{
+    al_destroy_font(font);
+}
+
+void hud_update()
+{
+    if (frames % 2)
+        return;
+
+    for (long i = 5; i > 0; i--)
+    {
+        long diff = 1 << i;
+        if (score_display <= (score - diff))
+            score_display += diff;
+    }
+}
+
+void hud_draw()
+{
+    al_draw_textf(
+        font,
+        al_map_rgb_f(1, 1, 1),
+        1, 1,
+        0,
+        "%06ld",
+        score_display
+    );
+
+    int spacing = LIFE_W + 1;
+    for (int i = 0; i < ship.lives; i++)
+        al_draw_bitmap(sprites.life, 1 + (i * spacing), 10, 0);
+
+    if (ship.lives < 0)
+        al_draw_text(
+            font,
+            al_map_rgb_f(1, 1, 1),
+            BUFFER_W / 2, BUFFER_H / 2,
+            ALLEGRO_ALIGN_CENTER,
+            "surrender"//
+        );
+}
+*/
