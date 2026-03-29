@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
@@ -185,10 +186,20 @@ typedef struct SPRITES
     ALLEGRO_BITMAP* enemy[4];
 } SPRITES;
 
+
+
+ALLEGRO_BITMAP* MAP[6];
+
+
 // 메뉴 함수 선언
 //void store_filed();
-//void cal_score();
+void cal_score();
+void map_init();
 void background(int);
+void softly_next(int, int, ALLEGRO_EVENT_QUEUE*);  //화면전환을 부드럽게
+
+
+void score_draw();
 
 // player & item 함수 선언
 void pi_init();
@@ -203,9 +214,10 @@ void enemy1_update();
 void enemy1_draw();
 
 // hud 함수 선언
-//void hud_init();
-//void hud_update();
-//void hud_draw();
+void hud_init();
+void hud_update();
+void hud_draw();
+void hud_deinit();
 
 // 공용체 함수
 void must_init(bool test, const char* description);
@@ -233,7 +245,25 @@ void fx_add(bool spark, int x, int y);
 void fx_update();
 void fx_draw();
 
-int __title(ALLEGRO_EVENT_QUEUE * q);
-int __end(ALLEGRO_EVENT_QUEUE* q);
+int title(ALLEGRO_EVENT_QUEUE * q);
+int end(ALLEGRO_EVENT_QUEUE* q);
+
+
+
+
+void boss_fight_loop(ALLEGRO_EVENT_QUEUE*);
+void shots_init();
+bool shots_add(int x, int y);
+void shots_update();
+void shots_draw();
+
+typedef struct DORO {
+    float x, y;          // 위치 좌표
+    float dx, dy;        // 이동 속도 및 방향 (델타 값)
+    int hp;
+    int state;     // 적 종류
+    int timer;           // 패턴용 타이머
+    int attack;
+} DORO_s;
 
 #endif

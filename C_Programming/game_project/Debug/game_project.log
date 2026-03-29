@@ -1,20 +1,40 @@
-﻿  game.c
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(39,26): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(39,26): warning C4024: 'al_flush_event_queue': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(43,27): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(43,27): warning C4024: 'al_wait_for_event': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(65,37): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(65,37): warning C4024: 'al_is_event_queue_empty': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(124,26): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(124,26): warning C4024: 'al_flush_event_queue': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(128,27): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(128,27): warning C4024: 'al_wait_for_event': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(156,37): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(156,37): warning C4024: 'al_is_event_queue_empty': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(167,26): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(167,26): warning C4024: 'al_flush_event_queue': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(171,27): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(171,27): warning C4024: 'al_wait_for_event': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(193,37): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
-C:\Users\kanaw\Documents\Telechips4\C_Programming\game_project\game.c(193,37): warning C4024: 'al_is_event_queue_empty': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
-  game_project.vcxproj -> C:\Users\kanaw\Documents\Telechips4\C_Programming\Debug\game_project.exe
+﻿  doro.c
+  game.c
+  코드를 생성하고 있습니다...
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(38,23): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(38,23): warning C4024: 'softly_next': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(42,26): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(42,26): warning C4024: 'al_flush_event_queue': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(46,27): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(46,27): warning C4024: 'al_wait_for_event': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(73,37): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(73,37): warning C4024: 'al_is_event_queue_empty': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(83,23): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(83,23): warning C4024: 'softly_next': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(87,26): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(87,26): warning C4024: 'al_flush_event_queue': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(91,27): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(91,27): warning C4024: 'al_wait_for_event': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(118,37): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(118,37): warning C4024: 'al_is_event_queue_empty': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(135,23): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(135,23): warning C4024: 'softly_next': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(141,26): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(141,26): warning C4024: 'al_flush_event_queue': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(145,27): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(145,27): warning C4024: 'al_wait_for_event': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(168,37): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(168,37): warning C4024: 'al_is_event_queue_empty': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(178,23): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(178,23): warning C4024: 'softly_next': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(180,23): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(180,23): warning C4024: 'softly_next': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(183,26): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(183,26): warning C4024: 'al_flush_event_queue': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(187,27): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(187,27): warning C4024: 'al_wait_for_event': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(209,37): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(209,37): warning C4024: 'al_is_event_queue_empty': 형식 및 실제 매개 변수 1의 형식이 서로 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(220,23): warning C4047: '함수': 'ALLEGRO_EVENT_QUEUE *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\game_project\game.c(220,23): warning C4024: 'softly_next': 형식 및 실제 매개 변수 3의 형식이 서로 다릅니다.
+  game_project.vcxproj -> C:\Users\kana0\source\repos\Tele_boot\C_Programming\Debug\game_project.exe

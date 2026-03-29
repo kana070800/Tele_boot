@@ -45,6 +45,9 @@
     <ClCompile Include="enemy.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="doro.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="spritesheet.png">
@@ -71,10 +74,21 @@
     <Image Include="GameIMG.png">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="doro.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="doro_m.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="font_1.ttf">
+      <Filter>리소스 파일</Filter>
+    </Font>
   </ItemGroup>
 </Project>

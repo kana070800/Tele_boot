@@ -17,7 +17,7 @@ extern Enemy enemy[MAX_ENEMIES];
 extern ALLEGRO_SAMPLE* snd_hit;
 extern ALLEGRO_SAMPLE* snd_die;
 extern GAME_MODE mode;
-extern bool key[ALLEGRO_KEY_MAX];
+extern unsigned char key[ALLEGRO_KEY_MAX];
 extern SPRITES sprites;
 
 void pi_init()
@@ -133,16 +133,16 @@ void player_update()
 	// 플레이어 키보드 입력 및 이동 (루프 밖에서 단 한 번만)
 
 	
-	if ((key[ALLEGRO_KEY_UP]) && p.y > 0)
+	if ((key[ALLEGRO_KEY_UP]) && p.y > 200)
 		p.y -= 2.5;
-	if (key[ALLEGRO_KEY_DOWN] && p.y < BUFFER_H - current_h)
+	if (key[ALLEGRO_KEY_DOWN] && p.y < 800 - PLAYER1_H)
 		p.y += 2.5;
-	if (key[ALLEGRO_KEY_LEFT] && p.x > 0)
+	if (key[ALLEGRO_KEY_LEFT] && p.x > 200)
 	{
 		p.x -= 2.5;
 		p.last_dir = DIR_LEFT;
 	}
-	if (key[ALLEGRO_KEY_RIGHT] && p.x < BUFFER_W - current_w)
+	if (key[ALLEGRO_KEY_RIGHT] && p.x < 1000 - PLAYER1_W)
 	{
 		p.x += 2.5;
 		p.last_dir = DIR_RIGHT;
@@ -168,8 +168,8 @@ void item_update()
 	{
 		for (int i = 0; i < MAX_ITEMS; i++) if (!it[i].active)
 		{
-			it[i].x = (float)(50 + rand() % (BUFFER_W - 100));
-			it[i].y = (float)(50 + rand() % (BUFFER_H - 100));
+			it[i].x = (float)(200 + rand() % (BUFFER_W - 400));
+			it[i].y = (float)(200 + rand() % (BUFFER_H - 300));
 			it[i].type = (ITEM_TYPE)(rand() % 3);
 			it[i].timer = 300;
 			it[i].active = true;

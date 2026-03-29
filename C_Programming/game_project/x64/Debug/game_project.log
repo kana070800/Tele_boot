@@ -1,14 +1,10 @@
-﻿  ex.c
-ex.obj : error LNK2019: __imp_al_create_builtin_fonthud_init 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_draw_texthud_draw 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_draw_textfhud_draw 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_destroy_fonthud_deinit 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_init_primitives_addonmain 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_destroy_sampleaudio_deinit 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_install_audioaudio_init 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_reserve_samplesaudio_init 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_play_samplefx_add 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_load_sampleaudio_init 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_init_acodec_addonaudio_init 함수에서 참조되는 확인할 수 없는 외부 기호
-ex.obj : error LNK2019: __imp_al_init_image_addonmain 함수에서 참조되는 확인할 수 없는 외부 기호
-C:\Users\kanaw\Documents\Telechips4\C_Programming\x64\Debug\game_project.exe : fatal error LNK1120: 12개의 확인할 수 없는 외부 참조입니다.
+﻿game.obj : error LNK2019: __imp_al_init_primitives_addonmain 함수에서 참조되는 확인할 수 없는 외부 기호
+game.obj : error LNK2019: __imp_al_draw_filled_rectanglemain 함수에서 참조되는 확인할 수 없는 외부 기호
+game.obj : error LNK2019: __imp_al_init_image_addonmain 함수에서 참조되는 확인할 수 없는 외부 기호
+share.obj : error LNK2019: __imp_al_destroy_sampleaudio_deinit 함수에서 참조되는 확인할 수 없는 외부 기호
+share.obj : error LNK2019: __imp_al_install_audioaudio_init 함수에서 참조되는 확인할 수 없는 외부 기호
+share.obj : error LNK2019: __imp_al_reserve_samplesaudio_init 함수에서 참조되는 확인할 수 없는 외부 기호
+share.obj : error LNK2019: __imp_al_load_sampleaudio_init 함수에서 참조되는 확인할 수 없는 외부 기호
+share.obj : error LNK2019: __imp_al_init_acodec_addonaudio_init 함수에서 참조되는 확인할 수 없는 외부 기호
+Player.obj : error LNK2019: __imp_al_play_sampleplayer_update 함수에서 참조되는 확인할 수 없는 외부 기호
+C:\Users\kana0\source\repos\Tele_boot\C_Programming\x64\Debug\game_project.exe : fatal error LNK1120: 9개의 확인할 수 없는 외부 참조입니다.

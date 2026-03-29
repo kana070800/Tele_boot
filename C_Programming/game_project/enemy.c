@@ -60,23 +60,23 @@ bool enemy1_add()
 
         switch (side) {
         case 0: // 위
-            enemy[i].x = between_f(130.0f, 1070.0f);
-            enemy[i].y = 130.0f;
+            enemy[i].x = between_f(200.0f, 1000.0f);
+            enemy[i].y = 200.0f;
             break;
 
         case 1: // 아래
-            enemy[i].x = between_f(130.0f, 1070.0f);
-            enemy[i].y = 770.0f;
+            enemy[i].x = between_f(1000.0f, 200.0f);
+            enemy[i].y = 800.0f;
             break;
 
         case 2: // 왼쪽
-            enemy[i].x = 130.0f;
-            enemy[i].y = between_f(130.0f, 770.0f);
+            enemy[i].x = 200.0f;
+            enemy[i].y = between_f(200.0f, 1000.0f);
             break;
 
         case 3: // 오른쪽
-            enemy[i].x = 1070.0f;
-            enemy[i].y = between_f(130.0f, 770.0f);
+            enemy[i].x = 1000.0f;
+            enemy[i].y = between_f(200.0f, 1000.0f);
             break;
         }
 
@@ -116,8 +116,8 @@ void enemy1_update()
         enemy[i].y += enemy[i].dy;
 
         // 맵 밖으로 나갈 시 사라짐
-        if (enemy[i].x < 100.0f || enemy[i].x > 1100.0f ||
-            enemy[i].y < 100.0f || enemy[i].y > 800.0f)
+        if (enemy[i].x < 200.0f || enemy[i].x > 1000.0f ||
+            enemy[i].y < 200.0f || enemy[i].y > 800.0f)
         {
             enemy[i].active = false;
             continue;

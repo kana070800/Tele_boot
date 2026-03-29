@@ -76,6 +76,9 @@
     <Allegro_AddonAudio>true</Allegro_AddonAudio>
     <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
     <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonColor>true</Allegro_AddonColor>
+    <Allegro_AddonVideo>true</Allegro_AddonVideo>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="background.c" />
+    <ClCompile Include="doro.c" />
     <ClCompile Include="enemy.c" />
     <ClCompile Include="ex.c" />
     <ClCompile Include="game.c" />
@@ -150,11 +154,16 @@
     <Image Include="3.png" />
     <Image Include="4.png" />
     <Image Include="5.png" />
+    <Image Include="doro.png" />
+    <Image Include="doro_m.png" />
     <Image Include="GameIMG.png" />
     <Image Include="spritesheet.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="font_1.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
