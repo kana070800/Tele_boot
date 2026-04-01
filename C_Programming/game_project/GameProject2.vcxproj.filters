@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="game.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="player.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="share.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="background.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="doro.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ex.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="fx.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="audio.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="explode1.flac">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="explode2.flac">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="shot.flac">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="bgm_5.ogg">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="bgm_4.ogg">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="bgm_3.ogg">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="bgm_2.ogg">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="bgm_1.ogg">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="bgm_0.ogg">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="bgm_8.ogg">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="bgm_9.ogg">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="spritesheet.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="0.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="1.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="2.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="3.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="4.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="5.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="doro.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="doro_m.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="GameIMG.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Character_Select.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Boss_Defeat.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Boss_Clear.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="7.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="6.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="8.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="9.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Item_treasure.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="Item_heart.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="Item_barrier.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="hit2.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="hit1.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="enemy2_bomb.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="enemy1_3.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="death2.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="death1.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="boom_reze.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+  </ItemGroup>
+</Project>

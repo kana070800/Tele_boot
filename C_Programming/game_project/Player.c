@@ -13,21 +13,23 @@ extern int chest_cnt;
 extern Item it[MAX_ITEMS];
 extern Player p;
 extern GAME_STATE state;
-extern Enemy enemy[MAX_ENEMIES];
+//extern Enemy enemy[MAX_ENEMIES];
 extern ALLEGRO_SAMPLE* snd_hit;
 extern ALLEGRO_SAMPLE* snd_die;
 extern GAME_MODE mode;
 extern unsigned char key[ALLEGRO_KEY_MAX];
 extern SPRITES sprites;
+extern int flag_mode;
 
 void pi_init()
 {
 	p.x = BUFFER_W / 2;
 	p.y = BUFFER_H / 2;
-	p.hp = 3; p.inv_timer = 0;
+	p.hp = 3;
+	p.inv_timer = 0;
 	p.barrier = false;
-	p.gender = 2;
 	p.barrier_timer = 0;
+	p.last_dir = DIR_RIGHT;
 	frame = 1;
 	chest_cnt = 0;
 
@@ -63,39 +65,27 @@ void player_update()
 		current_h = PLAYER1_H;
 	}
 
-	// 적군 충돌 루프 (독립적)
-	for (int i = 0; i < MAX_ENEMIES; i++)
+	// 적군 충돌 판정 (독립적)
+	if (p.inv_timer == 0 && enemies_collide(stage, (int)p.x, (int)p.y, current_w, current_h))
 	{
-		if (!enemy[i].active)
-			continue;
-
-		// p.inv_timer == 0일 때만 충돌 판정
-		if (p.inv_timer == 0 &&
-			collide((int)p.x, (int)p.y, (int)p.x + current_w, (int)p.y + current_h,
-				(int)enemy[i].x, (int)enemy[i].y, (int)enemy[i].x + ENEMY_W[enemy[i].type], (int)enemy[i].y + ENEMY_H[enemy[i].type]))
+		if (p.barrier)
 		{
-			if (p.barrier)
-			{
-				p.barrier = false;
-				p.barrier_timer = 0;
-			}
-			else
-			{
-				p.hp--;
-				p.inv_timer = 120;
-			}
-
-			enemy[i].active = false;
-
-			if (p.hp <= 0)
-			{
-				if (snd_die)
-					al_play_sample(snd_die, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
-				state = (mode == MODE_CHALLENGE) ? STATE_INPUT_NAME : STATE_GAMEOVER;
-			}
-			else if (snd_hit)
-				al_play_sample(snd_hit, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+			p.barrier = false;
+			p.barrier_timer = 0;
 		}
+		else
+		{
+			p.hp--;
+			p.inv_timer = 120;
+			if (p.hp > 0) al_play_sample(hit[between(0, 2)], 0.8, 0, 1, ALLEGRO_PLAYMODE_ONCE, NULL);
+		}
+
+		if (p.hp <= 0)
+		{
+			al_play_sample(death[between(0, 2)], 0.6, 0, 1, ALLEGRO_PLAYMODE_ONCE, NULL);
+			state = (mode == MODE_CHALLENGE) ? STATE_INPUT_NAME : STATE_GAMEOVER;
+		}
+		
 	}
 
 	// 아이템 충돌 루프 (독립적)
@@ -117,14 +107,24 @@ void player_update()
 		{
 			it[i].active = false;
 			if (it[i].type == ITEM_HEART && p.hp < 5)
+			{
+				al_play_sample(item[0], 1.0, 0, 1, ALLEGRO_PLAYMODE_ONCE, NULL);
 				p.hp++;
+			}
 			else if (it[i].type == ITEM_BARRIER)
 			{
+				al_play_sample(item[1], 0.2, 0, 1, ALLEGRO_PLAYMODE_ONCE, NULL);
 				p.barrier = true;
 				p.barrier_timer = 300;
 			}
 			else if (it[i].type == ITEM_TREASURE_CHEST)  //??????
 			{
+				if (flag_mode == 1)
+					fx_add(6, it[i].x, it[i].y);
+				else if (flag_mode == 2)
+					fx_add(5, it[i].x, it[i].y);
+
+				al_play_sample(item[2], 0.4, 0, 1, ALLEGRO_PLAYMODE_ONCE, NULL);
 				chest_cnt++;
 			}
 		}
@@ -132,23 +132,23 @@ void player_update()
 
 	// 플레이어 키보드 입력 및 이동 (루프 밖에서 단 한 번만)
 
-	
+
 	if ((key[ALLEGRO_KEY_UP]) && p.y > 200)
-		p.y -= 2.5;
+		p.y -= 5.0;
 	if (key[ALLEGRO_KEY_DOWN] && p.y < 800 - PLAYER1_H)
-		p.y += 2.5;
+		p.y += 5.0;
 	if (key[ALLEGRO_KEY_LEFT] && p.x > 200)
 	{
-		p.x -= 2.5;
+		p.x -= 5.0;
 		p.last_dir = DIR_LEFT;
 	}
 	if (key[ALLEGRO_KEY_RIGHT] && p.x < 1000 - PLAYER1_W)
 	{
-		p.x += 2.5;
+		p.x += 5.0;
 		p.last_dir = DIR_RIGHT;
 	}
-	
-	
+
+
 	// 경계값 보정
 	if (p.x < 0) p.x = 0;
 	if (p.y < 0) p.y = 0;
@@ -159,10 +159,10 @@ void player_update()
 void item_update()
 {
 	// 게임 플레이 중 아니면 종료
-	
+
 	if (state != STATE_PLAYING)
 		return;
-		
+
 	// 5초마다 하나씩 아이템 생성
 	if (frame % 300 == 0)
 	{
@@ -170,7 +170,7 @@ void item_update()
 		{
 			it[i].x = (float)(200 + rand() % (BUFFER_W - 400));
 			it[i].y = (float)(200 + rand() % (BUFFER_H - 300));
-			it[i].type = (ITEM_TYPE)(rand() % 3);
+			it[i].type = (ITEM_TYPE)(rand() % ITEM_TYPE_N);
 			it[i].timer = 300;
 			it[i].active = true;
 
@@ -187,15 +187,20 @@ void player_draw()
 
 	// 성별: 1, 2로 저장되어 있으므로 배열 인덱스(0, 1)로 변환
 	int g_idx = p.gender - 1;
+	int state_idx;
 
-	// 상태: 배리어 여부에 따라 0 또는 1
-	PLAYER_STATE state = (p.barrier) ? STATE_BARRIER : STATE_NORMAL;
+	if (p.barrier)
+		state_idx = PLAYER_STATE_BARRIER;
+	else if (p.inv_timer > 0)
+		state_idx = PLAYER_STATE_HIT;
+	else
+		state_idx = PLAYER_STATE_NORMAL;
 
 	// 방향: 구조체에 저장된 마지막 방향 사용
 	PLAYER_DIR dir = p.last_dir;
 
 	// 그리기 (배열 구조가 sprites.player[2][3][2])
-	al_draw_bitmap(sprites.player[g_idx][state][dir], p.x, p.y, 0);
+	al_draw_bitmap(sprites.player[g_idx][state_idx][dir], p.x, p.y, 0);
 }
 
 void item_draw()

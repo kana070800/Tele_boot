@@ -25,6 +25,12 @@
     <None Include="shot.flac">
       <Filter>리소스 파일</Filter>
     </None>
+    <None Include="bgm_8.ogg">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="bgm_9.ogg">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ex.c">
@@ -46,6 +52,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="doro.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="fx.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="audio.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,6 +92,30 @@
     <Image Include="doro_m.png">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="KakaoTalk_20260330_135810416.png.jpg">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="6.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="7.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Boss_Defeat.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Boss_Clear.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="razer_IMG.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="8.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="9.png">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -90,5 +126,37 @@
     <Font Include="font_1.ttf">
       <Filter>리소스 파일</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Item_treasure.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="Item_heart.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="Item_barrier.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="enemy2_bomb.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="enemy1_3.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="death2.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="death1.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="boom_reze.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="hit2.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
+    <Media Include="hit1.wav">
+      <Filter>리소스 파일</Filter>
+    </Media>
   </ItemGroup>
 </Project>

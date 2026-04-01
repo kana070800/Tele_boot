@@ -2,12 +2,12 @@
 
 GAME_STATE state = STATE_MENU;  // 초기 상태는 메뉴 화면
 GAME_MODE mode = MODE_STORY;    // 기본 모드는 스토리 모드
-const int ITEM_W[] = { 30, 35, 35 };
-const int ITEM_H[] = { 30, 35, 24 };
-const int PLAYER_W[] = { 25, 40, 50 };
-const int PLAYER_H[] = { 55, 50, 60 };
-const int ENEMY_W[] = { 25, 43, 28, 44 };
-const int ENEMY_H[] = { 25, 47, 30, 44 };
+const int ITEM_W[] = { 27, 30, 36 };
+const int ITEM_H[] = { 26, 30, 24 };
+const int PLAYER_W[] = { 34, 41, 54 };
+const int PLAYER_H[] = { 57, 50, 57 };
+const int ENEMY_W[] = { 27, 40, 23, 30 };
+const int ENEMY_H[] = { 25, 37, 25, 30 };
 Player p = { 0 };                       // 플레이어 객체 생성
 Enemy enemy[MAX_ENEMIES] = { 0 };          // 적 배열 선언
 Item it[MAX_ITEMS] = { 0 };             // 아이템 배열 선언
@@ -84,6 +84,7 @@ int title(queue) {
 
 
     done = false;
+    enemies_init();
     al_flush_event_queue(queue);
     memset(key, 0, sizeof(key));
     while (1)
@@ -120,8 +121,20 @@ int title(queue) {
             disp_pre_draw();
             al_clear_to_color(al_map_rgb(0, 0, 0));
             //background(xxx);  // 캐릭터 선택화면 추가??
-            al_draw_textf(font_l, al_map_rgb_f(1, 1, 1), 400, 400, 0, "1 : male\n 2 : female");
+            // al_draw_textf(font_l, al_map_rgb_f(1, 1, 1), 400, 400, 0, "1 : male\n 2 : female");
+            ALLEGRO_BITMAP* charSelectImg = al_load_bitmap("Character_Select.png");
 
+            if (!charSelectImg) {
+                // 이미지 로드 실패 시 예외 처리
+                return -1;
+            }
+
+            // 화면을 지우고 이미지를 (0, 0) 좌표에 그리기
+            al_clear_to_color(al_map_rgb(0, 0, 0));
+            al_draw_bitmap(charSelectImg, 0, 0, 0);
+
+            // 버퍼의 내용을 실제 화면에 갱신
+            al_flip_display();
             disp_post_draw();
         }
     }
@@ -130,7 +143,7 @@ int title(queue) {
     return 0;
 }
 
-int end(queue) {
+int end_stage(queue) {
     
     softly_next(4, 0, queue);
 
@@ -147,7 +160,7 @@ int end(queue) {
         switch (event.type)
         {
         case ALLEGRO_EVENT_TIMER:
-            if (key[ALLEGRO_KEY_ENTER]) {
+            if (key[ALLEGRO_KEY_ENTER] && strlen(input_name) > 0) {
                 done = true;
             }
             
@@ -158,7 +171,23 @@ int end(queue) {
 
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             return 1;
+
+        case ALLEGRO_EVENT_KEY_CHAR:
+            if (event.keyboard.unichar >= 32 && event.keyboard.unichar <= 126) {
+                int len = strlen(input_name);
+                if (len < 15) {
+                    input_name[len] = (char)event.keyboard.unichar;
+                    input_name[len + 1] = '\0';
+                }
+            }
+            else if (event.keyboard.keycode == ALLEGRO_KEY_BACKSPACE) {
+                int len = strlen(input_name);
+                if (len > 0) input_name[len - 1] = '\0';
+            }
+            break;
         }
+		// 입력받은 이름이 있을 때만 엔터로 넘어갈 수 있도록
+
 
         if (done)
             break;
@@ -171,10 +200,17 @@ int end(queue) {
             al_clear_to_color(al_map_rgb(0, 0, 0));
             background(4);  //엔딩 화면 출력 + 점수 표시, 이름 입력받기 추가 예정
             al_draw_textf(font_l, al_map_rgb_f(1, 1, 1), 450, 810, 0, "press Enter");
-            score_draw();
+            //score_draw();
             disp_post_draw();
         }
     }
+    // 루프를 빠져나왔을 때 input_name이 비어있다면 기본값 설정
+    if (strlen(input_name) == 0) {
+        strcpy(input_name, "Guest");
+    }
+
+    cal_score();
+
     softly_next(4, 1, queue);
 
     softly_next(5, 0, queue);
@@ -224,6 +260,97 @@ int end(queue) {
 
 }
 
+
+int end_boss(queue) {
+
+    bool done = false;
+    ALLEGRO_EVENT event;
+
+    al_flush_event_queue(queue);
+    memset(key, 0, sizeof(key));
+
+    if (win) // 승리 엔딩
+    {
+        softly_next(9, 0, queue);
+
+        while (1)
+        {
+            al_wait_for_event(queue, &event);
+
+            switch (event.type)
+            {
+            case ALLEGRO_EVENT_TIMER:
+                if (key[ALLEGRO_KEY_1])
+                    done = true;
+
+                if (key[ALLEGRO_KEY_ESCAPE] || key[ALLEGRO_KEY_2]) {
+                    return 1;
+                }
+
+                break;
+
+            case ALLEGRO_EVENT_DISPLAY_CLOSE:
+                return 1;
+            }
+
+            if (done)
+                break;
+
+            keyboard_update(&event);
+
+            if (al_is_event_queue_empty(queue))
+            {
+                disp_pre_draw();
+                al_clear_to_color(al_map_rgb(0, 0, 0));
+                background(9);  // 승리 엔딩 화면 출력, 타이틀 돌아가기 or 게임 종료 선택
+                disp_post_draw();
+            }
+        }
+    }
+    else // 패배 엔딩  
+    {
+        softly_next(8, 0, queue);
+
+        while (1)
+        {
+            al_wait_for_event(queue, &event);
+
+            switch (event.type)
+            {
+            case ALLEGRO_EVENT_TIMER:
+                if (key[ALLEGRO_KEY_1])
+                    done = true;
+
+                if (key[ALLEGRO_KEY_ESCAPE] || key[ALLEGRO_KEY_2]) {
+                    return 1;
+                }
+
+                break;
+
+            case ALLEGRO_EVENT_DISPLAY_CLOSE:
+                return 1;
+            }
+
+            if (done)
+                break;
+
+            keyboard_update(&event);
+
+            if (al_is_event_queue_empty(queue))
+            {
+                disp_pre_draw();
+                al_clear_to_color(al_map_rgb(0, 0, 0));
+                background(8);  // 패배 엔딩 화면 출력, 타이틀 돌아가기 or 게임 종료 선택
+                disp_post_draw();
+            }
+        }
+    }
+
+    return 0;
+
+
+}
+
 int main()
 {
     must_init(al_init(), "allegro");
@@ -237,7 +364,7 @@ int main()
     must_init(queue, "queue");
 
     disp_init();
-    //audio_init();
+    audio_init();
 
     must_init(al_init_image_addon(), "image");
     sprites_init();
@@ -248,18 +375,17 @@ int main()
     hud_init();
     must_init(al_init_primitives_addon(), "primitives");
 
-    //must_init(al_install_audio(), "audio");
-    //must_init(al_init_acodec_addon(), "audio codecs");
-    //must_init(al_reserve_samples(16), "reserve samples");
-
+    must_init(al_install_audio(), "audio");
+    must_init(al_init_acodec_addon(), "audio codecs");
+    must_init(al_reserve_samples(16), "reserve samples");
+    if (!al_reserve_samples(16)) {
+        fprintf(stderr, "failed to reserve samples!\n");
+    }
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_display_event_source(disp));
     al_register_event_source(queue, al_get_timer_event_source(timer));
 
     keyboard_init();
-    enemy1_init();
-    //enemy2_init();
-    //enemy3_init();
 
     al_start_timer(timer);
 
@@ -281,12 +407,12 @@ int main()
         stage = 1;
         state = STATE_PLAYING;
         pi_init();
-
+        enemies_init();
         
-        if (flag_mode == 2)
+        if (flag_mode == 1)
             boss_fight_loop(queue);
 
-        if (flag_mode == 1) {
+        if (flag_mode == 2) {
             softly_next(1, 0, queue);
             //__game_loop();
 
@@ -298,11 +424,15 @@ int main()
                 {
                 case ALLEGRO_EVENT_TIMER:
                     enemy1_update();   //적 탄환 정보 업데이트
-                    /*
-                    if (stage >= 2)
+                    
+                    if (stage >= 2) {
                         enemy2_update();
+                        enemy3_update();
+                    }
+
                     if (stage >= 3)
-                        enemy3_update();*/
+                        enemy4_update(p.x, p.y);
+                    fx_update();
                     player_update();    //자신 캐릭터
                     item_update();
                     hud_update();     //타이머(프레임기반), 먹은 상자, 스테이지 업데이트
@@ -342,12 +472,15 @@ int main()
                     ///
                     player_draw();
                     enemy1_draw();
-                    /*
-                        if (stage >= 2)
-                            enemy2_draw();
-                        if (stage >= 3)
-                            enemy3_draw();*/
+                    if (stage >= 2) {
+                        enemy2_draw();
+                        enemy3_draw();
+                    }
+                    if (stage >= 3)
+                        enemy4_draw();
+                    fx_draw();
                     item_draw();
+                    addprofile();
                     hud_draw(); //시간, 보물상자수, 스테이지 현황 출력
                     // 변경사항 반영, 출력
                     disp_post_draw();
@@ -365,14 +498,16 @@ int main()
 
 
         }
-        if (end(queue)) // if return 1 >> end game
+        if (flag_mode == 1 && end_boss(queue)) // if return 1 >> end game
+            break;
+        else if (flag_mode == 2 && end_stage(queue))
             break;
 
     }
 
     sprites_deinit();
     hud_deinit();
-    //audio_deinit();
+    audio_deinit();
     disp_deinit();
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);

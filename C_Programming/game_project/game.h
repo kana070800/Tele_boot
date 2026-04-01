@@ -24,6 +24,37 @@
 #define DISP_W (BUFFER_W * DISP_SCALE)
 #define DISP_H (BUFFER_H * DISP_SCALE)
 
+#define ENEMY2_FX_FRAMES 5
+#define ENEMY4_FX_FRAMES 5
+
+/* 맵 범위 */
+#define MAP_LEFT    200.0f
+#define MAP_RIGHT   1000.0f
+#define MAP_TOP     200.0f
+#define MAP_BOTTOM  800.0f
+
+/* 적 개수 */
+#define ENEMY1_N 8
+#define ENEMY2_N 3
+#define ENEMY3_N 64
+#define ENEMY4_N 3
+#define ENEMY5_N 5
+
+#define ENEMY5_W 20
+/* 적 속도 및 주기 */
+#define ENEMY1_SPEED         4.0f
+#define ENEMY1_SPAWN_CYCLE   15     // ex) 45 / 60 = 0.75초마다 생성
+
+#define ENEMY2_SPAWN_CYCLE   60
+#define ENEMY2_TIMER         240    // ex) 240 / 60frame = 4초 뒤에 폭발
+
+#define ENEMY3_SPEED         4.0f
+
+#define ENEMY4_SPEED         3.0f
+#define ENEMY4_SPAWN_CYCLE   60     // ex) 60 / 60 = 1초마다 생성
+#define ENEMY4_TIMER         180    // ex) 180 / 60frame = 3초 뒤에 폭발
+
+
 /* -------------------- game state -------------------- */
 
 typedef enum {
@@ -93,6 +124,17 @@ extern const int ENEMY_H[ENEMY_TYPE_N];
 #define ENEMY_FIREBALL_H   (ENEMY_H[ENEMY_FIREBALL])
 #define ENEMY_HOMING_W     (ENEMY_W[ENEMY_HOMING])
 #define ENEMY_HOMING_H     (ENEMY_H[ENEMY_HOMING])
+
+#define ENEMY_RAZER_W      (710)
+#define ENEMY_RAZER_H      (58)
+
+#define ENEMY2_FX_FRAMES 5
+#define ENEMY4_FX_FRAMES 5
+#define ENEMY_BEFORE_RAZER_FRAMES 1
+#define ENEMY_RAZER_FRAMES 5
+#define ENEMY_AFTER_RAZER_FRAMES 1
+#define CHEST_CHALLENGE_FRAMES 5
+#define CHEST_BOSS_FRAMES 4
 /*
 // 게임의 현재 흐름을 제어하는 상태 (메뉴, 게임 중, 결과창 등)
 typedef enum {
@@ -137,9 +179,18 @@ typedef enum {
 
 // 상태 정의
 typedef enum {
-    STATE_NORMAL = 0,
-    STATE_BARRIER = 1
+    PLAYER_STATE_NORMAL = 0,
+    PLAYER_STATE_HIT = 1,
+    PLAYER_STATE_BARRIER = 2
 } PLAYER_STATE;
+
+typedef struct FX
+{
+    int x, y;
+    int frame;
+    int enemy;
+    bool used;
+} FX;
 
 // 플레이어 정보
 typedef struct {
@@ -157,6 +208,7 @@ typedef struct {
     float x, y;          // 위치 좌표
     float dx, dy;        // 이동 속도 및 방향 (델타 값)
     ENEMY_TYPE type;     // 적 종류
+    int blink;           // blink
     int timer;           // 패턴용 타이머
     int frame;
     bool active;         // 현재 화면 존재 여부 (활성화 상태)
@@ -183,12 +235,30 @@ typedef struct SPRITES
     ALLEGRO_BITMAP* item[3];
 
     // 적
-    ALLEGRO_BITMAP* enemy[4];
+    ALLEGRO_BITMAP* enemy[4];    
+    // 폭발
+    ALLEGRO_BITMAP* enemy2_bomb[ENEMY2_FX_FRAMES];
+    ALLEGRO_BITMAP* enemy4_bomb[ENEMY4_FX_FRAMES];
+
+    //레이저
+    ALLEGRO_BITMAP* enemy_razer;
+    ALLEGRO_BITMAP* razer_before_fx;
+    ALLEGRO_BITMAP* razer_fx[ENEMY_RAZER_FRAMES];
+    ALLEGRO_BITMAP* razer_after_fx;
+
+    // 보물 이팩트
+    ALLEGRO_BITMAP* chest_challenge[CHEST_CHALLENGE_FRAMES];
+    ALLEGRO_BITMAP* chest_boss[CHEST_BOSS_FRAMES];
 } SPRITES;
 
+ALLEGRO_SAMPLE* enemy_explode[5];
+ALLEGRO_SAMPLE* item[3];
+ALLEGRO_SAMPLE* death[2];
+ALLEGRO_SAMPLE* hit[2];
 
 
-ALLEGRO_BITMAP* MAP[6];
+
+ALLEGRO_BITMAP* MAP[10];
 
 
 // 메뉴 함수 선언
@@ -210,8 +280,36 @@ void item_draw();
 
 // enemy 함수 선언
 void enemy1_init();
+bool enemy1_add();
 void enemy1_update();
+bool enemy1_collide(int x, int y, int w, int h);
 void enemy1_draw();
+
+void enemy2_init();
+void enemy2_update();
+void enemy2_draw();
+
+void enemy3_init();
+bool enemy3_add(int x, int y);
+void enemy3_update();
+bool enemy3_collide(int x, int y, int w, int h);
+void enemy3_draw();
+
+void enemy4_init();
+bool enemy4_add();
+void enemy4_update(float player_x, float player_y);
+void enemy4_updatex(float player_x, float player_y);
+bool enemy4_collide(int x, int y, int w, int h);
+void enemy4_draw();
+
+// enemy5 (보스) 레이저
+void enemy5_init();
+bool enemy5_add(int , int);
+void enemy5_update();
+bool enemy5_collide(int x, int y, int w, int h);
+void enemy5_draw();
+
+void enemyies_init(void);
 
 // hud 함수 선언
 void hud_init();
@@ -241,12 +339,18 @@ void audio_init();
 void audio_deinit();
 
 void fx_init();
-void fx_add(bool spark, int x, int y);
+void fx_add(int enemy, int x, int y);
 void fx_update();
 void fx_draw();
 
+void addprofile();
+
+void enemies_init(void);
+bool enemies_collide(int stage, int x, int y, int w, int h);
+
+
 int title(ALLEGRO_EVENT_QUEUE * q);
-int end(ALLEGRO_EVENT_QUEUE* q);
+int end_stage(ALLEGRO_EVENT_QUEUE* q);
 
 
 
