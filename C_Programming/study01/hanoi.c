@@ -7,7 +7,7 @@
 #define SIZE(a) (sizeof(a)/ sizeof((a)[0]))
 
 
-#if 01
+#if 0
 
 /*
 단순 이동 횟수
@@ -92,7 +92,7 @@ int main(void)
 }
 
 
-#endif
+#endif //hanoi
 
 #if 0
 
@@ -233,3 +233,231 @@ int main(void)
 }
 
 #endif  //bfs
+
+
+
+//이진탐색
+#if 0
+
+int Binary_search(int* arr, int size, int value) {
+
+    int left = 0;
+    int right = size - 1;
+    int mid = (right + left) / 2;
+    while (left <= right) {
+        mid = (right + left) / 2;
+        if (arr[mid] < value) {
+            left = mid + 1;
+        }
+        else if (arr[mid] > value)
+        {
+            right = mid - 1;
+        }
+        else
+            return mid;
+    }
+    return -1;
+}
+
+int Binary_x(int* arr, int size, int value, int i) {
+
+    int left = i;
+    int right = size - 1;
+    int mid = (right + left) / 2;
+    if (left <= right) {
+        if (arr[mid] < value) {
+            Binary_x(arr, size, value, mid + 1);
+        }
+        else if (arr[mid] > value)
+        {
+            Binary_x(arr,mid - 1,value,i);
+        }
+        else
+            return mid;
+    }
+    else
+        return -1;
+}
+
+int main(void)
+{
+    int arr[] = { 1, 3, 6, 9, 12, 13, 14, 17, 22, 25 };
+
+    printf("%d\n", Binary_search(arr, sizeof(arr), 20)); // 그냥
+    printf("%d\n", Binary_x(arr, sizeof(arr), 19, 0)); // 재귀
+
+    
+
+
+}
+#endif
+
+#if 0
+
+int Binary_low(int* arr, int size, int value) {
+
+    int left = 0;
+    int right = size - 1;
+    //int mid = (right + left) / 2;
+    while (left <= right) {
+        int mid = (right + left) / 2;
+        if (arr[mid] < value) {
+            left = mid + 1;
+        }
+        else if (arr[mid] > value)
+        {
+            right = mid - 1;
+        }
+        else
+            return mid;
+    }
+    if (left == size)
+        return -1;
+    return left;
+}
+
+
+int Binary_up(int* arr, int size, int value) {
+
+    int left = 0;
+    int right = size - 1;
+    //int mid = (right + left) / 2;
+    while (left <= right) {
+        int mid = (right + left) / 2;
+        //int mid = left + (right - left) / 2;
+        if (arr[mid] < value) {
+            left = mid + 1;
+        }
+        else if (arr[mid] > value)
+        {
+            right = mid - 1;
+        }
+        else
+            return mid;
+    }
+
+    return left - 1;
+}
+
+
+
+int main(void)
+{
+    int arr[] = { 1, 3, 6, 9, 12, 13, 14, 17, 22, 25 };
+
+    printf("%d\n", Binary_low(arr, 10, 11)); // 4
+    printf("%d\n", Binary_up(arr, 10, 16));  //6
+
+    printf("%d\n", Binary_low(arr, 10, 17)); //
+    printf("%d\n", Binary_up(arr, 10, 25));  
+
+    printf("%d\n", Binary_low(arr, 10, 23)); //
+    printf("%d\n", Binary_up(arr, 10, 34));
+
+    printf("%d\n", Binary_low(arr, 10, 27)); //
+    printf("%d\n", Binary_up(arr, 10, 40));
+
+    printf("%d\n", Binary_low(arr, 10, 80));
+    printf("%d\n", Binary_up(arr, 10, 80));
+
+    printf("%d\n", Binary_low(arr, 10, -10));
+    printf("%d\n", Binary_up(arr, 10, -10));
+}//
+#endif 
+
+
+#if 0
+
+
+
+int Binary_low(int* arr, int size, int value) {
+
+    int left = 0;
+    int right = size - 1;
+    //int mid = (right + left) / 2;
+    while (left <= right) {
+        int mid = (right + left) / 2;
+        if (arr[mid] < value) {
+            left = mid + 1;
+        }
+        else if (arr[mid] > value)
+        {
+            right = mid - 1;
+        }
+        else
+            return mid;
+    }
+    if (left == size)
+        return -1;
+    return left;
+}
+
+
+int Binary_up(int* arr, int size, int value) {
+
+    int left = 0;
+    int right = size - 1;
+    //int mid = (right + left) / 2;
+    while (left <= right) {
+        int mid = (right + left) / 2;
+        //int mid = left + (right - left) / 2;
+        if (arr[mid] < value) {
+            left = mid + 1;
+        }
+        else if (arr[mid] > value)
+        {
+            right = mid - 1;
+        }
+        else
+            return mid;
+    }
+
+    return left - 1;
+}
+
+int compare(const void* a, const void* b) {
+    // 비교 로직 작성
+    return (*(int*)a - *(int*)b);
+}
+
+int main(void)
+{
+    int N, cnt = 0, first = 0, second = 0, low = 0, high = 0;
+    scanf("%d", &N);
+
+	int* arr = (int*)calloc(N, sizeof(int));
+
+    for (int i = 0; i < N; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+
+    qsort(arr, N, sizeof(int), compare);
+
+
+    for (int i = 0; i < N - 2; i++)//
+    {
+        first = arr[i];
+
+        for (int j = i + 1; j < N - 1; j++) {
+            second = arr[j];
+
+			int d = second - first;
+            low = Binary_low(arr, N, second + d);
+            high = Binary_up(arr, N, second + 2*d);
+            printf("%d %d | %d %d\n",i,j, low, high);
+			if ((high != -1) && (low != -1))
+                cnt += (high - low + 1);
+        }
+    }
+    printf("%d\n", cnt);
+    return 0;////
+
+    //
+}//1 3 4 7 10//
+#endif //도약
+
+
+
+
+
