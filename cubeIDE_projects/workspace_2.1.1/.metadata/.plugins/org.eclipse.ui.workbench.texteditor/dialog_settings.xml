@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item key="hasShownOverlayPopupBefore" value="true"/>
+	<item key="replaceBarOpen" value="false"/>
+	<list key="searchhistory">
+		<item value="HAL_UART_MspInit"/>
+		<item value="uart"/>
+		<item value="08000BBD"/>
+		<item value="08000cb1"/>
+		<item value="_estack"/>
+		<item value="PERIPH_BASE"/>
+		<item value="AHB1PERIPH_BASE"/>
+		<item value="GPIOB_BASE"/>
+		<item value="GPIO_TypeDef"/>
+		<item value="__IO"/>
+		<item value="_sdata"/>
+		<item value="main"/>
+		<item value="HAL_GPIO_Init"/>
+		<item value="MX_GPIO_Init"/>
+	</list>
+</section>

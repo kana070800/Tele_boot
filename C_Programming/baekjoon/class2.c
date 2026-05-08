@@ -536,7 +536,7 @@ int main(void)
 #endif// 몇개 입력인지 최대 값 지정 안한 쓰레기 문제 라고하면 안되겠죠
 
 //팰린드롬수우
-#if 01
+#if 0
 int main(void)
 {
 	char things[10000][51] = { 0 };
@@ -556,4 +556,7 @@ int main(void)
 
 	return 0;
 }
+#endif
+
+#if 0
 #endif

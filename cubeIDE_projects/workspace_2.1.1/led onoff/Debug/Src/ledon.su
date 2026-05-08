@@ -1,0 +1,4 @@
+../Src/ledon.c:10:5:LED_init	4	static
+../Src/ledon.c:36:5:SW_init	4	static
+../Src/ledon.c:52:6:LED_ctrl	16	static
+../Src/ledon.c:65:5:SW_ON	4	static

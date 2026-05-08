@@ -458,6 +458,130 @@ int main(void)
 #endif //µµ¾à
 
 
+#if 0
+
+int func(int*a,int*b) {
+
+    return *a - *b;
+}
+
+int main(void)
+{
+    int T = 0;
+    int buf[10000] = { 0 };
+    scanf("%d", &T);
+    int sum = 0;
+    int tmp = 0;
+    for (int i = 0; i < T; ++i) {
+        int K = 0;
+        scanf("%d", &K);
+        sum = 0;
+        for (int j = 0; j < K; ++j) {
+            scanf("%d", (buf+j));
+        }
+        qsort(buf, K, sizeof(int), func);
+
+        for (int j = 0; j < K - 1; ++j) {
+            buf[j + 1] += buf[j];
+            sum += buf[j + 1];
+            tmp = buf[j + 1];
+            int k = j + 1;
+            while (buf[k] > buf[k + 1]) {
+                k++;
+            }
+
+            memmove(buf + j + 1, buf + j + 2, sizeof(int) * (k - j - 1));
+            buf[k] = tmp;
+        }
+        
+        
+        printf("%d\n", sum);
+    }
+
+    return 0;
+}
+#endif
+
+
+#if 0
+
+
+int func(int* a, int* b) {
+
+    return *a - *b;
+}
+
+int main(void)
+{
+    int T = 0;
+    int buf[10000] = { 0 };
+    scanf("%d", &T);
+    int sum = 0;
+    for (int i = 0; i < T; ++i) {
+        int K = 0;
+        scanf("%d", &K);
+        sum = 0;
+        for (int j = 0; j < K; ++j) {
+            scanf("%d", (buf + j));
+        }
+        //qsort(buf, K, sizeof(int), func);
+
+        for (int j = 0; j < K - 1; ++j) {
+            qsort(buf + j, K - j, sizeof(int), func);
+
+            buf[j + 1] += buf[j];
+            sum += buf[j + 1];
+        }
+
+
+        printf("%d\n", sum);
+    }
+
+    return 0;
+}
+#endif
+//
 
 
 
+#if 0
+
+int func(int* a, int* b) {
+
+    return *a - *b;
+}
+
+typedef struct st {
+    int m;
+    int v;
+}st;
+
+
+int main(void) {
+    int N, K = 0;
+    scanf("%d %d", &N, &K);
+    st buf[10000] = { 0 };
+    st cass  = { 0 };
+
+    int bag[10000] = { 0 };
+
+    for (int i = 0; i < N; ++i) {
+        scanf("%d %d", &(buf[i].m), &(buf[i].v));
+    }
+
+    for (int i = 0; i < K; ++i) {
+        scanf("%d", &bag[i]);
+    }
+
+    for (int i = 0; i < K; ++i) {
+        for (int j = 0; j < 1; ++j)
+        {
+            if (buf[j].m > bag[i])
+                continue;
+        }
+
+    }
+
+    return 0;
+}
+#endif

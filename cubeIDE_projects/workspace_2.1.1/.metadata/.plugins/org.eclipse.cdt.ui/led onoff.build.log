@@ -1,0 +1,17 @@
+11:26:19 **** Incremental Build of configuration Debug for project led onoff ****
+make -j12 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F429ZITx -DSTM32F4 -DNUCLEO_F429ZI -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "led onoff.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\led onoff\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="led onoff.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: led onoff.elf
+ 
+arm-none-eabi-size  led\ onoff.elf 
+arm-none-eabi-objdump -h -S led\ onoff.elf  > "led onoff.list"
+   text	   data	    bss	    dec	    hex	filename
+    828	      0	   1568	   2396	    95c	led onoff.elf
+Finished building: default.size.stdout
+ 
+Finished building: led onoff.list
+ 
+
+11:26:19 Build Finished. 0 errors, 0 warnings. (took 401ms)
+

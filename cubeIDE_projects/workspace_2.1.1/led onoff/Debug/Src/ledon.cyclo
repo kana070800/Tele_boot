@@ -1,0 +1,4 @@
+../Src/ledon.c:10:5:LED_init	1
+../Src/ledon.c:36:5:SW_init	1
+../Src/ledon.c:52:6:LED_ctrl	8
+../Src/ledon.c:65:5:SW_ON	1

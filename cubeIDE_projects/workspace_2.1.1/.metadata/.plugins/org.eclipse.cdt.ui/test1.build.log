@@ -1,0 +1,7 @@
+16:36:53 **** Build of configuration Debug for project test1 ****
+make -j12 gpiotest 
+make: *** No rule to make target 'gpiotest'.  Stop.
+"make -j12 gpiotest" terminated with exit code 2. Build might be incomplete.
+
+16:36:53 Build Failed. 1 errors, 0 warnings. (took 101ms)
+

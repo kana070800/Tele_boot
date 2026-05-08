@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;led onoff/Src/ledctrl&apos;" deleteContents="false" description="Delete resource &apos;led onoff/Src/ledctrl&apos;" element1="/led onoff/Src/ledctrl" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1777618767280"/>
+</session>
