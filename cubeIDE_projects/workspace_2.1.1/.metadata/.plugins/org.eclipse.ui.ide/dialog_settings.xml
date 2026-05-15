@@ -22,13 +22,14 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\systick\Core"/>
 			<item value="C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\uart"/>
 			<item value="C:\Users\kanaw\STM32CubeIDE\workspace_2.1.1\gpiotest"/>
 		</list>
 		<section name="STSmartImportWizard.dialogBounds">
-			<item key="DIALOG_X_ORIGIN" value="662"/>
-			<item key="DIALOG_Y_ORIGIN" value="278"/>
-			<item key="DIALOG_WIDTH" value="938"/>
+			<item key="DIALOG_X_ORIGIN" value="119"/>
+			<item key="DIALOG_Y_ORIGIN" value="188"/>
+			<item key="DIALOG_WIDTH" value="979"/>
 			<item key="DIALOG_HEIGHT" value="671"/>
 			<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
 		</section>

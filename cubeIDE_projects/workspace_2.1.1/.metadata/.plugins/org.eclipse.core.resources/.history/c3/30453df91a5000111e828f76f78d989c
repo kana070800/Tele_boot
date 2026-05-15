@@ -1,0 +1,233 @@
+#include "stm32f4xx.h"
+#include <stdio.h> // sprintf 사용을 위해 추가
+/* --- 설정 및 상수 --- */
+#define SLAVE_ADDR     0x27
+#define RS_BIT         0x01
+#define EN_BIT         0x04
+#define BACKLIGHT      0x08
+
+/* --- I2C 상태 정의 --- */
+typedef enum {
+    I2C_IDLE,
+    I2C_START,
+    I2C_ADDR,
+    I2C_WRITE_BYTE,
+    I2C_STOP_AND_WAIT, // 딜레이 대기를 위해 버스를 풀어주는 상태
+    I2C_WAIT,          // 논블로킹으로 시간을 체크하는 상태
+    I2C_STOP
+} I2C_Step_t;
+
+/* --- 전역 변수 --- */
+I2C_Step_t i2c_step = I2C_IDLE;
+
+#define QUEUE_SIZE 256
+uint8_t tx_buffer[QUEUE_SIZE];
+uint32_t tx_delay[QUEUE_SIZE]; // 전송 완료 후 대기할 시간 (단위: us)
+
+uint16_t tx_index = 0;
+uint16_t tx_len = 0;
+
+uint32_t wait_start_time = 0;
+uint32_t current_wait_delay = 0;
+
+/* --- 함수 선언 --- */
+void TIM6_Config(void);
+uint32_t Get_Time_us(void);
+void I2C1_Config(void);
+void LCD_Init_Sequence(void);
+void LCD_Enqueue_4bit(uint8_t data, uint32_t delay_us);
+void LCD_Enqueue(uint8_t data, uint8_t flags, uint32_t delay_us);
+void LCD_Print(char *str);
+void Process_I2C_Machine(void);
+
+/* --- 메인 함수 --- */
+/* --- 메인 함수 --- */
+int main(void) {
+    TIM6_Config();
+    I2C1_Config();
+
+    // 전원 인가 직후 50ms 대기 (이곳은 초기화이므로 단순 폴링 대기 허용)
+    uint32_t start_up = Get_Time_us();
+    while((Get_Time_us() - start_up) < 50000);
+
+    LCD_Init_Sequence();
+
+    // 1초 주기 타이머 변수와 카운터 변수
+    uint32_t last_print_time = Get_Time_us();
+    uint8_t count = 1;
+    char buffer[16]; // LCD에 출력할 문자열 버퍼
+
+    while (1) {
+        // 백그라운드처럼 I2C 전송 큐를 처리 (가장 중요)
+        Process_I2C_Machine();
+
+        // 1초(1,000,000 us)마다 1~10 출력 동작 확인
+        if (count <= 10) {
+            if ((Get_Time_us() - last_print_time) >= 1000000) {
+                last_print_time = Get_Time_us(); // 마지막 실행 시간 갱신
+
+                // 1. 기존 화면 지우기 (Clear Display 명령: 0x01, 최소 2ms 대기 필요)
+                LCD_Enqueue(0x01, 0, 2000);
+
+                // 2. 출력할 문자열 만들기
+                sprintf(buffer, "Number : %d", count);
+
+                // 3. 문자열 큐에 넣기 (Process_I2C_Machine이 알아서 순차 전송함)
+                LCD_Print(buffer);
+
+                count++; // 카운트 증가
+            }
+        }
+
+        // CPU는 여기서 절대 멈추지 않으므로 LED 깜빡임 등의 다른 작업을 자유롭게 추가할 수 있습니다.
+    }
+}
+
+/* --- 논블로킹 시간 체크 (16비트 오버플로우 보정) --- */
+uint32_t Get_Time_us(void) {
+    static uint16_t last_cnt = 0;
+    static uint32_t high_word = 0;
+
+    uint16_t current_cnt = TIM6->CNT;
+    // 오버플로우 감지 (16비트 -> 32비트 확장)
+    if (current_cnt < last_cnt) {
+        high_word += 0x10000;
+    }
+    last_cnt = current_cnt;
+    return high_word | current_cnt;
+}
+
+/* --- I2C 상태 머신 --- */
+void Process_I2C_Machine(void) {
+    if (i2c_step == I2C_IDLE && tx_index >= tx_len) {
+        tx_index = tx_len = 0; // 전송 완료 시 큐 초기화
+        return;
+    }
+
+    switch (i2c_step) {
+        case I2C_IDLE:
+            if (tx_len > 0) i2c_step = I2C_START;
+            break;
+
+        case I2C_START:
+            I2C1->CR1 |= I2C_CR1_START;
+            i2c_step = I2C_ADDR;
+            break;
+
+        case I2C_ADDR:
+            if (I2C1->SR1 & I2C_SR1_SB) {
+                I2C1->DR = (SLAVE_ADDR << 1);
+                i2c_step = I2C_WRITE_BYTE;
+            }
+            break;
+
+        case I2C_WRITE_BYTE:
+            if (I2C1->SR1 & I2C_SR1_ADDR) { (void)I2C1->SR2; }
+
+            if (I2C1->SR1 & I2C_SR1_TXE) {
+                I2C1->DR = tx_buffer[tx_index];
+                current_wait_delay = tx_delay[tx_index]; // 대기 시간 캡처
+                tx_index++;
+
+                if (tx_index >= tx_len) {
+                    i2c_step = I2C_STOP;
+                } else if (current_wait_delay > 0) {
+                    // 명령과 명령 사이에 긴 대기가 필요하면 버스를 놔주고 대기
+                    i2c_step = I2C_STOP_AND_WAIT;
+                }
+                // current_wait_delay가 0이면 상태 유지 (연속 전송)
+            }
+            break;
+
+        case I2C_STOP_AND_WAIT:
+            if (I2C1->SR1 & I2C_SR1_BTF) {
+                I2C1->CR1 |= I2C_CR1_STOP;
+                wait_start_time = Get_Time_us(); // 대기 시작 시간 기록
+                i2c_step = I2C_WAIT;
+            }
+            break;
+
+        case I2C_WAIT:
+            // CPU를 멈추지 않고 시간만 확인
+            if ((Get_Time_us() - wait_start_time) >= current_wait_delay) {
+                i2c_step = I2C_IDLE; // 대기가 끝나면 다시 I2C 통신 시작
+            }
+            break;
+
+        case I2C_STOP:
+            if (I2C1->SR1 & I2C_SR1_BTF) {
+                I2C1->CR1 |= I2C_CR1_STOP;
+                i2c_step = I2C_IDLE;
+            }
+            break;
+    }
+}
+
+/* --- LCD 데이터를 큐에 추가하는 함수 --- */
+// 4비트 데이터만 전송 (초기화 전용)
+void LCD_Enqueue_4bit(uint8_t data, uint32_t delay_us) {
+    if (tx_len + 2 >= QUEUE_SIZE) return;
+    uint8_t val = (data & 0xF0) | BACKLIGHT;
+
+    tx_buffer[tx_len] = val | EN_BIT;   tx_delay[tx_len++] = 0;
+    tx_buffer[tx_len] = val & ~EN_BIT;  tx_delay[tx_len++] = delay_us;
+}
+
+// 8비트 데이터를 4비트 쪼개서 전송
+void LCD_Enqueue(uint8_t data, uint8_t flags, uint32_t delay_us) {
+    if (tx_len + 4 >= QUEUE_SIZE) return;
+
+    uint8_t up = (data & 0xF0) | flags | BACKLIGHT;
+    uint8_t lo = ((data << 4) & 0xF0) | flags | BACKLIGHT;
+
+    tx_buffer[tx_len] = up | EN_BIT;   tx_delay[tx_len++] = 0;
+    tx_buffer[tx_len] = up & ~EN_BIT;  tx_delay[tx_len++] = 0;
+    tx_buffer[tx_len] = lo | EN_BIT;   tx_delay[tx_len++] = 0;
+    tx_buffer[tx_len] = lo & ~EN_BIT;  tx_delay[tx_len++] = delay_us;
+}
+
+void LCD_Print(char *str) {
+    while (*str) {
+        // 문자 1개 출력 후 일반적인 50us 딜레이 확보
+        LCD_Enqueue((uint8_t)(*str++), RS_BIT, 50);
+    }
+}
+
+/* --- 초기화 시퀀스 (C++ 라이브러리 기준 대기 시간 적용) --- */
+void LCD_Init_Sequence(void) {
+    // 4비트 모드 강제 진입을 위한 시퀀스 및 대기 시간
+    LCD_Enqueue_4bit(0x30, 4500); // 0x03 전송 후 4.5ms 대기
+    LCD_Enqueue_4bit(0x30, 4500); // 0x03 전송 후 4.5ms 대기
+    LCD_Enqueue_4bit(0x30, 150);  // 0x03 전송 후 150us 대기
+    LCD_Enqueue_4bit(0x20, 50);   // 0x02 전송 (4비트 모드 시작)
+
+    LCD_Enqueue(0x28, 0, 50);     // 2라인 모드, 5x8 폰트
+    LCD_Enqueue(0x0C, 0, 50);     // Display ON, Cursor OFF
+    LCD_Enqueue(0x01, 0, 2000);   // Clear Display (매우 긴 명령이므로 2ms 대기)
+}
+
+/* --- 하드웨어 설정 --- */
+void TIM6_Config(void) {
+    RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
+
+    // 90MHz / 90 = 1MHz (1us tick)
+    TIM6->PSC = 90 - 1;
+    TIM6->ARR = 0xFFFF; // Max
+    TIM6->CR1 |= TIM_CR1_CEN;
+}
+
+void I2C1_Config(void) {
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+    RCC->APB1ENR |= RCC_APB1ENR_I2C1EN;
+
+    GPIOB->MODER &= ~((3 << (8 * 2)) | (3 << (9 * 2)));
+    GPIOB->MODER |=  ((2 << (8 * 2)) | (2 << (9 * 2)));
+    GPIOB->OTYPER |= (1 << 8) | (1 << 9);
+    GPIOB->AFR[1] |= (4 << (0 * 4)) | (4 << (1 * 4));
+
+    I2C1->CR2 = 45;
+    I2C1->CCR = 225;
+    I2C1->TRISE = 46;
+    I2C1->CR1 |= I2C_CR1_PE;
+}
+

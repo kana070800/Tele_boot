@@ -17,6 +17,13 @@
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
 	</section>
 	<section name="PDOMSearchPage">
+		<item key="caseSensitive" value="false"/>
+		<item key="searchFlags" value="227191"/>
+		<list key="previousPatterns">
+			<item value="__libc_init_array"/>
+			<item value="TIM6_DAC_IRQHandler"/>
+			<item value="HAL_Init"/>
+		</list>
 	</section>
 	<section name="NewSourceFileCreationWizard.dialogBounds">
 		<item key="DIALOG_X_ORIGIN" value="655"/>
@@ -24,5 +31,8 @@
 		<item key="DIALOG_WIDTH" value="629"/>
 		<item key="DIALOG_HEIGHT" value="480"/>
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+	<section name="CResourceRenameRefactoringInputPage">
+		<item key="updateReferences" value="true"/>
 	</section>
 </section>

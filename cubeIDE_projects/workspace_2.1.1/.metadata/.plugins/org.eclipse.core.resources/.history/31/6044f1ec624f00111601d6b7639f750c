@@ -1,0 +1,1098 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2026 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "uart.h"
+#include "string.h"
+#include <stdarg.h>
+
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+
+ETH_TxPacketConfig TxConfig;
+ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
+ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
+
+ETH_HandleTypeDef heth;
+
+UART_HandleTypeDef huart3;
+
+PCD_HandleTypeDef hpcd_USB_OTG_FS;
+
+/* USER CODE BEGIN PV */
+
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_ETH_Init(void);
+static void MX_USART3_UART_Init(void);
+static void MX_USB_OTG_FS_PCD_Init(void);
+
+void Timer7_Init(void);
+void HCSR04_Init(void);
+float HCSR04_Read(void);
+void Delay_us(uint32_t us);
+
+
+#define NOTE_REST 0
+
+#define NOTE_C4   262
+#define NOTE_CS4  277
+#define NOTE_D4   294
+#define NOTE_DS4  311
+#define NOTE_E4   330
+#define NOTE_F4   349
+#define NOTE_FS4  370
+#define NOTE_G4   392
+#define NOTE_GS4  415
+#define NOTE_A4   440
+#define NOTE_AS4  466
+#define NOTE_B4   494
+
+#define NOTE_C5   523
+#define NOTE_CS5  554
+#define NOTE_D5   587
+#define NOTE_DS5  622
+#define NOTE_E5   659
+#define NOTE_F5   698
+#define NOTE_FS5  740
+#define NOTE_G5   784
+#define NOTE_GS5  831
+#define NOTE_A5   880
+#define NOTE_AS5  932
+#define NOTE_B5   988
+
+#define NOTE_C6   1047
+
+/* ===================== Parking Sensor Defines ===================== */
+
+#define PARKING_NO_SOUND_CM       25
+#define PARKING_SLOW_CM           20
+#define PARKING_MID_CM            15
+#define PARKING_FAST_CM           10
+#define PARKING_CONTINUOUS_CM     5
+
+#define PARKING_BEEP_FREQ         1800
+#define PARKING_CONTINUOUS_FREQ   2800
+
+/*
+ * 초음파 쪽에서 이 전역변수를 갱신
+ * 통합할 때 초음파 거리 계산 결과를 아래 변수에 적용.
+ */
+volatile unsigned int ultrasonic_distance_cm = 4;
+
+/* ===================== Function Prototypes ===================== */
+
+static void GPIO_LED_Init(void);
+static void TIM9_PWM_PE5_Init(void);
+static unsigned int Get_TIM9_TimerClock_Hz(void);
+
+static void PE5_PWM_Mode(void);
+static void PE5_GPIO_Low_Mode(void);
+
+void Buzzer_SetFreq(unsigned int freq);
+void Buzzer_Start(void);
+void Buzzer_Stop(void);
+void Delay_Loop(volatile unsigned int count);
+
+void Buzzer_Play_Elise(void);
+void ParkingSensor_LED_NoWarning(void);
+void ParkingSensor_LED_BeepOn(void);
+void ParkingSensor_LED_BeepOff(void);
+void ParkingSensor_Update_ByLoop(unsigned int distance_cm);
+
+
+void Error_Handler(void);
+
+/* USER CODE BEGIN PFP */
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+#include "stm32f429xx.h"
+
+volatile float g_distance = 0.0f;       // 필터링된 거리값
+volatile float g_raw_distance = 0.0f;   // 측정된 생 데이터
+const float alpha = 0.2f;               // LPF 계수 (0~1, 낮을수록 필터링 강함)
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_ETH_Init();
+  MX_USART3_UART_Init();
+  MX_USB_OTG_FS_PCD_Init();
+  /* USER CODE BEGIN 2 */
+  HCSR04_Init();
+  Timer7_Init();
+
+  GPIO_LED_Init();
+  TIM9_PWM_PE5_Init();
+
+  /*
+   * 시작 확인용 Blue LED ON
+   */
+  GPIOB->ODR |= (1 << 7);
+
+
+  /* USER CODE END 2 */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+
+    /* USER CODE END WHILE */
+	  // float을 int로 캐스팅하여 출력
+	  UART3_Printf("Distance: %d cm\r\n", (int)g_distance);
+	  ParkingSensor_Update_ByLoop(ultrasonic_distance_cm);
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}
+/**
+ * @brief Basic Timer 7 초기화 (8Hz 인터럽트)
+ */
+void Timer7_Init(void) {
+    RCC->APB1ENR |= RCC_APB1ENR_TIM7EN;
+
+    TIM7->PSC = 8400 - 1;               // 84MHz / 8400 = 10kHz
+    TIM7->ARR = 1250 - 1;               // 10kHz / 1250 = 8Hz (125ms)
+
+    TIM7->DIER |= TIM_DIER_UIE;
+    NVIC_EnableIRQ(TIM7_IRQn);
+
+    TIM7->CR1 |= TIM_CR1_CEN;
+}
+
+/**
+ * @brief HC-SR04 GPIO 초기화
+ * Trig: PA0 (Output)
+ * Echo: PB0 (Input) - 수정됨
+ */
+void HCSR04_Init(void) {
+    // GPIOA(Trig) 및 GPIOB(Echo) 클럭 활성화
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN | RCC_AHB1ENR_GPIOBEN;
+
+    // PA0 - Output mode (Trig)
+    GPIOA->MODER &= ~(3 << (0 * 2));    // Reset
+    GPIOA->MODER |= (1 << (0 * 2));     // General Purpose Output
+
+    // PB0 - Input mode (Echo) - 수정됨
+    GPIOB->MODER &= ~(3 << (0 * 2));    // 00: Input mode
+    // PB0 내부 Pull-down 설정 (Echo 핀의 안정적인 상태 유지)
+    GPIOB->PUPDR &= ~(3 << (0 * 2));
+    GPIOB->PUPDR |= (2 << (0 * 2));     // 10: Pull-down
+}
+
+/**
+ * @brief 초음파 센서 거리 측정
+ */
+float HCSR04_Read(void) {
+    uint32_t count = 0;
+
+    // 1. Trig(PA0) 10us High 펄스
+    GPIOA->BSRR = GPIO_BSRR_BS0;
+    Delay_us(10);
+    GPIOA->BSRR = GPIO_BSRR_BR0;
+
+    // 2. Echo(PB0)가 High가 될 때까지 대기
+    while (!(GPIOB->IDR & GPIO_IDR_ID0)); // PB0 체크로 변경
+
+    // 3. Echo(PB0)가 High인 동안 시간 측정
+    while (GPIOB->IDR & GPIO_IDR_ID0) {   // PB0 체크로 변경
+        count++;
+        Delay_us(1);
+        if(count > 30000) break; // 약 5미터 이상 무시 (Timeout)
+    }
+
+    // 4. 거리 계산 (실제 환경에 따라 보정 필요)
+    // 소리 속도 340m/s -> 1cm 이동에 약 29us 소요 (왕복 58us)
+    float measured = (float)count * 0.017f;
+
+    return measured;
+}
+
+/**
+ * @brief Timer 7 인터럽트 핸들러 (1초에 8번 호출)
+ */
+void TIM7_IRQHandler(void) {
+    if (TIM7->SR & TIM_SR_UIF) {
+        TIM7->SR &= ~TIM_SR_UIF;
+
+        // 센서 읽기 및 Low Pass Filter 적용
+        g_raw_distance = HCSR04_Read();
+        g_distance = (alpha * g_raw_distance) + ((1.0f - alpha) * g_distance);
+    }
+}
+
+/**
+ * @brief 지연 함수 (168MHz HCLK 기준)
+ */
+void Delay_us(uint32_t us) {
+    uint32_t count = us * 33; // 168MHz에서 대략적인 1us 루프 횟수
+    while (count--) {
+        __NOP();
+    }
+}
+
+/*
+ * NUCLEO-F429ZI LED
+ * LD1 Green = PB0
+ * LD2 Blue  = PB7
+ * LD3 Red   = PB14
+ */
+static void GPIO_LED_Init(void)
+{
+    RCC->AHB1ENR |= (1 << 1);   // GPIOB clock enable
+    (void)RCC->AHB1ENR;
+
+    GPIOB->MODER &= ~((3 << (0 * 2)) |
+                      (3 << (7 * 2)) |
+                      (3 << (14 * 2)));
+
+    GPIOB->MODER |=  ((1 << (0 * 2)) |
+                      (1 << (7 * 2)) |
+                      (1 << (14 * 2)));
+
+    GPIOB->OTYPER &= ~((1 << 0) | (1 << 7) | (1 << 14));
+
+    GPIOB->PUPDR &= ~((3 << (0 * 2)) |
+                      (3 << (7 * 2)) |
+                      (3 << (14 * 2)));
+
+    GPIOB->ODR &= ~((1 << 0) | (1 << 7) | (1 << 14));
+}
+
+/* ===================== TIM9 Clock Calculation ===================== */
+
+/*
+ * TIM9는 APB2 timer.
+ *
+ * APB2 prescaler가 1이면 TIM9 clock = PCLK2
+ * APB2 prescaler가 1보다 크면 TIM9 clock = PCLK2 * 2
+ *
+ * 현재 RCC->CFGR 값을 보고 TIM9 clock을 계산.
+ */
+static unsigned int Get_TIM9_TimerClock_Hz(void)
+{
+    unsigned int hclk = SystemCoreClock;
+    unsigned int ppre2 = (RCC->CFGR >> 13) & 0x7;
+    unsigned int pclk2;
+    unsigned int tim_clk;
+
+    if (ppre2 < 4)
+    {
+        pclk2 = hclk;
+        tim_clk = pclk2;
+    }
+    else
+    {
+        unsigned int shift = ppre2 - 3;
+        pclk2 = hclk >> shift;
+        tim_clk = pclk2 * 2;
+    }
+
+    return tim_clk;
+}
+
+/* ===================== TIM9 PE5 PWM Init ===================== */
+
+/*
+ * PE5 = TIM9_CH1 PWM 직접 초기화
+ */
+static void TIM9_PWM_PE5_Init(void)
+{
+    unsigned int tim_clk;
+    unsigned int psc;
+
+    SystemCoreClockUpdate();
+    tim_clk = Get_TIM9_TimerClock_Hz();
+
+    /*
+     * GPIOE clock enable
+     */
+    RCC->AHB1ENR |= (1 << 4);   // GPIOEEN
+    (void)RCC->AHB1ENR;
+
+    /*
+     * PE5 Alternate Function mode
+     * MODER5[1:0] = 10
+     */
+    GPIOE->MODER &= ~(3 << (5 * 2));
+    GPIOE->MODER |=  (2 << (5 * 2));
+
+    /*
+     * PE5 AF3 = TIM9_CH1
+     */
+    GPIOE->AFR[0] &= ~(0xF << (5 * 4));
+    GPIOE->AFR[0] |=  (0x3 << (5 * 4));
+
+    /*
+     * Push-pull, no pull, high speed
+     */
+    GPIOE->OTYPER &= ~(1 << 5);
+
+    GPIOE->PUPDR &= ~(3 << (5 * 2));
+
+    GPIOE->OSPEEDR &= ~(3 << (5 * 2));
+    GPIOE->OSPEEDR |=  (2 << (5 * 2));
+
+    /*
+     * TIM9 clock enable
+     * TIM9 = APB2ENR bit 16
+     */
+    RCC->APB2ENR |= (1 << 16);
+    (void)RCC->APB2ENR;
+
+    /*
+     * Timer stop
+     */
+    TIM9->CR1 = 0;
+
+    /*
+     * Timer tick을 1MHz로 맞춤.
+     * psc = TIM9_clock / 1MHz - 1
+     */
+    if (tim_clk >= 1000000)
+    {
+        psc = (tim_clk / 1000000) - 1;
+    }
+    else
+    {
+        psc = 0;
+    }
+
+    TIM9->PSC = psc;
+
+    /*
+     * 기본 1kHz
+     * 1MHz / (999 + 1) = 1kHz
+     */
+    TIM9->ARR = 999;
+    TIM9->CCR1 = 500;
+
+    /*
+     * PWM mode 1 on CH1
+     * OC1M = 110
+     * OC1PE = 1
+     */
+    TIM9->CCMR1 &= ~((7 << 4) | (1 << 3));
+    TIM9->CCMR1 |=  (6 << 4) | (1 << 3);
+
+    /*
+     * CH1 output enable
+     */
+    TIM9->CCER |= (1 << 0);   // CC1E
+
+    /*
+     * Auto-reload preload enable
+     */
+    TIM9->CR1 |= (1 << 7);    // ARPE
+
+    /*
+     * Update event
+     */
+    TIM9->EGR = 1;            // UG
+
+    Buzzer_Stop();
+}
+
+static void PE5_PWM_Mode(void)
+{
+    /*
+     * PE5 = Alternate Function mode
+     * AF3 = TIM9_CH1
+     */
+    GPIOE->MODER &= ~(3 << (5 * 2));
+    GPIOE->MODER |=  (2 << (5 * 2));
+
+    GPIOE->AFR[0] &= ~(0xF << (5 * 4));
+    GPIOE->AFR[0] |=  (0x3 << (5 * 4));
+}
+
+static void PE5_GPIO_Low_Mode(void)
+{
+    /*
+     * PE5를 일반 GPIO output으로 바꾸고 LOW 출력
+     * 부저 OFF를 확실하게 만들기 위함
+     */
+    GPIOE->MODER &= ~(3 << (5 * 2));
+    GPIOE->MODER |=  (1 << (5 * 2));   // output mode
+
+    GPIOE->OTYPER &= ~(1 << 5);        // push-pull
+    GPIOE->ODR &= ~(1 << 5);           // PE5 LOW
+}
+
+/* ===================== Buzzer Basic Functions ===================== */
+
+void Buzzer_SetFreq(unsigned int freq)
+{
+    unsigned int timer_tick = 1000000;   // TIM9 PSC 이후 1MHz 기준
+    unsigned int arr;
+
+    if (freq == 0)
+    {
+        Buzzer_Stop();
+        return;
+    }
+
+    arr = (timer_tick / freq) - 1;
+
+    TIM9->ARR = arr;
+    TIM9->CCR1 = (arr + 1) / 2;   // duty 50%
+
+    TIM9->EGR = 1;                // update event
+}
+
+void Buzzer_Start(void)
+{
+    /*
+     * PE5를 다시 TIM9_CH1 PWM 핀으로 전환
+     */
+    PE5_PWM_Mode();
+
+    /*
+     * CH1 output enable
+     */
+    TIM9->CCER |= (1 << 0);      // CC1E = 1
+
+    /*
+     * Counter enable
+     */
+    TIM9->CR1 |= (1 << 0);       // CEN = 1
+}
+
+void Buzzer_Stop(void)
+{
+    /*
+     * Timer counter stop
+     */
+    TIM9->CR1 &= ~(1 << 0);      // CEN = 0
+
+    /*
+     * CH1 output disable
+     */
+    TIM9->CCER &= ~(1 << 0);     // CC1E = 0
+
+    /*
+     * Duty 0
+     */
+    TIM9->CCR1 = 0;
+
+    /*
+     * PE5를 GPIO LOW로 강제 전환
+     */
+    PE5_GPIO_Low_Mode();
+}
+
+void Delay_Loop(volatile unsigned int count)
+{
+    while (count--)
+    {
+    }
+}
+
+/* ===================== Elise ===================== */
+
+void Buzzer_Play_Elise(void)
+{
+    /*
+     * 엘리제를 위하여 오른손 단선율 버전
+     * 시작 계이름:
+     * 미 레# 미 레# 미 시 레 도 라 ...
+     */
+
+    unsigned int melody[] = {
+        NOTE_E5, NOTE_DS5, NOTE_E5, NOTE_DS5, NOTE_E5,
+        NOTE_B4, NOTE_D5,  NOTE_C5,  NOTE_A4,
+
+        NOTE_REST,
+
+        NOTE_C5, NOTE_E5, NOTE_A5, NOTE_B5,
+
+        NOTE_REST,
+
+        NOTE_E5, NOTE_GS5, NOTE_B5, NOTE_C6,
+
+        NOTE_REST,
+
+        NOTE_E5, NOTE_DS5, NOTE_E5, NOTE_DS5, NOTE_E5,
+        NOTE_B4, NOTE_D5,  NOTE_C5,  NOTE_A4,
+
+        NOTE_REST,
+
+        NOTE_C5, NOTE_E5, NOTE_A5, NOTE_B5,
+
+        NOTE_REST,
+
+        NOTE_E5, NOTE_C6, NOTE_B5, NOTE_A5,
+
+        NOTE_REST,
+
+        NOTE_B5, NOTE_C6, NOTE_D5, NOTE_E5,
+        NOTE_G5, NOTE_F5, NOTE_E5, NOTE_D5,
+
+        NOTE_F5, NOTE_E5, NOTE_D5, NOTE_C5,
+
+        NOTE_E5, NOTE_D5, NOTE_C5, NOTE_B4,
+
+        NOTE_E5, NOTE_DS5, NOTE_E5, NOTE_DS5, NOTE_E5,
+        NOTE_B4, NOTE_D5,  NOTE_C5,  NOTE_A4
+    };
+
+    unsigned int length[] = {
+        1, 1, 1, 1, 1,
+        1, 1, 1, 3,
+
+        1,
+
+        1, 1, 1, 3,
+
+        1,
+
+        1, 1, 1, 3,
+
+        1,
+
+        1, 1, 1, 1, 1,
+        1, 1, 1, 3,
+
+        1,
+
+        1, 1, 1, 3,
+
+        1,
+
+        1, 1, 1, 3,
+
+        1,
+
+        1, 1, 1, 1,
+        1, 1, 1, 2,
+
+        1, 1, 1, 2,
+
+        1, 1, 1, 2,
+
+        1, 1, 1, 1, 1,
+        1, 1, 1, 4
+    };
+
+    unsigned int note_count = sizeof(melody) / sizeof(melody[0]);
+
+    for (unsigned int i = 0; i < note_count; i++)
+    {
+        if (melody[i] == NOTE_REST)
+        {
+            Buzzer_Stop();
+        }
+        else
+        {
+            Buzzer_SetFreq(melody[i]);
+            Buzzer_Start();
+        }
+
+        Delay_Loop(600000 * length[i]);
+
+        Buzzer_Stop();
+        Delay_Loop(70000);
+    }
+
+    Buzzer_Stop();
+}
+/* ===================== GPIO LED PARKING SENSOR ===================== */
+void ParkingSensor_LED_NoWarning(void)
+{
+    /*
+     * 경고 범위 밖
+     * Blue ON, Red OFF
+     */
+    GPIOB->ODR |=  (1 << 7);    // Blue ON
+    GPIOB->ODR &= ~(1 << 14);   // Red OFF
+}
+
+void ParkingSensor_LED_BeepOn(void)
+{
+    /*
+     * 삐 소리 나는 순간
+     * Red ON, BLue OFF
+     */
+    GPIOB->ODR |=  (1 << 14);   // Red ON
+    GPIOB->ODR &= ~(1 << 7);    // Blue OFF
+}
+
+void ParkingSensor_LED_BeepOff(void)
+{
+    /*
+     * 경고 범위 안이지만 삐 소리 쉬는 순간
+     * Blue도 Red도 OFF
+     */
+    GPIOB->ODR &= ~(1 << 14);   // Red OFF
+    GPIOB->ODR &= ~(1 << 7);    // Blue OFF
+}
+/* ===================== Real Parking Sensor Update ===================== */
+
+/*
+ * 실제 초음파 거리값 기반 후방센서 함수.
+ *
+ * - for문으로 단계별로 재생하지 않음.
+ * - main while에서 계속 호출해야 함.
+ * - distance_cm이 멀면 무음.
+ * - 가까워질수록 beep 간격이 짧아짐.
+ *
+ * 초음파 쪽에서 ultrasonic_distance_cm 값만 계속 갱신해주면 됨.
+ */
+void ParkingSensor_Update_ByLoop(unsigned int distance_cm)
+{
+    static unsigned int counter = 0;
+    static unsigned int buzzer_on = 0;
+
+    unsigned int interval_count;
+    unsigned int on_count;
+
+    counter++;
+
+    /*
+     * 1. 너무 멀면 아예 안 울림
+     * Blue ON, Red OFF
+     */
+    if (distance_cm > PARKING_NO_SOUND_CM)
+    {
+        Buzzer_Stop();
+        buzzer_on = 0;
+        counter = 0;
+
+        ParkingSensor_LED_NoWarning();
+
+        return;
+    }
+
+    /*
+     * 2. 매우 가까우면 연속음
+     * 이때는 더 높은 주파수로 삐이이
+     * Red 계속 ON, Blue OFF
+     */
+    if (distance_cm <= PARKING_CONTINUOUS_CM)
+    {
+        Buzzer_SetFreq(PARKING_CONTINUOUS_FREQ);
+        Buzzer_Start();
+
+        buzzer_on = 1;
+        counter = 0;
+
+        ParkingSensor_LED_BeepOn();
+
+        return;
+    }
+
+    /*
+     * 3. 경고 범위 안에서는 주파수는 동일.
+     * 가까워질수록 삐삐 간격만 빨라짐.
+     */
+    if (distance_cm <= PARKING_FAST_CM)
+    {
+        interval_count = 8000;
+        on_count       = 4000;
+    }
+    else if (distance_cm <= PARKING_MID_CM)
+    {
+        interval_count = 18000;
+        on_count       = 5000;
+    }
+    else if (distance_cm <= PARKING_SLOW_CM)
+    {
+        interval_count = 35000;
+        on_count       = 6000;
+    }
+    else
+    {
+        interval_count = 65000;
+        on_count       = 7000;
+    }
+
+    /*
+     * 4. 현재 부저 OFF 상태
+     * interval 지나면 부저 ON + Red ON
+     * 이 쉬는 구간에서는 BLue 켜지 않음.
+     */
+    if (buzzer_on == 0)
+    {
+        ParkingSensor_LED_BeepOff();
+
+        if (counter >= interval_count)
+        {
+            Buzzer_SetFreq(PARKING_BEEP_FREQ);
+            Buzzer_Start();
+
+            ParkingSensor_LED_BeepOn();
+
+            buzzer_on = 1;
+            counter = 0;
+        }
+    }
+    /*
+     * 5. 현재 부저 ON 상태
+     * on_count 지나면 부저 OFF + LED 둘 다 OFF
+     */
+    else
+    {
+        ParkingSensor_LED_BeepOn();
+
+        if (counter >= on_count)
+        {
+            Buzzer_Stop();
+
+            ParkingSensor_LED_BeepOff();
+
+            buzzer_on = 0;
+            counter = 0;
+        }
+    }
+}
+/* ===================== Error Handler ===================== */
+
+void Error_Handler(void)
+{
+    __disable_irq();
+
+    while (1)
+    {
+        GPIOB->ODR ^= (1 << 14);
+
+        for (volatile unsigned int i = 0; i < 1000000; i++)
+        {
+        }
+    }
+}
+
+#ifdef USE_FULL_ASSERT
+void assert_failed(unsigned int *file, unsigned int line)
+{
+}
+#endif
+
+
+
+
+
+
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  /** Configure the main internal regulator output voltage
+  */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 4;
+  RCC_OscInitStruct.PLL.PLLN = 168;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief ETH Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ETH_Init(void)
+{
+
+  /* USER CODE BEGIN ETH_Init 0 */
+
+  /* USER CODE END ETH_Init 0 */
+
+   static uint8_t MACAddr[6];
+
+  /* USER CODE BEGIN ETH_Init 1 */
+
+  /* USER CODE END ETH_Init 1 */
+  heth.Instance = ETH;
+  MACAddr[0] = 0x00;
+  MACAddr[1] = 0x80;
+  MACAddr[2] = 0xE1;
+  MACAddr[3] = 0x00;
+  MACAddr[4] = 0x00;
+  MACAddr[5] = 0x00;
+  heth.Init.MACAddr = &MACAddr[0];
+  heth.Init.MediaInterface = HAL_ETH_RMII_MODE;
+  heth.Init.TxDesc = DMATxDscrTab;
+  heth.Init.RxDesc = DMARxDscrTab;
+  heth.Init.RxBuffLen = 1524;
+
+  /* USER CODE BEGIN MACADDRESS */
+
+  /* USER CODE END MACADDRESS */
+
+  if (HAL_ETH_Init(&heth) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  memset(&TxConfig, 0 , sizeof(ETH_TxPacketConfig));
+  TxConfig.Attributes = ETH_TX_PACKETS_FEATURES_CSUM | ETH_TX_PACKETS_FEATURES_CRCPAD;
+  TxConfig.ChecksumCtrl = ETH_CHECKSUM_IPHDR_PAYLOAD_INSERT_PHDR_CALC;
+  TxConfig.CRCPadCtrl = ETH_CRC_PAD_INSERT;
+  /* USER CODE BEGIN ETH_Init 2 */
+
+  /* USER CODE END ETH_Init 2 */
+
+}
+
+/**
+  * @brief USART3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART3_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART3_Init 0 */
+
+  /* USER CODE END USART3_Init 0 */
+
+  /* USER CODE BEGIN USART3_Init 1 */
+
+  /* USER CODE END USART3_Init 1 */
+  huart3.Instance = USART3;
+  huart3.Init.BaudRate = 115200;
+  huart3.Init.WordLength = UART_WORDLENGTH_8B;
+  huart3.Init.StopBits = UART_STOPBITS_1;
+  huart3.Init.Parity = UART_PARITY_NONE;
+  huart3.Init.Mode = UART_MODE_TX_RX;
+  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART3_Init 2 */
+
+  /* USER CODE END USART3_Init 2 */
+
+}
+
+/**
+  * @brief USB_OTG_FS Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USB_OTG_FS_PCD_Init(void)
+{
+
+  /* USER CODE BEGIN USB_OTG_FS_Init 0 */
+
+  /* USER CODE END USB_OTG_FS_Init 0 */
+
+  /* USER CODE BEGIN USB_OTG_FS_Init 1 */
+
+  /* USER CODE END USB_OTG_FS_Init 1 */
+  hpcd_USB_OTG_FS.Instance = USB_OTG_FS;
+  hpcd_USB_OTG_FS.Init.dev_endpoints = 4;
+  hpcd_USB_OTG_FS.Init.speed = PCD_SPEED_FULL;
+  hpcd_USB_OTG_FS.Init.dma_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
+  hpcd_USB_OTG_FS.Init.Sof_enable = ENABLE;
+  hpcd_USB_OTG_FS.Init.low_power_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.lpm_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.vbus_sensing_enable = ENABLE;
+  hpcd_USB_OTG_FS.Init.use_dedicated_ep1 = DISABLE;
+  if (HAL_PCD_Init(&hpcd_USB_OTG_FS) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USB_OTG_FS_Init 2 */
+
+  /* USER CODE END USB_OTG_FS_Init 2 */
+
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+
+  /* USER CODE END MX_GPIO_Init_1 */
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOG_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, LD1_Pin|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : USER_Btn_Pin */
+  GPIO_InitStruct.Pin = USER_Btn_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USER_Btn_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LD1_Pin LD3_Pin LD2_Pin */
+  GPIO_InitStruct.Pin = LD1_Pin|LD3_Pin|LD2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USB_PowerSwitchOn_Pin */
+  GPIO_InitStruct.Pin = USB_PowerSwitchOn_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(USB_PowerSwitchOn_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USB_OverCurrent_Pin */
+  GPIO_InitStruct.Pin = USB_OverCurrent_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
+
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+
+  /* USER CODE END MX_GPIO_Init_2 */
+}
+
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+//void Error_Handler(void)
+//{
+//  /* USER CODE BEGIN Error_Handler_Debug */
+//  /* User can add his own implementation to report the HAL error return state */
+//  __disable_irq();
+//  while (1)
+//  {
+//  }
+//  /* USER CODE END Error_Handler_Debug */
+//}
+#ifdef USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */

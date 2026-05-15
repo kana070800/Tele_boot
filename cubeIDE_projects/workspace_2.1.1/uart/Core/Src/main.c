@@ -104,6 +104,13 @@ int main(void)
 */
 //echo back
 
+#define STK_CTRL  (*(volatile unsigned int*)0xE000E010)
+#define STK_LOAD  (*(volatile unsigned int*)0xE000E014)
+#define STK_VAL  (*(volatile unsigned int*)0xE000E018)
+#define STK_CALIB  (*(volatile unsigned int*)0xE000E01c)
+
+
+
 #define RCC_AHB1ENR  (*(volatile unsigned int*)0x40023830)
 #define RCC_APB1ENR  (*(volatile unsigned int*)0x40023840)
 #define USART3_BRR   (*(volatile unsigned int*)0x40004808)
@@ -112,6 +119,8 @@ int main(void)
 #define GPIOD_MODER  (*(volatile unsigned int*)0x40020C00)
 #define GPIOD_OSPEEDR  (*(volatile unsigned int*)0x40020C08)
 #define GPIOD_AFRH   (*(volatile unsigned int*)0x40020C24)
+
+
 void USART3_UART_Init(){
 	// clk enable
 	RCC_AHB1ENR |= (0x1 << 3); // gpiod clk enable
@@ -122,7 +131,7 @@ void USART3_UART_Init(){
 	GPIOD_MODER |=  ((0x2 << 8*2) | (0x2 << 9*2));  // AF mode
 
 	GPIOD_AFRH &= ~((0xF << 0) | (0xF << 4));
-	GPIOD_AFRH |=  ((0x7 << 0) | (0x7 << 4)); //uart AF
+	GPIOD_AFRH |=  ((0x7 << 0) | (0x7 << 4)); // AF 중 uart
 
 	GPIOD_OSPEEDR |= ((0x3 << 8*2) | (0x3 << 9*2));
 
@@ -137,6 +146,48 @@ void USART3_UART_Init(){
 	USART3_CR1 |= (0x3 << 2); // Tx, Rx enable
 }
 
+/*
+void USART3_UART_Init(){
+	  // PD8, 9  uart3
+	  // clock enable(PLL:PCLK, PD clk enable,
+	  // pin(AF.. 특수기능), UART설정(baudrate, TX/RX enable, stop... )
+	//[1] clock enable
+	RCC->AHB1ENR |= 0x1<<3;
+	RCC->APB1ENR |= 0x1<<18;
+
+	//[2] pin config : AF, MUX : uart3
+	//PD8(Tx) = output push pull
+	//PD9(Rx) = input floating     이게 맞는지 먼저 찾고 없는경우 일단 해보고 바꾸기(자동으로 해주는 경우도 존재)
+
+	//gpio mode AF
+	GPIOD->MODER = ((GPIOD->MODER & ~(0xf<<16))|(0xa<<16));
+
+	// PD8,9 uart3
+	GPIOD->AFR[1] = ((GPIOD->AFR[1] & ~(0xff<<0)) | (0x77<<0));
+
+	//baudrate, frame:115200, 8bit, stop:1, parity:none
+	//clk: brr, cr1, cr2(default)
+	//DIV = 45.572
+	double div;
+	unsigned int baud=115200, pclk1=42000000;
+	unsigned int mant, frac;
+
+	div = ((double)pclk1/(8.0*baud));
+	mant = (unsigned int)div;                        // 정수부 저장
+	frac = (unsigned int)((div-mant)*8.0+0.5);    // 소수부를 정수로 변환해서 *16 저장
+
+	// frac 반올림 결과 8이 되었다면 (ex. 0.999)
+	mant += (frac>>3);
+	frac = frac & 0x7;
+
+	USART3->BRR = (mant<<4)|(frac<<0);
+	//USART3->BRR = (46<<4); //우선은 정수부만 설정하고, 부족할 시 소수부
+
+	//cr1 :  15, 13, 3, 2
+	USART3->CR1 |= (1<<15 | 1<<13 | 1<<3 | 1<<2);
+
+}
+*/
 // 출력한 문자 수를 반환하는 함수
 uint32_t Uart3_Printf(const char* msg, ...){
 	va_list args;
@@ -158,6 +209,35 @@ uint32_t Uart3_Printf(const char* msg, ...){
 	return cnt_rtn;
 }
 
+/*
+
+void UART3_Send_Byte(char ch){
+  if (ch=='\n'){                        // new line인 경우  '\n'을 추가전송
+      USART3->DR = 0x0d;
+      while (((USART3->SR >> 7)&0x1)==0);
+  }
+  USART3->DR = ch;
+  while (((USART3->SR >> 7)&0x1)==0);    // wait TXE
+}
+
+void UART3_Send_String(char* p){
+    while (*p){
+        UART3_Send_Byte(*p++);            // 널문자 전까지 출력
+    }
+}
+
+void Uart3_Printf(char *fmt,...)
+{
+  va_list ap;
+  char string[256];
+
+  va_start(ap,fmt);
+  vsprintf(string,fmt,ap);
+  va_end(ap);
+  UART3_Send_String(string);
+}*/
+
+
 int main(void)
 {
   SystemClock_Config(); // 해당 함수 호출해야
@@ -166,7 +246,8 @@ int main(void)
   char echo_back;
   volatile int flag_R = 0;
 
-  Uart3_Printf("test code %d\n",3);
+  Uart3_Printf("test code %d\n\r",3);
+  Uart3_Printf("test code %d\n\r",77);
   while (1)
   {
  	  if((USART3->SR >> RXNE) & 0x1){

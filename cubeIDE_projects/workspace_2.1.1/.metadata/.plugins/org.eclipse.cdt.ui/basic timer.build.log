@@ -1,0 +1,29 @@
+15:47:24 **** Incremental Build of configuration Debug for project basic timer ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:387:13: warning: 'MX_USB_OTG_FS_PCD_Init' defined but not used [-Wunused-function]
+  387 | static void MX_USB_OTG_FS_PCD_Init(void)
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:312:13: warning: 'MX_TIM9_Init' defined but not used [-Wunused-function]
+  312 | static void MX_TIM9_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:274:13: warning: 'MX_TIM6_Init' defined but not used [-Wunused-function]
+  274 | static void MX_TIM6_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:225:13: warning: 'MX_ETH_Init' defined but not used [-Wunused-function]
+  225 | static void MX_ETH_Init(void)
+      |             ^~~~~~~~~~~
+arm-none-eabi-gcc -o "basic timer.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\basic timer\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="basic timer.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: basic timer.elf
+ 
+arm-none-eabi-size  basic\ timer.elf 
+arm-none-eabi-objdump -h -S basic\ timer.elf  > "basic timer.list"
+   text	   data	    bss	    dec	    hex	filename
+  10708	     92	   1972	  12772	   31e4	basic timer.elf
+Finished building: default.size.stdout
+ 
+Finished building: basic timer.list
+ 
+
+15:47:26 Build Finished. 0 errors, 4 warnings. (took 1s.909ms)
+

@@ -1,17 +1,17 @@
-12:39:59 **** Incremental Build of configuration Debug for project uart ****
+15:50:26 **** Incremental Build of configuration Debug for project uart ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c:364:13: warning: 'MX_GPIO_Init' defined but not used [-Wunused-function]
-  364 | static void MX_GPIO_Init(void)
+../Core/Src/main.c:467:13: warning: 'MX_GPIO_Init' defined but not used [-Wunused-function]
+  467 | static void MX_GPIO_Init(void)
       |             ^~~~~~~~~~~~
-../Core/Src/main.c:329:13: warning: 'MX_USB_OTG_FS_PCD_Init' defined but not used [-Wunused-function]
-  329 | static void MX_USB_OTG_FS_PCD_Init(void)
+../Core/Src/main.c:432:13: warning: 'MX_USB_OTG_FS_PCD_Init' defined but not used [-Wunused-function]
+  432 | static void MX_USB_OTG_FS_PCD_Init(void)
       |             ^~~~~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:296:13: warning: 'MX_USART3_UART_Init' defined but not used [-Wunused-function]
-  296 | static void MX_USART3_UART_Init(void)
+../Core/Src/main.c:399:13: warning: 'MX_USART3_UART_Init' defined but not used [-Wunused-function]
+  399 | static void MX_USART3_UART_Init(void)
       |             ^~~~~~~~~~~~~~~~~~~
-../Core/Src/main.c:247:13: warning: 'MX_ETH_Init' defined but not used [-Wunused-function]
-  247 | static void MX_ETH_Init(void)
+../Core/Src/main.c:350:13: warning: 'MX_ETH_Init' defined but not used [-Wunused-function]
+  350 | static void MX_ETH_Init(void)
       |             ^~~~~~~~~~~
 arm-none-eabi-gcc -o "uart.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\uart\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="uart.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: uart.elf
@@ -19,11 +19,11 @@ Finished building target: uart.elf
 arm-none-eabi-size  uart.elf 
 arm-none-eabi-objdump -h -S uart.elf  > "uart.list"
    text	   data	    bss	    dec	    hex	filename
-   7732	     92	   1900	   9724	   25fc	uart.elf
+   1148	      4	   1572	   2724	    aa4	uart.elf
 Finished building: default.size.stdout
  
 Finished building: uart.list
  
 
-12:40:00 Build Finished. 0 errors, 4 warnings. (took 861ms)
+15:50:27 Build Finished. 0 errors, 4 warnings. (took 974ms)
 

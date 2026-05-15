@@ -1,0 +1,32 @@
+16:16:53 **** Incremental Build of configuration Debug for project timer merge ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c:535:13: warning: 'MX_USB_OTG_FS_PCD_Init' defined but not used [-Wunused-function]
+  535 | static void MX_USB_OTG_FS_PCD_Init(void)
+      |             ^~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:502:13: warning: 'MX_USART3_UART_Init' defined but not used [-Wunused-function]
+  502 | static void MX_USART3_UART_Init(void)
+      |             ^~~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:464:13: warning: 'MX_TIM9_Init' defined but not used [-Wunused-function]
+  464 | static void MX_TIM9_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:426:13: warning: 'MX_TIM6_Init' defined but not used [-Wunused-function]
+  426 | static void MX_TIM6_Init(void)
+      |             ^~~~~~~~~~~~
+../Core/Src/main.c:377:13: warning: 'MX_ETH_Init' defined but not used [-Wunused-function]
+  377 | static void MX_ETH_Init(void)
+      |             ^~~~~~~~~~~
+arm-none-eabi-gcc -o "timer merge.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\timer merge\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="timer merge.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: timer merge.elf
+ 
+arm-none-eabi-size  timer\ merge.elf 
+arm-none-eabi-objdump -h -S timer\ merge.elf  > "timer merge.list"
+   text	   data	    bss	    dec	    hex	filename
+   8956	     12	   1580	  10548	   2934	timer merge.elf
+Finished building: default.size.stdout
+ 
+Finished building: timer merge.list
+ 
+
+16:16:53 Build Finished. 0 errors, 5 warnings. (took 755ms)
+

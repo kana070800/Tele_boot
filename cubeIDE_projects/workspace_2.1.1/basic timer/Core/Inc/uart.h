@@ -1,0 +1,9 @@
+#ifndef __UART3H__
+#define __UART3H__
+
+void UART3_Init(void);
+void UART3_Send_Byte(char ch);
+void UART3_Send_String(char* p);
+uint32_t UART3_Printf(const char* msg, ...);
+
+#endif

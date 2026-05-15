@@ -1,0 +1,10 @@
+../Core/Src/main.c:21:5:main	8	static
+../Core/Src/main.c:38:6:I2C1_Config	4	static
+../Core/Src/main.c:66:6:I2C1_Write	16	static
+../Core/Src/main.c:85:6:LCD_Send	24	static
+../Core/Src/main.c:102:6:LCD_Command	16	static
+../Core/Src/main.c:106:6:LCD_Data	16	static
+../Core/Src/main.c:111:6:LCD_Init	8	static
+../Core/Src/main.c:127:6:LCD_Print	16	static
+../Core/Src/main.c:132:6:Delay_us	24	static
+../Core/Src/main.c:137:6:Delay_ms	24	static

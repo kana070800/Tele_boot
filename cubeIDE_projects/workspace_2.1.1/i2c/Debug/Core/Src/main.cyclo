@@ -1,0 +1,10 @@
+../Core/Src/main.c:21:5:main	1
+../Core/Src/main.c:38:6:I2C1_Config	1
+../Core/Src/main.c:66:6:I2C1_Write	4
+../Core/Src/main.c:85:6:LCD_Send	1
+../Core/Src/main.c:102:6:LCD_Command	1
+../Core/Src/main.c:106:6:LCD_Data	1
+../Core/Src/main.c:111:6:LCD_Init	1
+../Core/Src/main.c:127:6:LCD_Print	2
+../Core/Src/main.c:132:6:Delay_us	2
+../Core/Src/main.c:137:6:Delay_ms	2

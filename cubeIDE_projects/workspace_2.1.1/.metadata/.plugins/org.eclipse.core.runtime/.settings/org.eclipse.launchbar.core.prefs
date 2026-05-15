@@ -1,8 +1,9 @@
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-configDescList=org.eclipse.launchbar.core.descriptorType.default\:New_configuration,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:gpios Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:led onoff Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:test,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:uart Debug
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:New_configuration,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:gpios Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:led onoff Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:test,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:uart Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:systick Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:timer merge Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:basic timer Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:mini_project1 Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:RTOS_intro Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:i2c
 eclipse.preferences.version=1
+org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:basic\ timer\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:gpios\ Debug/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:gpiotest/activeLaunchTarget=null\:---
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:led\ onoff\ Debug/activeLaunchMode=run
