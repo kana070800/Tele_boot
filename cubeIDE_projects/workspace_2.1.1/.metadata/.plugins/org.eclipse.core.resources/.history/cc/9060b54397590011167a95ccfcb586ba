@@ -1,0 +1,228 @@
+#include "stm32f4xx.h"  // 최하위 레지스터 주소 정의용 (CMSIS)
+#include "cmsis_os.h"
+
+/* ADXL345 주소 및 레지스터 정의 */
+#define ADXL345_ADDR            0x53
+#define ADXL345_REG_POWER_CTL   0x2D
+#define ADXL345_REG_DATAY0      0x34
+
+/* 전역 공유 변수 */
+volatile int16_t accel_y = 0;
+
+/* FreeRTOS Task 핸들 및 속성 */
+osThreadId_t sensorTaskHandle;
+osThreadId_t motorTaskHandle;
+
+const osThreadAttr_t sensorTask_attributes = { .name = "sensorTask", .stack_size = 128 * 4, .priority = osPriorityNormal };
+const osThreadAttr_t motorTask_attributes  = { .name = "motorTask",  .stack_size = 128 * 4, .priority = osPriorityNormal };
+
+/* 함수 프로토타입 */
+void System_Clock_Init(void);
+void GPIO_Init_NoHal(void);
+void I2C2_Init_NoHal(void);
+void TIM1_Init_NoHal(void);
+void I2C2_WriteRegister(uint8_t devAddr, uint8_t regAddr, uint8_t data);
+void I2C2_ReadBurst(uint8_t devAddr, uint8_t regAddr, uint8_t *pData, uint8_t size);
+
+void StartSensorTask(void *argument);
+void StartMotorTask(void *argument);
+
+int main(void)
+{
+  // 1. 하드웨어 로우레벨 초기화
+  System_Clock_Init();
+  GPIO_Init_NoHal();
+  I2C2_Init_NoHal();
+  TIM1_Init_NoHal();
+
+  // 2. ADXL345 센서 초기화 (Measure 모드 On)
+  I2C2_WriteRegister(ADXL345_ADDR, ADXL345_REG_POWER_CTL, 0x08);
+
+  // 3. RTOS 커널 및 태스크 생성
+  osKernelInitialize();
+
+  sensorTaskHandle = osThreadNew(StartSensorTask, NULL, &sensorTask_attributes);
+  motorTaskHandle = osThreadNew(StartMotorTask, NULL, &motorTask_attributes);
+
+  osKernelStart();
+
+  while (1);
+}
+
+/* ====================================================================
+   [Task 1] ADXL345 레지스터 직접 읽기 (I2C2)
+   ==================================================================== */
+void StartSensorTask(void *argument)
+{
+  uint8_t buffer[2] = {0};
+
+  for(;;)
+  {
+    // Y축 데이터 2바이트 연속 읽기
+    I2C2_ReadBurst(ADXL345_ADDR, ADXL345_REG_DATAY0, buffer, 2);
+
+    // 데이터 병합
+    accel_y = (int16_t)((buffer[1] << 8) | buffer[0]);
+
+    osDelay(20); // 20ms 대기
+  }
+}
+
+/* ====================================================================
+   [Task 2] 모터 레지스터 직접 제어 (GPIO & TIM1 PWM)
+   ==================================================================== */
+void StartMotorTask(void *argument)
+{
+  const int16_t threshold = 30;
+
+  for(;;)
+  {
+    int16_t current_y = accel_y;
+
+    if (current_y > threshold)
+    {
+      // 전진: PC7 HIGH
+      GPIOC->BSRR = (1 << 7);
+      TIM1->CCR1 = 500; // Duty 50% (ARR=1000 기준)
+    }
+    else if (current_y < -threshold)
+    {
+      // 후진: PC7 LOW
+      GPIOC->BSRR = (1 << (7 + 16));
+      TIM1->CCR1 = 500;
+    }
+    else
+    {
+      // 정지
+      TIM1->CCR1 = 0;
+    }
+
+    osDelay(50);
+  }
+}
+
+/* ====================================================================
+   로우레벨 하드웨어 제어 함수 (No HAL)
+   ==================================================================== */
+
+void System_Clock_Init(void)
+{
+  // 정밀한 클록 설정은 생략하더라도 기본 내부 HSI/HSE 사용을 위해 플래시 레이턴시 확보
+  FLASH->ACR |= FLASH_ACR_LATENCY_5WS;
+}
+
+void GPIO_Init_NoHal(void)
+{
+  // GPIOB(I2C2), GPIOC(DIR), GPIOE(TIM1) 클록 활성화
+  RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN | RCC_AHB1ENR_GPIOCEN | RCC_AHB1ENR_GPIOEEN;
+
+  // PC7: 일반 출력 모드 (Output) 설정
+  GPIOC->MODER &= ~(3 << (7 * 2));
+  GPIOC->MODER |=  (1 << (7 * 2));
+
+  // PB10, PB11: Alternative Function 모드 설정 (I2C2)
+  GPIOB->MODER &= ~((3 << (10 * 2)) | (3 << (11 * 2)));
+  GPIOB->MODER |=  ((2 << (10 * 2)) | (2 << (11 * 2)));
+  GPIOB->OTYPER |= (1 << 10) | (1 << 11); // Open-Drain 필수
+  GPIOB->AFR[1] |= (4 << ((10 - 8) * 4)) | (4 << ((11 - 8) * 4)); // AF4 = I2C2
+
+  // PE9: Alternative Function 모드 설정 (TIM1 CH1)
+  GPIOE->MODER &= ~(3 << (9 * 2));
+  GPIOE->MODER |=  (2 << (9 * 2));
+  GPIOE->AFR[1] |= (1 << ((9 - 8) * 4)); // AF1 = TIM1
+}
+
+void I2C2_Init_NoHal(void)
+{
+  RCC->APB1ENR |= RCC_APB1ENR_I2C2EN; // I2C2 클록 활성화
+
+  I2C2->CR1 |= I2C_CR1_SWRST;         // 소프트웨어 리셋
+  I2C2->CR1 &= ~I2C_CR1_SWRST;
+
+  I2C2->CR2 |= 45;                    // Peripheral Clock 주기 설정 (예: 45MHz 가정)
+  I2C2->CCR |= 225;                   // Standard Mode 100kHz 설정 계산값
+  I2C2->TRISE |= 46;                  // 최대 상승 시간 설정
+
+  I2C2->CR1 |= I2C_CR1_PE;            // I2C 주변장치 활성화
+}
+
+void TIM1_Init_NoHal(void)
+{
+  RCC->APB2ENR |= RCC_APB2ENR_TIM1EN; // TIM1 클록 활성화
+
+  TIM1->PSC = 180 - 1;                // 프리스케일러: 180MHz 기준 1MHz 변환
+  TIM1->ARR = 1000 - 1;               // 주동기 주기: 1kHz PWM 주파수 생성
+
+  // PWM 모드 1 설정 (CH1)
+  TIM1->CCMR1 &= ~TIM_CCMR1_OC1M;
+  TIM1->CCMR1 |= (6 << TIM_CCMR1_OC1M_Pos); // 6: PWM Mode 1
+  TIM1->CCMR1 |= TIM_CCMR1_OC1PE;           // Preload Enable
+
+  TIM1->CCER |= TIM_CCER_CC1E;        // 채널 1 출력 활성화
+  TIM1->BDTR |= TIM_BDTR_MOE;         // TIM1 고급타이머 전용 주출력(MOE) 활성화
+
+  TIM1->CR1 |= TIM_CR1_CEN;           // 카운터 시작
+}
+
+/* ====================================================================
+   I2C 로우레벨 통신 함수 (Bare-metal)
+   ==================================================================== */
+
+void I2C2_WriteRegister(uint8_t devAddr, uint8_t regAddr, uint8_t data)
+{
+  while(I2C2->SR2 & I2C_SR2_BUSY);
+
+  I2C2->CR1 |= I2C_CR1_START;         // START 조건 생성
+  while(!(I2C2->SR1 & I2C_SR1_SB));
+
+  I2C2->DR = (devAddr << 1);          // 슬레이브 주소 + Write(0)
+  while(!(I2C2->SR1 & I2C_SR1_ADDR));
+  (void)I2C2->SR2;                    // ADDR 플래그 클리어용 읽기
+
+  while(!(I2C2->SR1 & I2C_SR1_TXE));
+  I2C2->DR = regAddr;                 // 레지스터 주소 전송
+
+  while(!(I2C2->SR1 & I2C_SR1_TXE));
+  I2C2->DR = data;                    // 데이터 전송
+
+  while(!(I2C2->SR1 & I2C_SR1_BTF));
+  I2C2->CR1 |= I2C_CR1_STOP;          // STOP 조건 생성
+}
+
+void I2C2_ReadBurst(uint8_t devAddr, uint8_t regAddr, uint8_t *pData, uint8_t size)
+{
+  while(I2C2->SR2 & I2C_SR2_BUSY);
+
+  // 1. 더미 쓰기로 읽을 레지스터 위치 지정
+  I2C2->CR1 |= I2C_CR1_START;
+  while(!(I2C2->SR1 & I2C_SR1_SB));
+  I2C2->DR = (devAddr << 1);
+  while(!(I2C2->SR1 & I2C_SR1_ADDR));
+  (void)I2C2->SR2;
+
+  while(!(I2C2->SR1 & I2C_SR1_TXE));
+  I2C2->DR = regAddr;
+  while(!(I2C2->SR1 & I2C_SR1_BTF));
+
+  // 2. Re-Start 및 읽기 모드 진입
+  I2C2->CR1 |= I2C_CR1_START;
+  while(!(I2C2->SR1 & I2C_SR1_SB));
+
+  I2C2->DR = (devAddr << 1) | 0x01;   // 슬레이브 주소 + Read(1)
+  while(!(I2C2->SR1 & I2C_SR1_ADDR));
+  (void)I2C2->SR2;
+
+  I2C2->CR1 |= I2C_CR1_ACK;           // ACK 활성화
+
+  // 3. 데이터 연속 수신 스트림
+  for(uint8_t i = 0; i < size; i++)
+  {
+    if(i == (size - 1))
+    {
+      I2C2->CR1 &= ~I2C_CR1_ACK;      // 마지막 바이트는 NACK 설정
+      I2C2->CR1 |= I2C_CR1_STOP;      // STOP 조건 예약
+    }
+    while(!(I2C2->SR1 & I2C_SR1_RXNE));
+    pData[i] = I2C2->DR;              // 데이터 읽기
+  }
+}

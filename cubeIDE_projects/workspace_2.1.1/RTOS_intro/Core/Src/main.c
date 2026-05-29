@@ -18,8 +18,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "uart.h"
 #include "string.h"
 #include "cmsis_os.h"
+#include "stdlib.h"
+#include "semphr.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -57,14 +60,14 @@ PCD_HandleTypeDef hpcd_USB_OTG_FS;
 osThreadId_t LED0Handle;
 const osThreadAttr_t LED0_attributes = {
   .name = "LED0",
-  .stack_size = 128 * 4,
+  .stack_size = 300 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for LED1 */
 osThreadId_t LED1Handle;
 const osThreadAttr_t LED1_attributes = {
   .name = "LED1",
-  .stack_size = 128 * 4,
+  .stack_size = 300 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
 /* USER CODE BEGIN PV */
@@ -81,7 +84,7 @@ void StartDefaultTask(void *argument);
 void StartTask02(void *argument);
 
 /* USER CODE BEGIN PFP */
-
+SemaphoreHandle_t xUartMutex;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -93,6 +96,10 @@ void StartTask02(void *argument);
   * @brief  The application entry point.
   * @retval int
   */
+const int con = 10;
+int cons = 10;
+int bsss;
+
 int main(void)
 {
 
@@ -122,7 +129,31 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
+  xUartMutex = xSemaphoreCreateMutex();
 
+  static int rws = 1;
+    static int rwas;
+    UART3_Printf("CODE(main): %x\n\r",main);
+    UART3_Printf("CODE(UART3_Print): %x\n\r", UART3_Printf);
+    UART3_Printf("RO-data(string): %x\n\r","hello");
+    UART3_Printf("RO-data(cons): %x\n\r",&con);
+
+    UART3_Printf("RW-data(static): %x\n\r",&rws);
+    UART3_Printf("RW-data: %x\n\r",&cons);
+
+    UART3_Printf("BSS: %x\n\r",&bsss);
+    UART3_Printf("BSS(static): %x\n\r",&rwas);
+
+    char * p;
+    for (int i = 0; i < 2; i++){
+  	  p = malloc(10*sizeof(int));
+  	  if (p)
+  		 UART3_Printf("Heap: %x\n\r",p);
+  	  else
+  		  break;
+    }
+    int stack = 10;
+    UART3_Printf("stack: %x\n\r",&stack);
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -152,11 +183,22 @@ int main(void)
   LED1Handle = osThreadNew(StartTask02, NULL, &LED1_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
+  int c[9] = {1,2,3,4,5,6,7,8,9};
+  xTaskCreate ((TaskFunction_t)StartDefaultTask, "P1", (uint16_t)(300 * 4), (void *)&c[0], 8, NULL);
+  xTaskCreate ((TaskFunction_t)StartDefaultTask, "P2", (uint16_t)(300 * 4), (void *)&c[1], 8, NULL);
+  xTaskCreate ((TaskFunction_t)StartDefaultTask, "P3", (uint16_t)(300 * 4), (void *)&c[2], 8, NULL);
+  xTaskCreate ((TaskFunction_t)StartDefaultTask, "P4", (uint16_t)(300 * 4), (void *)&c[3], 8, NULL);
+  xTaskCreate ((TaskFunction_t)StartDefaultTask, "P5", (uint16_t)(300 * 4), (void *)&c[4], 8, NULL);
+  xTaskCreate ((TaskFunction_t)StartDefaultTask, "P6", (uint16_t)(300 * 4), (void *)&c[5], 8, NULL);
+  xTaskCreate ((TaskFunction_t)StartDefaultTask, "P7", (uint16_t)(300 * 4), (void *)&c[6], 8, NULL);
+  xTaskCreate ((TaskFunction_t)StartDefaultTask, "P8", (uint16_t)(300 * 4), (void *)&c[7], 8, NULL);
+  xTaskCreate ((TaskFunction_t)StartDefaultTask, "P9", (uint16_t)(300 * 4), (void *)&c[8], 8, NULL);
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
+
+
+
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
@@ -405,28 +447,54 @@ static void MX_GPIO_Init(void)
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
+//void StartDefaultTask(void *argument)
+//{
+//  /* USER CODE BEGIN 5 */
+//
+//		/* GPIO B pin config*/
+//		// pin output setting
+//	GPIOB->MODER &= ~((3 << (7 * 2)));
+//	GPIOB->MODER |=  (1 << (7 * 2));
+//
+//	GPIOB->ODR &= ~(1 << 7);
+//	int cnt = 0;
+//
+//  /* Infinite loop */
+//  for(;;)
+//  {
+//	cnt = (rand() % 401) + 100;
+//    osDelay(cnt);
+//    GPIOB->ODR ^= (1 << 7);
+//    UART3_Printf("%d",1);
+//  }
+//  /* USER CODE END 5 */
+//}
+
 void StartDefaultTask(void *argument)
 {
-  /* USER CODE BEGIN 5 */
+  int cnt = 0;
+  int n = 0; // 각 태스크가 개별적으로 5번씩 수행하도록 스택에 할당
 
-		/* GPIO B pin config*/
-		// pin output setting
-	GPIOB->MODER &= ~((3 << (0 * 2)));
-	GPIOB->MODER |=  (1 << (0 * 2));
-
-	int cnt = 0;
-	GPIOB->ODR &= ~(1 << 0);
-  /* Infinite loop */
   for(;;)
   {
-    osDelay(100);
+    cnt = (rand() % 401) + 100;
+    osDelay(cnt);
 
-    if (cnt++ >= 9){
-    	GPIOB->ODR ^= (1 << 0);
-    	cnt = 0;
+    if (n <= 4)
+    {
+      // 1. 인터럽트를 끄는 대신, 뮤텍스 열쇠를 획득하여 상호 배제 수행
+      if(xSemaphoreTake(xUartMutex, portMAX_DELAY) == pdTRUE)
+      {
+        // 이제 이 구역은 다른 동급 태스크가 끼어들지 못하는 안전 구역(임계 영역 효과)
+        UART3_Printf("%d%d%d", *(int *)argument, *(int *)argument, *(int *)argument);
+
+        // 2. 출력이 끝나면 반드시 열쇠를 반환!
+        xSemaphoreGive(xUartMutex);
+
+        n++; // 안전하게 카운트 증가
+      }
     }
   }
-  /* USER CODE END 5 */
 }
 
 /* USER CODE BEGIN Header_StartTask02 */
@@ -441,19 +509,36 @@ void StartTask02(void *argument)
   /* USER CODE BEGIN StartTask02 */
 	/* GPIO B pin config*/
 	// pin output setting
-	GPIOB->MODER &= ~((3 << (7 * 2)));
-	GPIOB->MODER |=  (1 << (7 * 2));
-
-	GPIOB->ODR &= ~(1 << 7);
 	int cnt = 0;
+
+
+	    static int rws_t = 1;
+	    static int rwas_t;
+	    const int tcon = 10;
+	    UART3_Printf("task CODE(main): %x\n\r",StartTask02);
+
+	    UART3_Printf("tast RO-data(tcon): %x\n\r",&tcon);
+
+	    UART3_Printf("task RW-data(static): %x\n\r",&rws_t);
+
+	    UART3_Printf("task BSS(static): %x\n\r",&rwas_t);
+
+	    char * p;
+	    for (int i = 0; i < 2; i++){
+	  	  p = malloc(10*sizeof(int));
+	  	  if (p)
+	  		 UART3_Printf("task Heap: %x\n\r",p);
+	  	  else
+	  		  break;
+	    }
+	    int stack = 10;
+	    UART3_Printf("task stack: %x\n\r",&stack);
   /* Infinite loop */
   for(;;)
   {
-    osDelay(100);
-    if (cnt++ >= 4){
-    	GPIOB->ODR ^= (1 << 7);
-    	cnt = 0;
-    }
+	cnt = (rand() % 401) + 100;
+    osDelay(cnt);
+    //UART3_Printf("%d",0);
   }
   /* USER CODE END StartTask02 */
 }

@@ -1,0 +1,473 @@
+/* Includes ------------------------------------------------------------------*/
+#include <stdio.h>
+#include <stdarg.h>
+#include "stm32f4xx.h"  // 레지스터 정의 구조체 포함
+
+/* FreeRTOS 관련 헤더 */
+#include "FreeRTOS.h"
+#include "task.h"
+
+/* Private define ------------------------------------------------------------*/
+#define ADXL345_ADDR        (0x53 << 1)
+#define ADXL345_DEVID       0x00
+#define ADXL345_POWER_CTL   0x2D
+#define ADXL345_DATA_FORMAT 0x31
+#define ADXL345_DATAX0      0x32
+
+/* 전역 변수 */
+volatile int16_t g_adxl_y_raw = 0;
+volatile int16_t g_motor_signal_y = 0;
+
+/* I2C2 인터럽트 동기화용 변수 및 구조체 */
+static TaskHandle_t xI2C2TaskToNotify = NULL;
+
+typedef struct {
+    uint8_t dev_addr;
+    uint8_t reg_addr;
+    uint8_t *pData;
+    uint32_t len;
+    uint32_t index;
+    enum { I2C_WRITE, I2C_READ } mode;
+    volatile int32_t status;
+} I2C2_Transfer_t;
+
+static volatile I2C2_Transfer_t g_i2c2_xfer;
+
+/* 기능별 로우레벨(Register) 초기화 함수 프로토타입 */
+void SystemClock_PureRegister_Config(void);
+void USART3_Register_Init(void);
+void TIM14_PWM_Register_Init(void);
+void I2C2_Register_Init(void);
+
+/* 유틸리티 및 드라이버 함수 프로토타입 */
+void Uart3_Printf(char *fmt, ...);
+void Motor_Control_Register(float angle);
+int I2C2_Write_Reg_IT(uint8_t dev_addr, uint8_t reg_addr, uint8_t data);
+int I2C2_Read_Buffer_IT(uint8_t dev_addr, uint8_t reg_addr, uint8_t *pData, uint32_t len);
+int ADXL345_Init_IT(void);
+int ADXL345_Read_Raw_IT(int16_t *x, int16_t *y, int16_t *z);
+void vADXL_MotorControlTask(void *pvParameters);
+void Error_Handler(void);
+
+/* Main Program --------------------------------------------------------------*/
+int main(void)
+{
+  /* 1. 하드웨어 시스템 클록 설정 (레지스터 기반 168MHz) */
+  SystemClock_PureRegister_Config();
+
+  /* 2. 통신 및 제어 주변장치 레지스터 초기화 */
+  USART3_Register_Init();
+  TIM14_PWM_Register_Init();
+  I2C2_Register_Init();
+
+  Uart3_Printf("System Initialized using Pure Registers (No HAL).\r\n");
+  Uart3_Printf("Creating FreeRTOS Task...\r\n");
+
+  /* 3. FreeRTOS 독립 태스크 생성 */
+  BaseType_t xReturned = xTaskCreate(
+      vADXL_MotorControlTask,
+      "ADXL_Motor_Task",
+      256,                    // 스택 크기
+      NULL,
+      tskIDLE_PRIORITY + 2,   // 우선순위
+      NULL
+  );
+
+  if (xReturned != pdPASS) {
+      Uart3_Printf("Task Creation Failed\r\n");
+      Error_Handler();
+  }
+
+  /* 4. OS 스케줄러 스타트 */
+  vTaskStartScheduler();
+
+  while (1)
+  {
+      // 스케줄러 구동 후 이곳은 진입하지 않음
+  }
+}
+
+/* ===================== FreeRTOS ADXL & 모터 제어 태스크 ===================== */
+void vADXL_MotorControlTask(void *pvParameters)
+{
+    int16_t x, y, z;
+
+    // I2C 인터럽트 및 락업 방지 Block 구조를 이용한 가속도 센서 초기화
+    if (ADXL345_Init_IT() != 0) {
+        Uart3_Printf("[Task] ADXL345 Register Init Fault!\r\n");
+    } else {
+        Uart3_Printf("[Task] ADXL345 Register Init Success!\r\n");
+    }
+
+    for (;;)
+    {
+        // 6바이트 가속도 데이터 Burst 리드
+        if (ADXL345_Read_Raw_IT(&x, &y, &z) == 0)
+        {
+            g_adxl_y_raw = y;
+            g_motor_signal_y = y;
+
+            // 모터 타이머 CCR 레지스터 직접 매핑 제어
+            Motor_Control_Register((float)g_motor_signal_y);
+
+            Uart3_Printf("[Task] Y Raw: %d -> PWM Controlled\r\n", g_adxl_y_raw);
+        }
+        else
+        {
+            Uart3_Printf("[Task] I2C Bus Error / Timeout\r\n");
+        }
+
+        /* 10ms 동안 자원을 완전히 양보 (태스크 굶주림 방지 핵심) */
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+}
+
+/* ===================== 레지스터 기반 하드웨어 드라이버 구현 ===================== */
+
+/**
+  * @brief  순수 레지스터 제어 기반 시스템 클록 설정 (HSE 우회 기반 168MHz)
+  */
+void SystemClock_PureRegister_Config(void)
+{
+    // 1. Flash Latency 설정 (168MHz 구동을 위해 5 WS 필요)
+    FLASH->ACR = FLASH_ACR_ICEN | FLASH_ACR_DCEN | FLASH_ACR_LATENCY_5WS;
+
+    // 2. RCC 관련 전원 모듈 활성화 및 스케일링 설정
+    RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+    PWR->CR |= PWR_CR_VOS; // Scale 1 mode
+
+    // 3. HSE 주입형(Bypass) 활성화 및 안정화 대기
+    RCC->CR |= RCC_CR_HSEBYP;
+    RCC->CR |= RCC_CR_HSEON;
+    while(!(RCC->CR & RCC_CR_HSERDY));
+
+    // 4. PLL 설정: HSE(8MHz) / M(4) * N(168) / P(2) = 168MHz
+    RCC->PLLCFGR = (4 << 0) | (168 << 6) | (0 << 16) | RCC_PLLCFGR_PLLSRC_HSE | (7 << 24);
+    RCC->CR |= RCC_CR_PLLON;
+    while(!(RCC->CR & RCC_CR_PLLRDY));
+
+    // 5. 버스 분주비 설정 (HCLK = 168MHz, APB1 = 42MHz, APB2 = 84MHz)
+    RCC->CFGR |= RCC_CFGR_HPRE_DIV1 | RCC_CFGR_PPRE1_DIV4 | RCC_CFGR_PPRE2_DIV2;
+
+    // 6. 시스템 클록 소스를 PLL로 스위칭
+    RCC->CFGR |= RCC_CFGR_SW_PLL;
+    while((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL);
+}
+
+/**
+  * @brief  USART3 레지스터 초기화 및 설정 (115200 bps, TX 전용)
+  */
+void USART3_Register_Init(void)
+{
+    // GPIOD (TX: PD8) 및 USART3 클록 공급
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
+    RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
+
+    // PD8 핀 오터네이트 펑션 모드(AF7) 지정
+    GPIOD->MODER &= ~(3 << (8 * 2));
+    GPIOD->MODER |=  (2 << (8 * 2)); // Alternate Function Mode
+    GPIOD->AFR[1] |= (7 << (0 * 4)); // AF7 : USART3_TX
+
+    // 보레이트 설정: APB1=42MHz에서 115200bps 설정값 (USARTDIV = 42000000 / (16 * 115200) = 22.78)
+    // 22 = 0x16, 0.78 * 16 = 12.48 (약 12 = 0xC) -> BRR = 0x16C
+    USART3->BRR = 0x16C;
+
+    // TX 활성화 및 USART 모듈 활성화
+    USART3->CR1 |= USART_CR1_TE | USART_CR1_UE;
+}
+
+/**
+  * @brief  TIM14 PWM 레지스터 초기화 및 출력 설정 (PF9 핀 출력 매핑)
+  */
+void TIM14_PWM_Register_Init(void)
+{
+    // GPIOF 및 TIM14 클록 공급
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOFEN;
+    RCC->APB1ENR |= RCC_APB1ENR_TIM14EN;
+
+    // PF9 핀 얼터네이트 펑션 모드(AF9) 지정
+    GPIOF->MODER &= ~(3 << (9 * 2));
+    GPIOF->MODER |=  (2 << (9 * 2)); // Alternate Function
+    GPIOF->AFR[1] |= (9 << (1 * 4)); // AF9 : TIM14_CH1
+
+    // 타이머 주기 설정 (주파수 50Hz, 주기 20ms 타겟)
+    // TIM14 클록 소스 = APB1 타이머 클록 = 42MHz * 2 = 84MHz
+    TIM14->PSC = 84 - 1;     // 1MHz 카운팅 타이머 틱 생성
+    TIM14->ARR = 20000 - 1;  // 20,000 틱 = 20ms 주기
+
+    // PWM 모드 1 설정 및 출력 프리로드(Preload) 인에이블
+    TIM14->CCMR1 &= ~(7 << 4);
+    TIM14->CCMR1 |=  (6 << 4) | TIM_CCMR1_OC1PE; // PWM mode 1, Preload enable
+
+    // 출력 극성 및 채널 활성화
+    TIM14->CCER |= TIM_CCER_CC1E;
+    TIM14->CR1 |= TIM_CR1_ARPE; // Auto-reload preload enable
+
+    // 듀티 사이클 초기화 (0) 및 타이머 구동
+    TIM14->CCR1 = 0;
+    TIM14->CR1 |= TIM_CR1_CEN; // 카운터 스타트
+}
+
+/**
+  * @brief  I2C2 레지스터 및 NVIC 인터럽트 초기화 (PB10:SCL, PB11:SDA)
+  */
+void I2C2_Register_Init(void)
+{
+    RCC->APB1ENR |= RCC_APB1ENR_I2C2EN;
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
+
+    // PB10, PB11 오픈드레인(Open-Drain) 및 풀업 설정
+    GPIOB->MODER = (GPIOB->MODER & ~(0xF << 20)) | (0xA << 20); // AF Mode
+    GPIOB->OTYPER |= (0x3 << 10);                               // Open-Drain
+    GPIOB->OSPEEDR = (GPIOB->OSPEEDR & ~(0xF << 20)) | (0xA << 20);
+    GPIOB->PUPDR = (GPIOB->PUPDR & ~(0xF << 20)) | (0x5 << 20); // Pull-up
+
+    // AF4 (I2C2) 핀 리매핑
+    GPIOB->AFR[1] &= ~(0xFF << 8);
+    GPIOB->AFR[1] |= (0x44 << 8);
+
+    // I2C 리셋 및 클리어
+    RCC->APB1RSTR |=  RCC_APB1RSTR_I2C2RST;
+    RCC->APB1RSTR &= ~RCC_APB1RSTR_I2C2RST;
+
+    I2C2->CR1 &= ~I2C_CR1_PE;
+    I2C2->CR2 = 42;          // 입력 클록 빈도 설정 (APB1 = 42MHz)
+    I2C2->CCR = 210;         // Standard Mode 100kHz 설정
+    I2C2->TRISE = 43;        // 최대 상승 시간 반영
+    I2C2->CR1 |= I2C_CR1_ACK;
+    I2C2->CR1 |= I2C_CR1_PE;  // 페리페럴 온
+
+    /* FreeRTOS 커널 호환 인터럽트 우선순위(6) 셋팅 및 NVIC 해제 */
+    NVIC_SetPriority(I2C2_EV_IRQn, 6);
+    NVIC_EnableIRQ(I2C2_EV_IRQn);
+    NVIC_SetPriority(I2C2_ER_IRQn, 6);
+    NVIC_EnableIRQ(I2C2_ER_IRQn);
+}
+
+/* ===================== Non-blocking I2C2 기능제어 엔진 ===================== */
+
+int I2C2_Write_Reg_IT(uint8_t dev_addr, uint8_t reg_addr, uint8_t data)
+{
+    if (I2C2->SR2 & I2C_SR2_BUSY) return -1;
+
+    xI2C2TaskToNotify = xTaskGetCurrentTaskHandle();
+    static uint8_t w_buf;
+    w_buf = data;
+
+    g_i2c2_xfer.dev_addr  = dev_addr;
+    g_i2c2_xfer.reg_addr  = reg_addr;
+    g_i2c2_xfer.pData     = &w_buf;
+    g_i2c2_xfer.len       = 1;
+    g_i2c2_xfer.index     = 0;
+    g_i2c2_xfer.mode      = I2C_WRITE;
+    g_i2c2_xfer.status    = 0;
+
+    // 이벤트, 버퍼, 에러 인터럽트 활성화 후 START 조건 송출
+    I2C2->CR2 |= (I2C_CR2_ITEVTEN | I2C_CR2_ITBUFEN | I2C_CR2_ITERREN);
+    I2C2->CR1 |= I2C_CR1_START;
+
+    // 태스크는 Blocked 상태로 대기하며 CPU 자원을 완전히 양보함
+    if (ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(50)) == 0) {
+        I2C2->CR1 |= I2C_CR1_STOP;
+        I2C2->CR2 &= ~(I2C_CR2_ITEVTEN | I2C_CR2_ITBUFEN | I2C_CR2_ITERREN);
+        return -2; // 타임아웃 오류
+    }
+
+    I2C2->CR2 &= ~(I2C_CR2_ITEVTEN | I2C_CR2_ITBUFEN | I2C_CR2_ITERREN);
+    return g_i2c2_xfer.status;
+}
+
+int I2C2_Read_Buffer_IT(uint8_t dev_addr, uint8_t reg_addr, uint8_t *pData, uint32_t len)
+{
+    if (I2C2->SR2 & I2C_SR2_BUSY) return -1;
+    if (len == 0) return 0;
+
+    xI2C2TaskToNotify = xTaskGetCurrentTaskHandle();
+
+    g_i2c2_xfer.dev_addr  = dev_addr;
+    g_i2c2_xfer.reg_addr  = reg_addr;
+    g_i2c2_xfer.pData     = pData;
+    g_i2c2_xfer.len       = len;
+    g_i2c2_xfer.index     = 0;
+    g_i2c2_xfer.mode      = I2C_READ;
+    g_i2c2_xfer.status    = 0;
+
+    I2C2->CR2 |= (I2C_CR2_ITEVTEN | I2C_CR2_ITBUFEN | I2C_CR2_ITERREN);
+    I2C2->CR1 |= I2C_CR1_START;
+
+    if (ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(50)) == 0) {
+        I2C2->CR1 |= I2C_CR1_STOP;
+        I2C2->CR2 &= ~(I2C_CR2_ITEVTEN | I2C_CR2_ITBUFEN | I2C_CR2_ITERREN);
+        return -2;
+    }
+
+    I2C2->CR2 &= ~(I2C_CR2_ITEVTEN | I2C_CR2_ITBUFEN | I2C_CR2_ITERREN);
+    return g_i2c2_xfer.status;
+}
+
+int ADXL345_Init_IT(void)
+{
+    uint8_t id = 0;
+    int ret = I2C2_Read_Buffer_IT(ADXL345_ADDR, ADXL345_DEVID, &id, 1);
+    if (ret < 0 || id != 0xE5) {
+        return -1;
+    }
+    I2C2_Write_Reg_IT(ADXL345_ADDR, ADXL345_DATA_FORMAT, 0x08); // Full Resolution
+    I2C2_Write_Reg_IT(ADXL345_ADDR, ADXL345_POWER_CTL, 0x08);   // Measure Mode On
+    return 0;
+}
+
+int ADXL345_Read_Raw_IT(int16_t *x, int16_t *y, int16_t *z)
+{
+    uint8_t raw_buf[6] = {0};
+    int ret = I2C2_Read_Buffer_IT(ADXL345_ADDR, ADXL345_DATAX0, raw_buf, 6);
+    if (ret < 0) return ret;
+
+    *x = (int16_t)((raw_buf[1] << 8) | raw_buf[0]);
+    *y = (int16_t)((raw_buf[3] << 8) | raw_buf[2]);
+    *z = (int16_t)((raw_buf[5] << 8) | raw_buf[4]);
+    return 0;
+}
+
+/* ===================== I2C2 ISR (인터럽트 서브루틴) 레지스터 제어 상태머신 ===================== */
+void I2C2_EV_IRQHandler(void)
+{
+    uint32_t sr1 = I2C2->SR1;
+    uint32_t sr2 = 0;
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+    // SB (Start Bit) 감지 처리 -> 슬레이브 주소값 입력 부하
+    if (sr1 & I2C_SR1_SB) {
+        I2C2->DR = (g_i2c2_xfer.dev_addr & ~0x01);
+    }
+    // ADDR (Address sent) 매치 및 플래그 순차 클리어
+    else if (sr1 & I2C_SR1_ADDR) {
+        sr2 = I2C2->SR2;
+        (void)sr2;
+
+        if (g_i2c2_xfer.mode == I2C_READ) {
+            if (g_i2c2_xfer.len == 1) {
+                I2C2->CR1 &= ~I2C_CR1_ACK;
+                I2C2->CR1 |= I2C_CR1_STOP;
+            }
+        } else {
+            I2C2->DR = g_i2c2_xfer.reg_addr;
+        }
+    }
+    // TXE (Transmit Register Empty) 데이터 쓰기 분기 처리
+    else if (sr1 & I2C_SR1_TXE) {
+        if (g_i2c2_xfer.mode == I2C_WRITE) {
+            if (g_i2c2_xfer.index < g_i2c2_xfer.len) {
+                I2C2->DR = g_i2c2_xfer.pData[g_i2c2_xfer.index++];
+            }
+        } else {
+            // Write 주소 완료 인터럽트 연계(BTF) 시점 판단 -> Repeated START 생성 후 읽기 전환
+            if (sr1 & I2C_SR1_BTF) {
+                I2C2->CR1 |= I2C_CR1_START;
+                g_i2c2_xfer.mode = I2C_READ;
+                I2C2->DR = (g_i2c2_xfer.dev_addr | 0x01);
+            }
+        }
+    }
+    // RXNE (Receive Register Not Empty) 수신 가속 처리
+    else if (sr1 & I2C_SR1_RXNE) {
+        if (g_i2c2_xfer.mode == I2C_READ) {
+            uint32_t idx = g_i2c2_xfer.index;
+            g_i2c2_xfer.pData[idx] = I2C2->DR;
+            g_i2c2_xfer.index++;
+
+            if (g_i2c2_xfer.index == g_i2c2_xfer.len - 1) {
+                I2C2->CR1 &= ~I2C_CR1_ACK;
+                I2C2->CR1 |= I2C_CR1_STOP;
+            }
+            else if (g_i2c2_xfer.index >= g_i2c2_xfer.len) {
+                I2C2->CR1 |= I2C_CR1_ACK;
+                g_i2c2_xfer.status = 0;
+
+                if (xI2C2TaskToNotify != NULL) {
+                    vTaskNotifyGiveFromISR(xI2C2TaskToNotify, &xHigherPriorityTaskWoken);
+                    xI2C2TaskToNotify = NULL;
+                }
+            }
+        }
+    }
+
+    // 최종 쓰기 바이트 완료 조건 검증
+    if (g_i2c2_xfer.mode == I2C_WRITE && (sr1 & I2C_SR1_BTF)) {
+        if (g_i2c2_xfer.index >= g_i2c2_xfer.len) {
+            I2C2->CR1 |= I2C_CR1_STOP;
+            g_i2c2_xfer.status = 0;
+
+            if (xI2C2TaskToNotify != NULL) {
+                vTaskNotifyGiveFromISR(xI2C2TaskToNotify, &xHigherPriorityTaskWoken);
+                xI2C2TaskToNotify = NULL;
+            }
+        }
+    }
+
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
+
+void I2C2_ER_IRQHandler(void)
+{
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+    I2C2->SR1 &= ~(I2C_SR1_AF | I2C_SR1_BERR | I2C_SR1_ARLO);
+    I2C2->CR1 |= I2C_CR1_STOP;
+    g_i2c2_xfer.status = -3;
+
+    if (xI2C2TaskToNotify != NULL) {
+        vTaskNotifyGiveFromISR(xI2C2TaskToNotify, &xHigherPriorityTaskWoken);
+        xI2C2TaskToNotify = NULL;
+    }
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+}
+
+/* ===================== 모터 및 로우레벨 제어 유틸리티 ===================== */
+
+/**
+  * @brief  TIM14->CCR1 레지스터 직접 변경을 통한 하드웨어 서보모터 PWM 제어
+  */
+void Motor_Control_Register(float angle)
+{
+    // PSC=83 분주 조건에서 ARR=19999(20ms) 기반 제어 레지스터 CCR 직접 맵핑
+    // 1500틱 = 1.5ms (중립 0도), 1700틱 = 1.7ms (+도), 1300틱 = 1.3ms (-도)
+    if(angle >= -100 && angle <= 100) {
+        TIM14->CCR1 = 1500;
+    }
+    else if(angle > 100 && angle <= 200) {
+        TIM14->CCR1 = 1700;
+    }
+    else if(angle < -100 && angle >= -200) {
+        TIM14->CCR1 = 1300;
+    }
+}
+
+void Uart3_Printf(char *fmt, ...)
+{
+    va_list ap;
+    char string[256];
+    va_start(ap, fmt);
+    vsprintf(string, fmt, ap);
+    va_end(ap);
+
+    char* p = string;
+    while (*p) {
+        if (*p == '\r') {
+            USART3->DR = 0x0A;
+            while (!(USART3->SR & USART_SR_TXE));
+            USART3->DR = 0x0D;
+            while (!(USART3->SR & USART_SR_TXE));
+            p++;
+            continue;
+        }
+        USART3->DR = *p++;
+        while (!(USART3->SR & USART_SR_TXE));
+    }
+}
+
+void Error_Handler(void)
+{
+  __disable_irq();
+  while (1) { }
+}

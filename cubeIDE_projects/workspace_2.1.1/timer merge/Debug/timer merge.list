@@ -1328,7 +1328,7 @@ int main(void)
  8000f02:	22fa      	movs	r2, #250	@ 0xfa
  8000f04:	639a      	str	r2, [r3, #56]	@ 0x38
 
-    // CCMR1: CH1, CH2를 PWM Mode 1(110)로 설정
+    // CCMR1: CH1, CH2를 PWM Mode 1(110)로 설정 일단 mode2번도 존재 하더라
     TIM9->CCMR1 &= ~( (0x7 << 4) | (0x7 << 12) );
  8000f06:	4b2f      	ldr	r3, [pc, #188]	@ (8000fc4 <main+0x294>)
  8000f08:	699b      	ldr	r3, [r3, #24]
@@ -1444,7 +1444,7 @@ int main(void)
       }
   }
 }
-
+//pending은 인터럽트 발생 시 자동으로 set 됩니다
 void EXTI15_10_IRQHandler(void) {
  8000fd8:	b480      	push	{r7}
  8000fda:	af00      	add	r7, sp, #0

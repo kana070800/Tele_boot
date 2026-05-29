@@ -3,20 +3,43 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
-		<item value="pxNewTCB"/>
-		<item value="TCB_t"/>
-		<item value="prvInitialiseNewTask"/>
-		<item value="pdPASS"/>
-		<item value="xTaskCreate"/>
+		<item value="I2C2"/>
+		<item value="ev"/>
 		<item value="StartDefaultTask"/>
-		<item value="LED0_attributes"/>
-		<item value="LED1Handle"/>
-		<item value="exti1"/>
-		<item value="8002100"/>
-		<item value="tim6"/>
-		<item value="update"/>
-		<item value="HAL_Init"/>
-		<item value="systick"/>
-		<item value="GPIO_TypeDef"/>
+		<item value="prvPortStartFirstTask"/>
+		<item value="xStateListItem"/>
+		<item value="prvAddNewTaskToReadyList"/>
+		<item value="uxCriticalNesting"/>
+		<item value="vTaskSwitchContext"/>
+		<item value="portNVIC_PENDSV_PRI"/>
+		<item value="xTaskRemoveFromEventList"/>
+		<item value="ready"/>
+		<item value="pxCurrentTCB"/>
+		<item value="stack"/>
+		<item value="context"/>
+		<item value="portBYTE_ALIGNMENT_MASK"/>
 	</list>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value=""/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="vPortSVCHandler"/>
+			<item value="svc"/>
+			<item value="prvPortStartFirstTask"/>
+			<item value="0xE000ED08"/>
+		</list>
+		<list key="replacehistory">
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="694"/>
+		<item key="DIALOG_Y_ORIGIN" value="155"/>
+		<item key="DIALOG_WIDTH" value="369"/>
+		<item key="DIALOG_HEIGHT" value="454"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
 </section>

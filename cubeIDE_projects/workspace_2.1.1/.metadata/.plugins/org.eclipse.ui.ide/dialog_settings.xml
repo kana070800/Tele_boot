@@ -22,6 +22,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_sema"/>
 			<item value="C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\systick\Core"/>
 			<item value="C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\uart"/>
 			<item value="C:\Users\kanaw\STM32CubeIDE\workspace_2.1.1\gpiotest"/>

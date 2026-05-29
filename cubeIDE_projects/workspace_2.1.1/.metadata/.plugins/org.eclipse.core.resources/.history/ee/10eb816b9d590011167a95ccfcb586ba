@@ -1,0 +1,587 @@
+/* USER CODE END Header */
+/* Includes ------------------------------------------------------------------*/
+#include "main.h"
+#include "string.h"
+#include "cmsis_os.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include <stdlib.h>
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+#define ADXL345_ADDR            0x53
+#define ADXL345_REG_POWER_CTL   0x2D
+#define ADXL345_REG_DATAY0      0x34
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
+
+/* Private variables ---------------------------------------------------------*/
+
+ETH_TxPacketConfig TxConfig;
+ETH_DMADescTypeDef  DMARxDscrTab[ETH_RX_DESC_CNT]; /* Ethernet Rx DMA Descriptors */
+ETH_DMADescTypeDef  DMATxDscrTab[ETH_TX_DESC_CNT]; /* Ethernet Tx DMA Descriptors */
+
+ETH_HandleTypeDef heth;
+
+UART_HandleTypeDef huart3;
+
+PCD_HandleTypeDef hpcd_USB_OTG_FS;
+
+/* Definitions for defaultTask */
+osThreadId_t defaultTaskHandle;
+const osThreadAttr_t defaultTask_attributes = {
+  .name = "defaultTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
+};
+/* USER CODE BEGIN PV */
+/* 레지스터 기반 구동을 위한 전역 변수 및 태스크 핸들 정의 */
+volatile int16_t accel_y = 0;
+
+osThreadId_t sensorTaskHandle;
+osThreadId_t motorTaskHandle;
+
+const osThreadAttr_t sensorTask_attributes = { .name = "sensorTask", .stack_size = 128 * 4, .priority = osPriorityNormal };
+const osThreadAttr_t motorTask_attributes  = { .name = "motorTask",  .stack_size = 128 * 4, .priority = osPriorityNormal };
+/* USER CODE END PV */
+
+/* Private function prototypes -----------------------------------------------*/
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_ETH_Init(void);
+static void MX_USART3_UART_Init(void);
+static void MX_USB_OTG_FS_PCD_Init(void);
+void StartDefaultTask(void *argument);
+
+/* USER CODE BEGIN PFP */
+/* 노할(No HAL) 주변장치 및 센서 제어 함수 프로토타입 선언 */
+void GPIO_Init_NoHal(void);
+void I2C2_Init_NoHal(void);
+void TIM1_Init_NoHal(void);
+void UART3_Init_NoHal(void);
+
+void I2C2_WriteRegister(uint8_t devAddr, uint8_t regAddr, uint8_t data);
+void I2C2_ReadBurst(uint8_t devAddr, uint8_t regAddr, uint8_t *pData, uint8_t size);
+void UART3_Send_Byte(char ch);
+void UART3_Send_String(char* p);
+
+void StartSensorTask(void *argument);
+void StartMotorTask(void *argument);
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+/* printf 스트림 연동 코드 */
+int _write(int file, char *ptr, int len)
+{
+  for (int i = 0; i < len; i++)
+  {
+      UART3_Send_Byte(ptr[i]);
+  }
+  return len;
+}
+/* USER CODE END 0 */
+
+/**
+  * @brief  The application entry point.
+  * @retval int
+  */
+int main(void)
+{
+
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
+  /* MCU Configuration--------------------------------------------------------*/
+
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
+
+  /* USER CODE BEGIN Init */
+
+  /* USER CODE END Init */
+
+  /* Configure the system clock */
+  SystemClock_Config();
+
+  /* USER CODE BEGIN SysInit */
+
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_ETH_Init();
+  MX_USART3_UART_Init();
+  MX_USB_OTG_FS_PCD_Init();
+  /* USER CODE BEGIN 2 */
+  /* 레지스터 하드웨어 및 레지스터 UART 초기화 실행 */
+  GPIO_Init_NoHal();
+  I2C2_Init_NoHal();
+  TIM1_Init_NoHal();
+  UART3_Init_NoHal();
+
+  // ADXL345 센서 초기화 (Measure 모드 활성화)
+  I2C2_WriteRegister(ADXL345_ADDR, ADXL345_REG_POWER_CTL, 0x08);
+
+  // RTOS 진입 전 하드웨어 동작 유무 터미널 덤프 확인
+  UART3_Send_String("\r\n=================================\r\n");
+  UART3_Send_String("  UART3 Bare-Metal Clock 168MHz  \r\n");
+  UART3_Send_String("=================================\r\n");
+  printf("System Booted (No HAL RTOS Sync)\r\n");
+  /* USER CODE END 2 */
+
+  /* Init scheduler */
+  osKernelInitialize();
+
+  /* USER CODE BEGIN RTOS_MUTEX */
+  /* add mutexes, ... */
+  /* USER CODE END RTOS_MUTEX */
+
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* creation of defaultTask */
+  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* 추가 요구 태스크 동적 등록 */
+  sensorTaskHandle = osThreadNew(StartSensorTask, NULL, &sensorTask_attributes);
+  motorTaskHandle = osThreadNew(StartMotorTask, NULL, &motorTask_attributes);
+  /* USER CODE END RTOS_THREADS */
+
+  /* USER CODE BEGIN RTOS_EVENTS */
+  /* add events, ... */
+  /* USER CODE END RTOS_EVENTS */
+
+  /* Start scheduler */
+  osKernelStart();
+
+  /* We should never get here as control is now taken by the scheduler */
+
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+}
+
+/**
+  * @brief System Clock Configuration
+  * @retval None
+  */
+void SystemClock_Config(void)
+{
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+
+  /** Configure the main internal regulator output voltage
+  */
+  __HAL_RCC_PWR_CLK_ENABLE();
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  RCC_OscInitStruct.PLL.PLLM = 4;
+  RCC_OscInitStruct.PLL.PLLN = 168;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
+/**
+  * @brief ETH Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ETH_Init(void)
+{
+
+  /* USER CODE BEGIN ETH_Init 0 */
+
+  /* USER CODE END ETH_Init 0 */
+
+   static uint8_t MACAddr[6];
+
+  /* USER CODE BEGIN ETH_Init 1 */
+
+  /* USER CODE END ETH_Init 1 */
+  heth.Instance = ETH;
+  MACAddr[0] = 0x00;
+  MACAddr[1] = 0x80;
+  MACAddr[2] = 0xE1;
+  MACAddr[3] = 0x00;
+  MACAddr[4] = 0x00;
+  MACAddr[5] = 0x00;
+  heth.Init.MACAddr = &MACAddr[0];
+  heth.Init.MediaInterface = HAL_ETH_RMII_MODE;
+  heth.Init.TxDesc = DMATxDscrTab;
+  heth.Init.RxDesc = DMARxDscrTab;
+  heth.Init.RxBuffLen = 1524;
+
+  /* USER CODE BEGIN MACADDRESS */
+
+  /* USER CODE END MACADDRESS */
+
+  if (HAL_ETH_Init(&heth) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  memset(&TxConfig, 0 , sizeof(ETH_TxPacketConfig));
+  TxConfig.Attributes = ETH_TX_PACKETS_FEATURES_CSUM | ETH_TX_PACKETS_FEATURES_CRCPAD;
+  TxConfig.ChecksumCtrl = ETH_CHECKSUM_IPHDR_PAYLOAD_INSERT_PHDR_CALC;
+  TxConfig.CRCPadCtrl = ETH_CRC_PAD_INSERT;
+  /* USER CODE BEGIN ETH_Init 2 */
+
+  /* USER CODE END ETH_Init 2 */
+
+}
+
+/**
+  * @brief USART3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART3_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART3_Init 0 */
+
+  /* USER CODE END USART3_Init 0 */
+
+  /* USER CODE BEGIN USART3_Init 1 */
+
+  /* USER CODE END USART3_Init 1 */
+  huart3.Instance = USART3;
+  huart3.Init.BaudRate = 115200;
+  huart3.Init.WordLength = UART_WORDLENGTH_8B;
+  huart3.Init.StopBits = UART_STOPBITS_1;
+  huart3.Init.Parity = UART_PARITY_NONE;
+  huart3.Init.Mode = UART_MODE_TX_RX;
+  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart3.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART3_Init 2 */
+
+  /* USER CODE END USART3_Init 2 */
+
+}
+
+/**
+  * @brief USB_OTG_FS Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USB_OTG_FS_PCD_Init(void)
+{
+
+  /* USER CODE BEGIN USB_OTG_FS_Init 0 */
+
+  /* USER CODE END USB_OTG_FS_Init 0 */
+
+  /* USER CODE BEGIN USB_OTG_FS_Init 1 */
+
+  /* USER CODE END USB_OTG_FS_Init 1 */
+  hpcd_USB_OTG_FS.Instance = USB_OTG_FS;
+  hpcd_USB_OTG_FS.Init.dev_endpoints = 4;
+  hpcd_USB_OTG_FS.Init.speed = PCD_SPEED_FULL;
+  hpcd_USB_OTG_FS.Init.dma_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
+  hpcd_USB_OTG_FS.Init.Sof_enable = ENABLE;
+  hpcd_USB_OTG_FS.Init.low_power_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.lpm_enable = DISABLE;
+  hpcd_USB_OTG_FS.Init.vbus_sensing_enable = ENABLE;
+  hpcd_USB_OTG_FS.Init.use_dedicated_ep1 = DISABLE;
+  if (HAL_PCD_Init(&hpcd_USB_OTG_FS) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USB_OTG_FS_Init 2 */
+
+  /* USER CODE END USB_OTG_FS_Init 2 */
+
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+
+  /* USER CODE END MX_GPIO_Init_1 */
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOG_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, LD1_Pin|LD3_Pin|LD2_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(USB_PowerSwitchOn_GPIO_Port, USB_PowerSwitchOn_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : USER_Btn_Pin */
+  GPIO_InitStruct.Pin = USER_Btn_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USER_Btn_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LD1_Pin LD3_Pin LD2_Pin */
+  GPIO_InitStruct.Pin = LD1_Pin|LD3_Pin|LD2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USB_PowerSwitchOn_Pin */
+  GPIO_InitStruct.Pin = USB_PowerSwitchOn_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(USB_PowerSwitchOn_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : USB_OverCurrent_Pin */
+  GPIO_InitStruct.Pin = USB_OverCurrent_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USB_OverCurrent_GPIO_Port, &GPIO_InitStruct);
+
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+
+  /* USER CODE END MX_GPIO_Init_2 */
+}
+
+/* USER CODE BEGIN 4 */
+/* ====================================================================
+   노할(No HAL) 드라이버 함수 핵심 바디 세팅 구역
+   ==================================================================== */
+
+void UART3_Init_NoHal() {
+    // 168MHz 분주비 매칭 보레이트 레지스터 삽입 (APB1 = 42MHz 기준 115200bps)
+    USART3->CR1 &= ~(0x1 << 13); // 잠시 모듈 비활성화 후 세팅
+    USART3->BRR = 0x16D;
+    USART3->CR1 |= (0x1 << 13) | (0x3 << 2); // UE, TE, RE 설정 활성화
+}
+
+void UART3_Send_Byte(char ch) {
+    if (ch == '\n') {
+        while(!(USART3->SR & (1 << 7)));
+        USART3->DR = '\r';
+    }
+    while(!(USART3->SR & (1 << 7)));
+    USART3->DR = ch;
+}
+
+void UART3_Send_String(char* p) {
+    while (*p) {
+        UART3_Send_Byte(*p++);
+    }
+}
+
+void GPIO_Init_NoHal(void) {
+    // 1. RCC 레지스터에서 GPIOB, GPIOC, GPIOE 외에 [GPIOFEN(Port F)] 클록도 함께 활성화 (Bit 5)
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN | RCC_AHB1ENR_GPIOCEN | RCC_AHB1ENR_GPIOEEN | RCC_AHB1ENR_GPIOFEN;
+
+    // (기존 PC7 출력 설정은 유지하거나 지워도 상관없습니다. 여기서는 PF13을 새로 추가합니다.)
+    // 2. PF13 핀을 범용 출력(General Purpose Output) 모드로 설정
+    // MODER13 레지스터의 26, 27번 비트를 01(Output)로 세팅
+    GPIOF->MODER &= ~(3 << (13 * 2));
+    GPIOF->MODER |=  (1 << (13 * 2));
+
+    // 기존 I2C2(PB10, PB11) 및 TIM1_CH1(PE9) 설정 유지
+    GPIOB->MODER &= ~((3 << (10 * 2)) | (3 << (11 * 2))); GPIOB->MODER |= ((2 << (10 * 2)) | (2 << (11 * 2)));
+    GPIOB->OTYPER |= (1 << 10) | (1 << 11); GPIOB->AFR[1] |= (4 << ((10 - 8) * 4)) | (4 << ((11 - 8) * 4));
+    GPIOE->MODER &= ~(3 << (9 * 2)); GPIOE->MODER |= (2 << (9 * 2)); GPIOE->AFR[1] |= (1 << ((9 - 8) * 4));
+}
+
+void I2C2_Init_NoHal(void) {
+    RCC->APB1ENR |= RCC_APB1ENR_I2C2EN;
+    I2C2->CR1 |= I2C_CR1_SWRST;
+    I2C2->CR1 &= ~I2C_CR1_SWRST;
+
+    // 주신 클록트리 기준 APB1 = 42MHz 동기화 수식 반영
+    I2C2->CR2 |= 42;
+    I2C2->CCR |= 210;
+    I2C2->TRISE |= 43;
+    I2C2->CR1 |= I2C_CR1_PE;
+}
+
+void TIM1_Init_NoHal(void) {
+    RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;
+    // 타이머 공급 소스 클록 (SYSCLK=168MHz 배수 매칭) 반영
+    TIM1->PSC = 168 - 1;
+    TIM1->ARR = 1000 - 1;
+    TIM1->CCMR1 &= ~TIM_CCMR1_OC1M; TIM1->CCMR1 |= (6 << TIM_CCMR1_OC1M_Pos) | TIM_CCMR1_OC1PE;
+    TIM1->CCER |= TIM_CCER_CC1E; TIM1->BDTR |= TIM_BDTR_MOE; TIM1->CR1 |= TIM_CR1_CEN;
+}
+
+void I2C2_WriteRegister(uint8_t devAddr, uint8_t regAddr, uint8_t data) {
+    while(I2C2->SR2 & I2C_SR2_BUSY); I2C2->CR1 |= I2C_CR1_START; while(!(I2C2->SR1 & I2C_SR1_SB));
+    I2C2->DR = (devAddr << 1); while(!(I2C2->SR1 & I2C_SR1_ADDR)); (void)I2C2->SR2;
+    while(!(I2C2->SR1 & I2C_SR1_TXE)); I2C2->DR = regAddr; while(!(I2C2->SR1 & I2C_SR1_TXE));
+    I2C2->DR = data; while(!(I2C2->SR1 & I2C_SR1_BTF)); I2C2->CR1 |= I2C_CR1_STOP;
+}
+
+void I2C2_ReadBurst(uint8_t devAddr, uint8_t regAddr, uint8_t *pData, uint8_t size) {
+    while(I2C2->SR2 & I2C_SR2_BUSY); I2C2->CR1 |= I2C_CR1_START; while(!(I2C2->SR1 & I2C_SR1_SB));
+    I2C2->DR = (devAddr << 1); while(!(I2C2->SR1 & I2C_SR1_ADDR)); (void)I2C2->SR2;
+    while(!(I2C2->SR1 & I2C_SR1_TXE)); I2C2->DR = regAddr; while(!(I2C2->SR1 & I2C_SR1_BTF));
+    I2C2->CR1 |= I2C_CR1_START; while(!(I2C2->SR1 & I2C_SR1_SB)); I2C2->DR = (devAddr << 1) | 0x01;
+    while(!(I2C2->SR1 & I2C_SR1_ADDR)); (void)I2C2->SR2; I2C2->CR1 |= I2C_CR1_ACK;
+    for(uint8_t i = 0; i < size; i++) {
+        if(i == (size - 1)) { I2C2->CR1 &= ~I2C_CR1_ACK; I2C2->CR1 |= I2C_CR1_STOP; }
+        while(!(I2C2->SR1 & I2C_SR1_RXNE)); pData[i] = I2C2->DR;
+    }
+}
+
+void StartSensorTask(void *argument) {
+    uint8_t buffer[2] = {0};
+    for(;;) {
+        I2C2_ReadBurst(ADXL345_ADDR, ADXL345_REG_DATAY0, buffer, 2);
+        accel_y = (int16_t)((buffer[1] << 8) | buffer[0]);
+        printf("Accel Y: %d\r\n", accel_y);
+        osDelay(20);
+    }
+}
+//void StartSensorTask(void *argument) {
+//    /* USER CODE BEGIN 5 */
+//    // uint8_t buffer[2] = {0}; // 임시 주석 처리
+//
+//    for(;;) {
+//        // [디버깅] 센서 미연결 상태이므로 I2C 읽기 함수를 주석 처리합니다.
+//        // I2C2_ReadBurst(ADXL345_ADDR, ADXL345_REG_DATAY0, buffer, 2);
+//        // accel_y = (int16_t)((buffer[1] << 8) | buffer[0]);
+//
+//        // 센서 대신 하드웨어 타이머 가상 데이터 테스트 (동작 확인용)
+//        accel_y++;
+//        if(accel_y > 100) accel_y = -100;
+//
+//        printf("Live Debug - Accel Y: %d\r\n", accel_y);
+//        osDelay(500); // 터미널을 편하게 보기 위해 출력을 0.5초 주기로 늦춥니다.
+//    }
+//    /* USER CODE END 5 */
+//}
+void StartMotorTask(void *argument) {
+    const int16_t threshold = 30;
+    for(;;) {
+        int16_t current_y = accel_y;
+        if (current_y > threshold) {
+            GPIOC->BSRR = (1 << 7);
+            TIM1->CCR1 = 500;
+        } else if (current_y < -threshold) {
+            GPIOC->BSRR = (1 << (7 + 16));
+            TIM1->CCR1 = 500;
+        } else {
+            TIM1->CCR1 = 0;
+        }
+        osDelay(50);
+    }
+}
+/* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_StartDefaultTask */
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used
+  * @retval None
+  */
+/* USER CODE END Header_StartDefaultTask */
+void StartDefaultTask(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END 5 */
+}
+
+/**
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
+void Error_Handler(void)
+{
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
+  {
+  }
+  /* USER CODE END Error_Handler_Debug */
+}
+#ifdef USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  * where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
+void assert_failed(uint8_t *file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* USER CODE END 6 */
+}
+#endif /* USE_FULL_ASSERT */

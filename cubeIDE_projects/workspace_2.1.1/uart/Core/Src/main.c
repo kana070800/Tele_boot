@@ -21,6 +21,7 @@
 #include "string.h"
 #include "stdio.h"
 #include "stdarg.h"
+#include "stdlib.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -236,8 +237,9 @@ void Uart3_Printf(char *fmt,...)
   va_end(ap);
   UART3_Send_String(string);
 }*/
-
-
+const int con = 10;
+int cons = 10;
+int bsss;
 int main(void)
 {
   SystemClock_Config(); // 해당 함수 호출해야
@@ -246,8 +248,30 @@ int main(void)
   char echo_back;
   volatile int flag_R = 0;
 
-  Uart3_Printf("test code %d\n\r",3);
-  Uart3_Printf("test code %d\n\r",77);
+  static int rws = 1;
+  static int rwas;
+  Uart3_Printf("CODE(main): %x\n\r",main);
+  Uart3_Printf("CODE(UART3_Print): %x\n\r",Uart3_Printf);
+  Uart3_Printf("RO-data(string): %x\n\r","hello");
+  Uart3_Printf("RO-data(cons): %x\n\r",&con);
+
+  Uart3_Printf("RW-data(static): %x\n\r",&rws);
+  Uart3_Printf("RW-data: %x\n\r",&cons);
+
+  Uart3_Printf("BSS: %x\n\r",&bsss);
+  Uart3_Printf("BSS(static): %x\n\r",&rwas);
+
+  char * p;
+  for (int i = 0; i < 10000; i++){
+	  p = malloc(10*sizeof(int));
+	  if (p)
+		  Uart3_Printf("Heap: %x\n\r",p);
+	  else
+		  break;
+  }
+  int stack = 10;
+  Uart3_Printf("stack: %x\n\r",&stack);
+
   while (1)
   {
  	  if((USART3->SR >> RXNE) & 0x1){
