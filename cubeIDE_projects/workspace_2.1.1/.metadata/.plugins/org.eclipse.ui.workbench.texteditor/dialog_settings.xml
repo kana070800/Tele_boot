@@ -3,6 +3,8 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
+		<item value="STATE_I2C"/>
+		<item value="i2c_sem"/>
 		<item value="I2C2"/>
 		<item value="ev"/>
 		<item value="StartDefaultTask"/>
@@ -16,8 +18,6 @@
 		<item value="ready"/>
 		<item value="pxCurrentTCB"/>
 		<item value="stack"/>
-		<item value="context"/>
-		<item value="portBYTE_ALIGNMENT_MASK"/>
 	</list>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item key="selection" value=""/>

@@ -1,7 +1,70 @@
-19:25:12 **** Build of configuration Debug for project RTOS_project ****
+21:20:24 **** Incremental Build of configuration Debug for project rtos_personal ****
 make -j12 all 
-arm-none-eabi-size  RTOS_project.elf 
+arm-none-eabi-size  rtos_personal.elf 
    text	   data	    bss	    dec	    hex	filename
-  29764	    108	  22572	  52444	   ccdc	RTOS_project.elf
+  26060	     16	  22232	  48308	   bcb4	rtos_personal.elf
 Finished building: default.size.stdout
+ 
+21:20:27 **** Incremental Build of configuration Debug for project rtos_personal ****
+make -j12 all 
+arm-none-eabi-size  rtos_personal.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26060	     16	  22232	  48308	   bcb4	rtos_personal.elf
+Finished building: default.size.stdout
+ 
+21:21:23 **** Incremental Build of configuration Debug for project rtos_personal ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "rtos_personal.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\rtos_personal\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_personal.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: rtos_personal.elf
+ 
+arm-none-eabi-size  rtos_personal.elf 
+arm-none-eabi-objdump -h -S rtos_personal.elf  > "rtos_personal.list"
+   text	   data	    bss	    dec	    hex	filename
+  26076	     16	  22232	  48324	   bcc4	rtos_personal.elf
+Finished building: default.size.stdout
+ 
+Finished building: rtos_personal.list
+ 
+21:22:42 **** Incremental Build of configuration Debug for project rtos_personal ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "rtos_personal.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\rtos_personal\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_personal.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: rtos_personal.elf
+ 
+arm-none-eabi-size  rtos_personal.elf 
+arm-none-eabi-objdump -h -S rtos_personal.elf  > "rtos_personal.list"
+   text	   data	    bss	    dec	    hex	filename
+  26076	     16	  22232	  48324	   bcc4	rtos_personal.elf
+Finished building: default.size.stdout
+ 
+Finished building: rtos_personal.list
+ 
+21:23:44 **** Incremental Build of configuration Debug for project rtos_personal ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "rtos_personal.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\rtos_personal\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_personal.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: rtos_personal.elf
+ 
+arm-none-eabi-size  rtos_personal.elf 
+arm-none-eabi-objdump -h -S rtos_personal.elf  > "rtos_personal.list"
+   text	   data	    bss	    dec	    hex	filename
+  26076	     16	  22232	  48324	   bcc4	rtos_personal.elf
+Finished building: default.size.stdout
+ 
+Finished building: rtos_personal.list
+ 
+21:29:55 **** Incremental Build of configuration Debug for project rtos_personal ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "rtos_personal.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\rtos_personal\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_personal.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: rtos_personal.elf
+ 
+arm-none-eabi-size  rtos_personal.elf 
+arm-none-eabi-objdump -h -S rtos_personal.elf  > "rtos_personal.list"
+   text	   data	    bss	    dec	    hex	filename
+  26156	     16	  22232	  48404	   bd14	rtos_personal.elf
+Finished building: default.size.stdout
+ 
+Finished building: rtos_personal.list
  

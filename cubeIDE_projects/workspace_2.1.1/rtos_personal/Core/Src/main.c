@@ -25,6 +25,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include <stdlib.h>
+#include <semphr.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,7 +46,7 @@ enum {
 
 //receive 2byte
 enum {
-	i2c_start_r = 0, //start bit set
+	i2c_start_r = 5, //start bit set
 	i2c_ev5_r,       //>> interrupt, I2C_SR1 Read, I2C_DR Write address
 	i2c_ev6_r,       //>> interrupt,Set ACK low, (set POS high), I2C_SR1 Read, I2C_SR2 Read(addr clear)
 	i2c_ev7_1_r,     //>> RXNE interrupt, if BTF = 1 > set stop bit, i2c_DR read 2번
@@ -53,14 +54,21 @@ enum {
 
 //receive nbyte
 enum {
-	i2c_start_r = 0, //start bit set
-	i2c_ev5_r,       //>> interrupt, I2C_SR1 Read, I2C_DR Write address
-	i2c_ev6_r,       //>> interrupt, I2C_SR1 Read, I2C_SR2 Read(addr clear)
-	i2c_ev7_r,     //>> RXNE interrupt, i2c_DR read
+	i2c_start_rn = 9, //start bit set
+	i2c_ev5_rn,       //>> interrupt, I2C_SR1 Read, I2C_DR Write address
+	i2c_ev6_rn,       //>> interrupt, I2C_SR1 Read, I2C_SR2 Read(addr clear)
+	i2c_ev7_rn,     //>> RXNE interrupt, i2c_DR read
 	// 만약 남은 데이터가 3개가 되면 -> i2c_ev7_1b_r 상태로 전환
-	i2c_ev7_1b_r,     //>> RXNE interrupt,if BTF = 1 > set ack low, i2c_DR read
-	i2c_ev7_1_r		//>> RXNE interrupt, if BTF = 1 > set stop bit, i2c_DR read 2번
+	i2c_ev7_1b_rn,     //>> RXNE interrupt,if BTF = 1 > set ack low, i2c_DR read
+	i2c_ev7_1_rn		//>> RXNE interrupt, if BTF = 1 > set stop bit, i2c_DR read 2번
 };
+
+
+int STATE_I2C;
+
+#define ADXLADDR 100
+
+xSemaphoreHandle i2c_Sem;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -100,6 +108,8 @@ static void MX_USB_OTG_FS_PCD_Init(void);
 void StartDefaultTask(void *argument);
 
 /* USER CODE BEGIN PFP */
+void TIM6_INIT(void);
+void I2C2_INIT(void);
 void I2C2_Task(void *argument);
 /* USER CODE END PFP */
 
@@ -125,7 +135,8 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  i2c init
+  I2C2_INIT();
+  TIM6_INIT();
 
   /* USER CODE END Init */
 
@@ -153,7 +164,7 @@ int main(void)
   /* USER CODE END RTOS_MUTEX */
 
   /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
+  i2c_Sem = xSemaphoreCreateBinary();
   /* USER CODE END RTOS_SEMAPHORES */
 
   /* USER CODE BEGIN RTOS_TIMERS */
@@ -174,7 +185,10 @@ int main(void)
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
-  NVIC
+  NVIC_SetPriority((IRQn_Type)31, 12);      //configMAX_SYSCALL_INTERRUPT_PRIORITY == 5보다 낮게 설정
+  NVIC_EnableIRQ(31);
+  NVIC_SetPriority((IRQn_Type)54, 12);
+  NVIC_EnableIRQ(54); //timer6 interrupt enable
   /* USER CODE END RTOS_EVENTS */
 
   /* Start scheduler */
@@ -437,14 +451,98 @@ void UART3_Send_String(char* p) {
 
 void I2C2_Task(void *argument)
 {
-
+	STATE_I2C = i2c_start_rn;
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+	if(xSemaphoreTake(i2c_Sem, portMAX_DELAY)){
+		while(!((USART3->SR >> 7) & 0x1)){};
+		USART3->DR = 'x';
+
+		//start bit set
+		I2C2->CR1 |= (1<<8);  // interrupt
+	}
+
   }
 
 }
+
+void I2C2_INIT(void){
+	RCC->APB1ENR |= (1<< 22); //I2C2 clock enable
+	RCC->AHB1ENR |= (1<<1);	  //gpioB enable
+
+	//GPIO         moder = 10, OTYPER = 1, PUPDR = 01 open drain + pull up, AF = 4
+	GPIOB->MODER |= (2 << 10*2)|(2 << 11*2);  // AF
+	GPIOB->OTYPER |= (1 << 10)|(1 << 11);     // open drain
+	GPIOB->PUPDR |= (1 << 10*2)|(1 << 11*2);  // pull up
+	GPIOB->AFR[1] &= ~(0xFF<<8);
+	GPIOB->AFR[1] |= (0x44<<8);        // AF4 == i2c use
+
+	//i2c2
+	RCC->APB1RSTR |= (1<<22);  //i2c2 reset
+	RCC->APB1RSTR &= ~(1<<22); //i2c2 reset x
+
+	I2C2->CR1 &= ~(1<<0);   // peripheral disable 초기화
+
+	I2C2->CR2 |= (1<<10)|(1<<9); //interrupt enable
+
+	I2C2->CR2 &= ~(0x3F<<0);
+	I2C2->CR2 |= 42;             // APB1 = 42MHz
+
+	// CCR = 42MHz / (2 * 100kHz) = 210
+	I2C2->CCR &= ~I2C_CCR_FS;       // Sm mode 선택 (0)
+	I2C2->CCR &= ~I2C_CCR_CCR;      // 기존 CCR 비트 클리어
+	I2C2->CCR = 210;
+
+	I2C2->TRISE = 43;
+
+	I2C2->CR1 |= (1<<0);   // peripheral enable
+	I2C2->CR1 |= (1<<10);  //ack enable
+
+	return;
+}
+
+void TIM6_INIT(void){
+  RCC->APB1ENR |= RCC_APB1ENR_TIM6EN;
+  TIM6->CR1 = 0;
+
+  TIM6->ARR = 41999;
+  TIM6->PSC = 999;
+  TIM6->DIER |= 1;
+
+  // [보완] UG 비트를 1로 설정하여 ARR과 PSC 값을 Shadow 레지스터로 즉시 강제 전송
+  TIM6->EGR |= TIM_EGR_UG;
+  // [보완] UG 비트를 누르면 인터럽트 플래그(SR->UIF)가 강제로 set, 켜기 전에 반드시 클리어
+  TIM6->SR &= ~1;
+
+  TIM6->CR1 |= 1<<0;  //counter enable
+
+	return;
+}
+
+void TIM6_DAC_IRQHandler() {
+
+	BaseType_t xHigherPriorityTaskWoken;
+	xHigherPriorityTaskWoken = pdFALSE;
+
+	if(TIM6->SR & 0x1){
+		TIM6->SR &= ~1;
+		//give semaphore
+		xSemaphoreGiveFromISR(i2c_Sem, &xHigherPriorityTaskWoken);
+		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	}
+}
+
+void I2C2_EV_IRQHandler() {
+	int __STATE_I2C = I2C->SR1; //sr1 read
+
+	if (__STATE_I2C & 0x1){ //when start bit set
+		I2C->DR = 0;//ADXLADDR + write or read 결정여부는 datasheet를 확인
+		return;
+	}
+
+}
+
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
