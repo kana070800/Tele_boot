@@ -1,70 +1,127 @@
-21:20:24 **** Incremental Build of configuration Debug for project rtos_personal ****
+17:06:44 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
 make -j12 all 
-arm-none-eabi-size  rtos_personal.elf 
+arm-none-eabi-gcc "../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.d" -MT"Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o"
+arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_debug2.elf
+ 
+arm-none-eabi-size  RTOS_debug2.elf 
+arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
    text	   data	    bss	    dec	    hex	filename
-  26060	     16	  22232	  48308	   bcb4	rtos_personal.elf
+  24328	     16	  22232	  46576	   b5f0	RTOS_debug2.elf
 Finished building: default.size.stdout
  
-21:20:27 **** Incremental Build of configuration Debug for project rtos_personal ****
-make -j12 all 
-arm-none-eabi-size  rtos_personal.elf 
-   text	   data	    bss	    dec	    hex	filename
-  26060	     16	  22232	  48308	   bcb4	rtos_personal.elf
-Finished building: default.size.stdout
+Finished building: RTOS_debug2.list
  
-21:21:23 **** Incremental Build of configuration Debug for project rtos_personal ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "rtos_personal.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\rtos_personal\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_personal.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: rtos_personal.elf
- 
-arm-none-eabi-size  rtos_personal.elf 
-arm-none-eabi-objdump -h -S rtos_personal.elf  > "rtos_personal.list"
-   text	   data	    bss	    dec	    hex	filename
-  26076	     16	  22232	  48324	   bcc4	rtos_personal.elf
-Finished building: default.size.stdout
- 
-Finished building: rtos_personal.list
- 
-21:22:42 **** Incremental Build of configuration Debug for project rtos_personal ****
+17:06:47 **** Incremental Build of configuration Debug for project RTOS_debug ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "rtos_personal.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\rtos_personal\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_personal.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: rtos_personal.elf
+arm-none-eabi-gcc -o "RTOS_debug.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_debug.elf
  
-arm-none-eabi-size  rtos_personal.elf 
-arm-none-eabi-objdump -h -S rtos_personal.elf  > "rtos_personal.list"
+arm-none-eabi-size  RTOS_debug.elf 
+arm-none-eabi-objdump -h -S RTOS_debug.elf  > "RTOS_debug.list"
    text	   data	    bss	    dec	    hex	filename
-  26076	     16	  22232	  48324	   bcc4	rtos_personal.elf
+  24240	     16	  22224	  46480	   b590	RTOS_debug.elf
 Finished building: default.size.stdout
  
-Finished building: rtos_personal.list
+Finished building: RTOS_debug.list
  
-21:23:44 **** Incremental Build of configuration Debug for project rtos_personal ****
+17:07:28 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
+make -j12 all 
+arm-none-eabi-size  RTOS_debug2.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24328	     16	  22232	  46576	   b5f0	RTOS_debug2.elf
+Finished building: default.size.stdout
+ 
+17:10:11 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "rtos_personal.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\rtos_personal\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_personal.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: rtos_personal.elf
+arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_debug2.elf
  
-arm-none-eabi-size  rtos_personal.elf 
-arm-none-eabi-objdump -h -S rtos_personal.elf  > "rtos_personal.list"
+arm-none-eabi-size  RTOS_debug2.elf 
+arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
    text	   data	    bss	    dec	    hex	filename
-  26076	     16	  22232	  48324	   bcc4	rtos_personal.elf
+  24312	     16	  22232	  46560	   b5e0	RTOS_debug2.elf
 Finished building: default.size.stdout
  
-Finished building: rtos_personal.list
+Finished building: RTOS_debug2.list
  
-21:29:55 **** Incremental Build of configuration Debug for project rtos_personal ****
+17:10:43 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "rtos_personal.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\rtos_personal\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rtos_personal.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: rtos_personal.elf
+arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_debug2.elf
  
-arm-none-eabi-size  rtos_personal.elf 
-arm-none-eabi-objdump -h -S rtos_personal.elf  > "rtos_personal.list"
+arm-none-eabi-size  RTOS_debug2.elf 
+arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
    text	   data	    bss	    dec	    hex	filename
-  26156	     16	  22232	  48404	   bd14	rtos_personal.elf
+  24312	     16	  22232	  46560	   b5e0	RTOS_debug2.elf
 Finished building: default.size.stdout
  
-Finished building: rtos_personal.list
+Finished building: RTOS_debug2.list
+ 
+17:11:02 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_debug2.elf
+ 
+arm-none-eabi-size  RTOS_debug2.elf 
+arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
+   text	   data	    bss	    dec	    hex	filename
+  24312	     16	  22232	  46560	   b5e0	RTOS_debug2.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_debug2.list
+ 
+17:11:41 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'StartDefaultTask':
+../Core/Src/main.c:412:45: error: passing argument 1 of 'UART3_Send_String' makes pointer from integer without a cast [-Wint-conversion]
+  412 |                           UART3_Send_String(buf);
+      |                                             ^~~
+      |                                             |
+      |                                             char
+In file included from ../Core/Src/main.c:28:
+../Core/Inc/uart.h:6:30: note: expected 'char *' but argument is of type 'char'
+    6 | void UART3_Send_String(char* p);
+      |                        ~~~~~~^
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+17:11:58 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_debug2.elf
+ 
+arm-none-eabi-size  RTOS_debug2.elf 
+arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
+   text	   data	    bss	    dec	    hex	filename
+  24120	     16	  22232	  46368	   b520	RTOS_debug2.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_debug2.list
+ 
+17:12:37 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_debug2.elf
+ 
+arm-none-eabi-size  RTOS_debug2.elf 
+arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
+   text	   data	    bss	    dec	    hex	filename
+  24072	     16	  22232	  46320	   b4f0	RTOS_debug2.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_debug2.list
+ 
+17:21:09 **** Incremental Build of configuration Debug for project RTOS_debug ****
+make -j12 all 
+arm-none-eabi-size  RTOS_debug.elf 
+   text	   data	    bss	    dec	    hex	filename
+  24240	     16	  22224	  46480	   b590	RTOS_debug.elf
+Finished building: default.size.stdout
  

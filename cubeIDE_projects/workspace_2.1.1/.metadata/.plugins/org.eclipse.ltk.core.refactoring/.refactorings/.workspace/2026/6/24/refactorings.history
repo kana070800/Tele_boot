@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;RTOS_debug2&apos; to &apos;RTOS_debug2(fail)&apos;" description="Rename resource &apos;RTOS_debug2&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/RTOS_debug2" name="RTOS_debug2(fail)" stamp="1780820454517" updateReferences="true"/>
+</session>

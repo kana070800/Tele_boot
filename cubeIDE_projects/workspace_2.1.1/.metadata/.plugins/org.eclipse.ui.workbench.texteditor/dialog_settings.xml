@@ -3,6 +3,12 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
+		<item value="xQueue"/>
+		<item value="xQueueSendToBackFromISR"/>
+		<item value="asm"/>
+		<item value="systick"/>
+		<item value="USART3"/>
+		<item value="usart3"/>
 		<item value="STATE_I2C"/>
 		<item value="i2c_sem"/>
 		<item value="I2C2"/>
@@ -12,12 +18,6 @@
 		<item value="xStateListItem"/>
 		<item value="prvAddNewTaskToReadyList"/>
 		<item value="uxCriticalNesting"/>
-		<item value="vTaskSwitchContext"/>
-		<item value="portNVIC_PENDSV_PRI"/>
-		<item value="xTaskRemoveFromEventList"/>
-		<item value="ready"/>
-		<item value="pxCurrentTCB"/>
-		<item value="stack"/>
 	</list>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item key="selection" value=""/>
