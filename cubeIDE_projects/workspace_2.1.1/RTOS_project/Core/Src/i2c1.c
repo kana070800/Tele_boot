@@ -1,0 +1,74 @@
+#include "main.h"
+#include "stm32f4xx.h"
+#include "uart.h"
+
+#define INA3221_addr    (0x40)
+
+// 타임아웃 방지를 위한 간단한 카운터 매크로
+#define I2C_TIMEOUT     10000
+
+// 플래그 대기 함수
+static int I2C_Wait_Flag(uint32_t flag, uint32_t set) {
+    uint32_t timeout = I2C_TIMEOUT;
+    if (set) {
+        while (!(I2C1->SR1 & flag)) { if (--timeout == 0) return -1; }
+    } else {
+        while (I2C1->SR1 & flag) { if (--timeout == 0) return -1; }
+    }
+    return 0;
+}
+
+void I2C1_init(void) {
+    // RCC, GPIO 설정은 기존과 동일
+    RCC->AHB1ENR |= (0x1UL << 1);
+    GPIOB->MODER |= ((2 << (9 * 2)) | (2 << (8 * 2)));
+    GPIOB->OTYPER |= (1 << 9) | (1 << 8);
+    GPIOB->AFR[1] |= (4 << 4) | (4 << 0);
+
+    RCC->APB1ENR |= (0x1UL << 21);
+    I2C1->CR1 |= (0x1UL << 15);
+    I2C1->CR1 &= ~(0x1UL << 15);
+
+    // 🟢 중요: 풀링 방식이므로 인터럽트(CR2 비트 8, 9, 10)는 모두 0으로 설정
+    I2C1->CR2 = (42 << 0);
+    I2C1->CCR = 210;
+    I2C1->TRISE = 43;
+    I2C1->CR1 |= I2C_CR1_PE;
+}
+
+// 2바이트 읽기 전용 풀링 함수
+void I2C1_Read_Polling(uint8_t reg, uint8_t *data_h, uint8_t *data_l) {
+    // 1. 레지스터 포인터 설정 (Write)
+    I2C1->CR1 |= I2C_CR1_START;
+    I2C_Wait_Flag(I2C_SR1_SB, 1);
+
+    I2C1->DR = (INA3221_addr << 1);
+    I2C_Wait_Flag(I2C_SR1_ADDR, 1);
+    uint32_t temp = I2C1->SR2; // ADDR 클리어
+
+    I2C1->DR = reg;
+    I2C_Wait_Flag(I2C_SR1_TXE, 1);
+    I2C_Wait_Flag(I2C_SR1_BTF, 1); // 전송 완료 대기
+
+    // 2. 데이터 읽기 (Restart & Read)
+    I2C1->CR1 |= I2C_CR1_START;
+    I2C_Wait_Flag(I2C_SR1_SB, 1);
+
+    I2C1->DR = (INA3221_addr << 1) | 1;
+    I2C_Wait_Flag(I2C_SR1_ADDR, 1);
+
+    // 2바이트 수신을 위한 POS/ACK 설정
+    I2C1->CR1 |= I2C_CR1_POS;
+    I2C1->CR1 &= ~I2C_CR1_ACK;
+    temp = I2C1->SR2; // ADDR 클리어
+
+    I2C_Wait_Flag(I2C_SR1_BTF, 1); // 2바이트 수신 완료 대기
+
+    I2C1->CR1 |= I2C_CR1_STOP;
+    *data_h = I2C1->DR;
+    *data_l = I2C1->DR;
+
+    // 통신 완료 후 설정 원상복귀
+    I2C1->CR1 &= ~I2C_CR1_POS;
+    I2C1->CR1 |= I2C_CR1_ACK;
+}

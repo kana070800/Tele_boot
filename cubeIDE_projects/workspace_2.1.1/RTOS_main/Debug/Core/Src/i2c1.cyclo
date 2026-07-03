@@ -1,0 +1,2 @@
+../Core/Src/i2c1.c:11:12:I2C_Wait_Flag	6
+../Core/Src/i2c1.c:40:6:I2C1_Read_Polling	3

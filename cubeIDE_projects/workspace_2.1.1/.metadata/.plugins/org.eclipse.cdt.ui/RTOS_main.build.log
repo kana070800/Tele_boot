@@ -1,0 +1,36 @@
+20:27:26 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  659 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  689 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27796	     96	  22568	  50460	   c51c	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+
+20:27:28 Build Finished. 0 errors, 12 warnings. (took 1s.286ms)
+

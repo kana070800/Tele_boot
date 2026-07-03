@@ -1,0 +1,9 @@
+#ifndef __I2C__
+#define __I2C__
+
+void I2C1_init(void);
+
+void I2C1_write(int reg, );
+void I2C1_read(char ch);
+
+#endif

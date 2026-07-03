@@ -1,0 +1,7 @@
+../Core/Src/i2c.c:538:6:I2C1_init	1
+../Core/Src/i2c.c:566:6:I2C1_write	3
+../Core/Src/i2c.c:584:6:I2C1_read_ready	3
+../Core/Src/i2c.c:603:6:I2C1_read	3
+../Core/Src/i2c.c:620:6:init_ina3221	1
+../Core/Src/i2c.c:625:6:init_ina226	1
+../Core/Src/i2c.c:632:6:I2C1_EV_IRQHandler	13

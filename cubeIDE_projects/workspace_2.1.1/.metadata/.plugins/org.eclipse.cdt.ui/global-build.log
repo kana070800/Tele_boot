@@ -1,127 +1,569 @@
-17:06:44 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
+19:20:51 **** Incremental Build of configuration Debug for project RTOS_main ****
 make -j12 all 
-arm-none-eabi-gcc "../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.d" -MT"Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o"
-arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RTOS_debug2.elf
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:210:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  210 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:210:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:210:17: warning: enumeration value 'I2C_READ_WAIT_BTF' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:143:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  143 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
  
-arm-none-eabi-size  RTOS_debug2.elf 
-arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
    text	   data	    bss	    dec	    hex	filename
-  24328	     16	  22232	  46576	   b5f0	RTOS_debug2.elf
+  27988	     96	  22568	  50652	   c5dc	RTOS_main.elf
 Finished building: default.size.stdout
  
-Finished building: RTOS_debug2.list
+Finished building: RTOS_main.list
  
-17:06:47 **** Incremental Build of configuration Debug for project RTOS_debug ****
+19:21:03 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-size  RTOS_main.elf 
+   text	   data	    bss	    dec	    hex	filename
+  27988	     96	  22568	  50652	   c5dc	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+19:22:11 **** Incremental Build of configuration Debug for project RTOS_main ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "RTOS_debug.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RTOS_debug.elf
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
  
-arm-none-eabi-size  RTOS_debug.elf 
-arm-none-eabi-objdump -h -S RTOS_debug.elf  > "RTOS_debug.list"
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
    text	   data	    bss	    dec	    hex	filename
-  24240	     16	  22224	  46480	   b590	RTOS_debug.elf
+  27988	     96	  22568	  50652	   c5dc	RTOS_main.elf
 Finished building: default.size.stdout
  
-Finished building: RTOS_debug.list
+Finished building: RTOS_main.list
  
-17:07:28 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
+19:26:57 **** Incremental Build of configuration Debug for project RTOS_main ****
 make -j12 all 
-arm-none-eabi-size  RTOS_debug2.elf 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:660:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  660 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:660:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
    text	   data	    bss	    dec	    hex	filename
-  24328	     16	  22232	  46576	   b5f0	RTOS_debug2.elf
+  27912	     96	  22568	  50576	   c590	RTOS_main.elf
 Finished building: default.size.stdout
  
-17:10:11 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
+Finished building: RTOS_main.list
+ 
+19:28:29 **** Incremental Build of configuration Debug for project RTOS_main ****
 make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:392:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  392 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  28132	     96	  22568	  50796	   c66c	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+19:30:08 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:389:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  389 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  28100	     96	  22568	  50764	   c64c	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+19:34:11 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:633:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  633 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27932	     96	  22568	  50596	   c5a4	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+19:36:49 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:681:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  681 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:681:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27960	     96	  22568	  50624	   c5c0	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+19:42:00 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:682:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  682 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:682:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:682:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:682:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:708:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  708 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:708:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:708:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:708:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:708:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:708:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:708:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27964	     96	  22568	  50628	   c5c4	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+19:42:33 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:683:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  683 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:683:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:683:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:683:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  709 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27964	     96	  22568	  50628	   c5c4	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+19:43:45 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:683:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  683 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:683:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:683:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:683:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  709 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:709:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27928	     96	  22568	  50592	   c5a0	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+19:46:03 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  673 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27948	     96	  22568	  50612	   c5b4	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+19:46:23 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  673 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27928	     96	  22568	  50592	   c5a0	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+19:55:12 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  673 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:673:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:699:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  699 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:699:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:699:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:699:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:699:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:699:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:699:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27928	     96	  22568	  50592	   c5a0	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+20:01:03 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:671:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  671 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:671:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:671:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:671:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  695 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27880	     96	  22568	  50544	   c570	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+20:01:26 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  659 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:696:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  696 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:696:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:696:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:696:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:696:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:696:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:696:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27880	     96	  22568	  50544	   c570	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+20:02:00 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  659 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  695 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27880	     96	  22568	  50544	   c570	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+20:03:16 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  659 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  695 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+   text	   data	    bss	    dec	    hex	filename
+  27880	     96	  22568	  50544	   c570	RTOS_main.elf
+Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
+ 
+20:07:37 **** Incremental Build of configuration Debug for project RTOS_main ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RTOS_debug2.elf
- 
-arm-none-eabi-size  RTOS_debug2.elf 
-arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
-   text	   data	    bss	    dec	    hex	filename
-  24312	     16	  22232	  46560	   b5e0	RTOS_debug2.elf
-Finished building: default.size.stdout
- 
-Finished building: RTOS_debug2.list
- 
-17:10:43 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RTOS_debug2.elf
- 
-arm-none-eabi-size  RTOS_debug2.elf 
-arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
-   text	   data	    bss	    dec	    hex	filename
-  24312	     16	  22232	  46560	   b5e0	RTOS_debug2.elf
-Finished building: default.size.stdout
- 
-Finished building: RTOS_debug2.list
- 
-17:11:02 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RTOS_debug2.elf
- 
-arm-none-eabi-size  RTOS_debug2.elf 
-arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
-   text	   data	    bss	    dec	    hex	filename
-  24312	     16	  22232	  46560	   b5e0	RTOS_debug2.elf
-Finished building: default.size.stdout
- 
-Finished building: RTOS_debug2.list
- 
-17:11:41 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
-make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  659 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  695 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:695:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
 ../Core/Src/main.c: In function 'StartDefaultTask':
-../Core/Src/main.c:412:45: error: passing argument 1 of 'UART3_Send_String' makes pointer from integer without a cast [-Wint-conversion]
-  412 |                           UART3_Send_String(buf);
-      |                                             ^~~
-      |                                             |
-      |                                             char
-In file included from ../Core/Src/main.c:28:
-../Core/Inc/uart.h:6:30: note: expected 'char *' but argument is of type 'char'
-    6 | void UART3_Send_String(char* p);
-      |                        ~~~~~~^
-make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+../Core/Src/main.c:423:43: error: 'a' undeclared (first use in this function)
+  423 |                 UART3_Printf("%d %d~~\n", a, b);
+      |                                           ^
+../Core/Src/main.c:423:43: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/main.c:423:46: error: 'b' undeclared (first use in this function)
+  423 |                 UART3_Printf("%d %d~~\n", a, b);
+      |                                              ^
+make: *** [Core/Src/subdir.mk:46: Core/Src/main.o] Error 1
+make: *** Waiting for unfinished jobs....
 "make -j12 all" terminated with exit code 2. Build might be incomplete.
-17:11:58 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
+20:07:49 **** Incremental Build of configuration Debug for project RTOS_main ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RTOS_debug2.elf
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
  
-arm-none-eabi-size  RTOS_debug2.elf 
-arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
    text	   data	    bss	    dec	    hex	filename
-  24120	     16	  22232	  46368	   b520	RTOS_debug2.elf
+  27844	     96	  22568	  50508	   c54c	RTOS_main.elf
 Finished building: default.size.stdout
  
-Finished building: RTOS_debug2.list
+Finished building: RTOS_main.list
  
-17:12:37 **** Incremental Build of configuration Debug for project RTOS_debug2 ****
+20:09:36 **** Incremental Build of configuration Debug for project RTOS_main ****
 make -j12 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "RTOS_debug2.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_debug2\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_debug2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RTOS_debug2.elf
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  659 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  689 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
  
-arm-none-eabi-size  RTOS_debug2.elf 
-arm-none-eabi-objdump -h -S RTOS_debug2.elf  > "RTOS_debug2.list"
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
    text	   data	    bss	    dec	    hex	filename
-  24072	     16	  22232	  46320	   b4f0	RTOS_debug2.elf
+  27828	     96	  22568	  50492	   c53c	RTOS_main.elf
 Finished building: default.size.stdout
  
-Finished building: RTOS_debug2.list
+Finished building: RTOS_main.list
  
-17:21:09 **** Incremental Build of configuration Debug for project RTOS_debug ****
+20:27:26 **** Incremental Build of configuration Debug for project RTOS_main ****
 make -j12 all 
-arm-none-eabi-size  RTOS_debug.elf 
+arm-none-eabi-gcc "../Core/Src/i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/i2c.d" -MT"Core/Src/i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/i2c.o"
+../Core/Src/i2c.c: In function 'I2C1_EV_IRQHandler':
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  659 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_H' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:659:17: warning: enumeration value 'I2C_READ_DATA_L' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_IDLE' not handled in switch [-Wswitch]
+  689 |                 switch (h_I2C1.state){
+      |                 ^~~~~~
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_1' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_high' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_low' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SEND_REG8_2' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_SET_REG' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:689:17: warning: enumeration value 'I2C_READ_DATA' not handled in switch [-Wswitch]
+../Core/Src/i2c.c:636:18: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  636 |         uint32_t temp;
+      |                  ^~~~
+arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: RTOS_main.elf
+ 
+arm-none-eabi-size  RTOS_main.elf 
+arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
    text	   data	    bss	    dec	    hex	filename
-  24240	     16	  22224	  46480	   b590	RTOS_debug.elf
+  27796	     96	  22568	  50460	   c51c	RTOS_main.elf
 Finished building: default.size.stdout
+ 
+Finished building: RTOS_main.list
  

@@ -6431,3 +6431,1720 @@ COM1
 
 !ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-07 19:33:46.112
 !MESSAGE port: COM1
+!SESSION 2026-06-08 08:40:21.978 -----------------------------------------------
+eclipse.buildId=Version 2.1.1
+java.version=21.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Framework arguments:  C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_debug\.project
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_debug\.project
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-06-08 08:40:42.473
+!MESSAGE Log4j2 initialized with config file C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-06-08 08:41:04.240
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-08 08:41:06.101
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-08 08:41:06.102
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-08 08:41:06.103
+!MESSAGE port: COM3
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-06-08 08:41:26.038
+!MESSAGE Indexed 'RTOS_debug' (36 sources, 151 headers) in 2.38 sec: 16,309 declarations; 69,585 references; 1 unresolved inclusions; 202 syntax errors; 241 unresolved names (0.28%)
+!SESSION 2026-06-30 18:44:15.430 -----------------------------------------------
+eclipse.buildId=Version 2.1.1
+java.version=21.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-06-30 18:44:24.026
+!MESSAGE Log4j2 initialized with config file C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-06-30 18:44:40.023
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-30 18:44:50.125
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-30 18:44:50.126
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-30 18:44:50.126
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-30 18:44:50.126
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-30 18:44:50.126
+!MESSAGE port: COM6
+!SESSION 2026-06-30 18:45:12.023 -----------------------------------------------
+eclipse.buildId=Version 2.1.1
+java.version=21.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-06-30 18:47:06.262
+!MESSAGE Log4j2 initialized with config file C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-06-30 18:47:17.046
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-30 18:47:26.839
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-30 18:47:26.839
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-30 18:47:26.840
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-30 18:47:26.841
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-06-30 18:47:26.841
+!MESSAGE port: COM6
+!SESSION 2026-07-02 10:16:18.043 -----------------------------------------------
+eclipse.buildId=Version 2.1.1
+java.version=21.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-07-02 10:16:27.370
+!MESSAGE Log4j2 initialized with config file C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-07-02 10:16:36.968
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:16:49.321
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:16:49.322
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:16:49.323
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:16:49.323
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:16:49.324
+!MESSAGE port: COM6
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-07-02 10:20:11.620
+!MESSAGE Indexed 'senser_test' (27 sources, 161 headers) in 4.57 sec: 16,790 declarations; 72,600 references; 6 unresolved inclusions; 121 syntax errors; 1,626 unresolved names (1.8%)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:53:06.564
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:53:06.565
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:53:06.565
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:53:06.566
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:53:06.566
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:53:06.566
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:07.964
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:07.965
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:07.965
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:07.966
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:07.966
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:07.966
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:33.538
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:33.539
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:33.540
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:33.540
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:33.540
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:33.540
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:51.630
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:51.630
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:51.631
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:51.631
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:56:51.632
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:57:02.279
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:57:02.280
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:57:02.280
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:57:02.280
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:57:02.281
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 10:57:02.281
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:01:47.690
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:01:47.691
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:01:47.691
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:01:47.692
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:01:47.692
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:06:28.114
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:06:28.114
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:06:28.115
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:06:28.115
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:06:28.116
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:06:28.116
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:08:46.774
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:08:46.774
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:08:46.775
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:08:46.776
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:08:46.776
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:11:10.894
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:11:10.894
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:11:10.895
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:11:10.895
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:11:10.895
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:11:10.895
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:14:23.861
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:14:23.862
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:14:23.863
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:14:23.863
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:14:23.863
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:16:04.883
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:16:04.883
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:16:04.884
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:16:04.885
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:16:04.885
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:16:04.886
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:26:02.951
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:26:02.952
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:26:02.952
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:26:02.953
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:26:02.953
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:29:52.952
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:29:52.952
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:29:52.952
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:29:52.953
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:29:52.953
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:29:52.953
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:37:59.827
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:37:59.827
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:37:59.827
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:37:59.827
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:37:59.829
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:47:20.906
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:47:20.907
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:47:20.907
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:47:20.908
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:47:20.908
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:47:20.908
+!MESSAGE port: COM8
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2026-07-02 11:49:02.070
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:252)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:109)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:97)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:335)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:805)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:716)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1054)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1257)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2026-07-02 11:49:02.070
+!MESSAGE Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+!STACK 0
+java.lang.Exception: could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2026-07-02 11:49:29.891
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:252)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:109)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:97)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:335)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:805)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:716)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1054)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1257)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2026-07-02 11:49:29.892
+!MESSAGE Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+!STACK 0
+java.lang.Exception: could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:30.715
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:30.715
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:30.716
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:30.716
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:30.717
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:41.339
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:41.339
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:41.340
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:41.340
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:41.340
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:49:41.341
+!MESSAGE port: COM8
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2026-07-02 11:49:55.451
+!MESSAGE Error in final launch sequence:
+
+Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+	at org.eclipse.cdt.dsf.concurrent.Query.get(Query.java:112)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:252)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:109)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:97)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:335)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:805)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:716)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1054)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1257)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2026-07-02 11:49:55.451
+!MESSAGE Failed to execute MI command:
+target remote localhost:61234
+
+Error message from debugger back end:
+could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+!STACK 0
+java.lang.Exception: could not connect (error 138): ½Ã½ºÅÛÀÌ °áÇÕµÈ µå¶óÀÌºê¿¡ ÀÖ´Â µð·ºÅÍ¸®¿¡ µå¶óÀÌºê¸¦ °áÇÕÇÏ·Á°í Çß½À´Ï´Ù.
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:01.595
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:01.595
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:01.596
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:01.596
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:01.596
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:20.638
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:20.638
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:20.639
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:20.639
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:20.639
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:50:20.640
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:51:43.754
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:51:43.754
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:51:43.755
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:51:43.755
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:51:43.755
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:52:04.774
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:52:04.774
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:52:04.775
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:52:04.775
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:52:04.776
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:52:04.776
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:59:25.771
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:59:25.771
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:59:25.772
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:59:25.772
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 11:59:25.772
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:11:12.080
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:11:12.081
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:11:12.081
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:11:12.082
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:11:12.083
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:11:12.083
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:14:54.817
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:14:54.818
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:14:54.818
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:14:54.819
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:14:54.819
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:15:05.470
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:15:05.471
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:15:05.471
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:15:05.472
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:15:05.472
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:15:05.472
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:34.540
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:34.541
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:34.541
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:34.542
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:34.542
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:45.129
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:45.129
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:45.129
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:45.130
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:45.130
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:20:45.131
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:46.667
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:46.667
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:46.668
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:46.668
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:46.668
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:59.973
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:59.974
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:59.974
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:59.975
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:59.975
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:25:59.975
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:34:39.740
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:34:39.741
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:34:39.742
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:34:39.743
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:34:39.744
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:38:15.903
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:38:15.904
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:38:15.904
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:38:15.905
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:38:15.905
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:38:15.906
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:46:08.731
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:46:08.731
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:46:08.732
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:46:08.732
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 12:46:08.733
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:48:37.405
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:48:37.405
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:48:37.405
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:48:37.405
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:48:37.419
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:48:37.419
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:18.778
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:18.778
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:18.778
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:18.778
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:18.789
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:26.465
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:26.465
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:26.466
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:26.466
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:26.467
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:26.467
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:47.551
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:47.555
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:47.555
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:47.555
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:49:47.555
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:29.488
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:29.488
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:29.488
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:29.493
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:29.493
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:29.493
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:39.928
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:39.929
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:39.929
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:39.929
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:39.929
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:58.359
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:58.359
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:58.360
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:58.360
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:58.360
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:50:58.360
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:52:15.151
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:52:15.151
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:52:15.151
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:52:15.151
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:52:15.153
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:53:00.663
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:53:00.663
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:53:00.664
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:53:00.664
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:53:00.664
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 13:53:00.665
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:00:48.654
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:00:48.654
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:00:48.655
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:00:48.655
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:00:48.656
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:04.814
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:04.815
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:04.815
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:04.817
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:04.817
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:04.818
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:57.563
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:57.565
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:57.565
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:57.566
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:57.566
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:01:57.566
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:04.435
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:04.436
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:04.436
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:04.437
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:04.437
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:04.438
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:21.834
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:21.835
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:21.835
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:21.835
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:21.836
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:33.786
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:33.787
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:33.787
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:33.787
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:33.789
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:02:33.789
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:40.998
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:40.998
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:40.998
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:40.999
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:40.999
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:47.953
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:47.953
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:47.954
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:47.954
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:47.954
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:03:47.954
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:05.349
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:05.350
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:05.350
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:05.351
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:05.351
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:12.488
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:12.488
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:12.489
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:12.489
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:12.489
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:05:12.489
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:05.080
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:05.081
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:05.081
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:05.082
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:05.082
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:11.974
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:11.974
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:11.975
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:11.975
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:11.976
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:06:11.976
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:07:36.147
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:07:36.147
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:07:36.147
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:07:36.148
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:07:36.148
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:39:20.573
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:39:20.574
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:39:20.574
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:39:20.574
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:39:20.574
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 14:39:20.575
+!MESSAGE port: COM8
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 15:02:29.233
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 15:02:29.234
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 15:02:29.234
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 15:02:29.234
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-02 15:02:29.235
+!MESSAGE port: COM6
+!SESSION 2026-07-03 08:46:13.706 -----------------------------------------------
+eclipse.buildId=Version 2.1.1
+java.version=21.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Command-line arguments:  -os win32 -ws win32 -arch x86_64
+
+!ENTRY com.st.stm32cube.ide.mcu.informationcenter 1 1 2026-07-03 08:46:21.857
+!MESSAGE Log4j2 initialized with config file C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\.metadata\.log4j2.xml
+
+!ENTRY com.st.stm32cube.ide.mcu.ide 1 1 2026-07-03 08:46:31.078
+!MESSAGE Started RMI Server, listening on port 41337
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 08:46:39.596
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 08:46:39.597
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 08:46:39.598
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 08:46:39.598
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 08:46:39.599
+!MESSAGE port: COM6
+
+!ENTRY org.eclipse.cdt.core 1 0 2026-07-03 09:44:01.411
+!MESSAGE Indexed 'RTOS_main' (36 sources, 190 headers) in 6.98 sec: 19,071 declarations; 73,356 references; 7 unresolved inclusions; 231 syntax errors; 1,534 unresolved names (1.6%)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 15:02:37.692
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 15:02:37.693
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 15:02:37.694
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 15:02:37.695
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 15:02:37.696
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 15:02:37.697
+!MESSAGE port: COM8
+
+!ENTRY org.eclipse.ui 4 0 2026-07-03 15:05:38.977
+!MESSAGE Unhandled event loop exception
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "org.eclipse.swt.widgets.Shell.setVisible(boolean)" because the return value of "org.eclipse.ui.internal.findandreplace.overlay.FindReplaceOverlay.getShell()" is null
+	at org.eclipse.ui.internal.findandreplace.overlay.FindReplaceOverlay.updatePlacementAndVisibility(FindReplaceOverlay.java:844)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:132)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4099)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3715)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1151)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1042)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:639)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:546)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:208)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:143)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:109)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:439)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:271)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:668)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:605)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1481)
+
+!ENTRY org.eclipse.ui 4 0 2026-07-03 15:06:05.507
+!MESSAGE Unhandled event loop exception
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "org.eclipse.swt.widgets.Shell.setVisible(boolean)" because the return value of "org.eclipse.ui.internal.findandreplace.overlay.FindReplaceOverlay.getShell()" is null
+	at org.eclipse.ui.internal.findandreplace.overlay.FindReplaceOverlay.updatePlacementAndVisibility(FindReplaceOverlay.java:844)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:40)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:132)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4099)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3715)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1151)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1042)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:153)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:639)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:339)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:546)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:208)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:143)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:109)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:439)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:271)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:668)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:605)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1481)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 16:33:42.843
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 16:33:42.844
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 16:33:42.844
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 16:33:42.845
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 16:33:42.846
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 17:02:19.083
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 17:02:19.084
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 17:02:19.085
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 17:02:19.085
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 17:02:19.086
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 17:02:19.087
+!MESSAGE port: COM8
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 104 2026-07-03 17:20:40.189
+!MESSAGE Program file does not exist
+!STACK 0
+java.io.FileNotFoundException: C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\Debug\RTOS_main.elf not found
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.verifyProgramPath(LaunchUtils.java:130)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.checkBinaryDetails(GdbLaunchDelegate.java:330)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:152)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:109)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:97)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:335)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:805)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:716)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1054)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1257)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 104 2026-07-03 17:20:40.189
+!MESSAGE C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\Debug\RTOS_main.elf not found
+!STACK 0
+java.io.FileNotFoundException: C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\Debug\RTOS_main.elf not found
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.verifyProgramPath(LaunchUtils.java:130)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.checkBinaryDetails(GdbLaunchDelegate.java:330)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:152)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:109)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:97)
+	at com.st.stm32cube.ide.mcu.debug.launch.DSFDelegate.launch(DSFDelegate.java:335)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:805)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:716)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1054)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1257)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:21:47.064
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:21:47.065
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:21:47.066
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:21:47.067
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:21:47.068
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:27:14.279
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM4
+COM3
+COM5
+COM6
+COM8
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:27:14.280
+!MESSAGE port: COM4
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:27:14.280
+!MESSAGE port: COM3
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:27:14.281
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:27:14.282
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-07-03 20:27:14.282
+!MESSAGE port: COM8

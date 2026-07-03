@@ -3,21 +3,21 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
-		<item value="xQueue"/>
-		<item value="xQueueSendToBackFromISR"/>
-		<item value="asm"/>
-		<item value="systick"/>
-		<item value="USART3"/>
-		<item value="usart3"/>
-		<item value="STATE_I2C"/>
-		<item value="i2c_sem"/>
-		<item value="I2C2"/>
-		<item value="ev"/>
-		<item value="StartDefaultTask"/>
-		<item value="prvPortStartFirstTask"/>
-		<item value="xStateListItem"/>
-		<item value="prvAddNewTaskToReadyList"/>
-		<item value="uxCriticalNesting"/>
+		<item value="set_regs"/>
+		<item value="I2C_READ_DATA_H"/>
+		<item value="I2C_READ_DATA"/>
+		<item value="I2C1-&gt;CR1 |= (1 &lt;&lt; 10);"/>
+		<item value="I2C1-&gt;CR2"/>
+		<item value="=="/>
+		<item value="BTF "/>
+		<item value="read"/>
+		<item value="1 &lt;&lt; 8"/>
+		<item value="I2C_SET_REG"/>
+		<item value="I2C_SEND_REG8_1"/>
+		<item value="i2c"/>
+		<item value="REG_CH1_BUS_VOLT"/>
+		<item value="while"/>
+		<item value="printf"/>
 	</list>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item key="selection" value=""/>
