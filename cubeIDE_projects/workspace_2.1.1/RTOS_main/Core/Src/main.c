@@ -40,6 +40,12 @@
 #define INA3221_Bus2	(4)
 #define INA3221_Shunt3	(5)
 #define INA3221_Bus3	(6)
+
+#define INA226_Config	(0)
+#define INA226_Shunt	(1)
+#define INA226_Bus		(2)
+#define INA226_Power    (3)
+#define INA226_Cali     (5)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -67,8 +73,6 @@ const osThreadAttr_t defaultTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE BEGIN PV */
-uint8_t data_H = 0;
-uint8_t data_L = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -80,11 +84,11 @@ static void MX_USB_OTG_FS_PCD_Init(void);
 void StartDefaultTask(void *argument);
 
 /* USER CODE BEGIN PFP */
+void Current_Task(void *argument);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void I2C1_init();
 
 /* USER CODE END 0 */
 
@@ -149,11 +153,13 @@ int main(void)
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
+  BaseType_t ret = xTaskCreate(Current_Task, "current sensor", 128*4,NULL, osPriorityNormal,NULL);
+  if (ret != pdPASS){
+  	UART3_Printf("current task error\n\r");
+  }
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
   NVIC_SetPriority(I2C1_EV_IRQn, 5);
   NVIC_EnableIRQ(I2C1_EV_IRQn);
   UART3_Printf("start kernel\n");
@@ -395,7 +401,64 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void Current_Task(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+	init_ina3221();
+	init_ina226();
+	UART3_Printf("senser init\n");
+  /* Infinite loop */
+	for(;;)
+	{
+		UART3_Printf("start loop\n");
 
+		// ==========================================================
+		// 1. INA3221
+		// ==========================================================
+		// 상위 13비트만 유효 >> 3
+		int16_t bus3221_raw   = (int16_t)I2C1_read(3221, INA3221_Bus1) >> 3;
+		int16_t shunt3221_raw = (int16_t)I2C1_read(3221, INA3221_Shunt1) >> 3;
+
+		UART3_Printf("ina3221 shunt1 raw : %d\n", shunt3221_raw);
+		UART3_Printf("ina3221 bus1 raw   : %d\n", bus3221_raw);
+
+		// Bus 단위 = 8mV
+		int32_t bus3221_mv = bus3221_raw * 8;
+
+		// Shunt 단위 = 40uV (0.04mV). 전류(mA) = (raw * 40uV) === 0.1옴 = (raw * 4) / 10 mA
+		int32_t current3221_ma = (shunt3221_raw * 4) / 10; // 0.1옴 기준 mA 단위
+
+		int32_t power3221_mw = (bus3221_mv * current3221_ma) / 1000;
+
+		UART3_Printf("INA3221 -> Bus: %ld mV | Cur: %ld mA | Power: %ld mW\n", bus3221_mv, current3221_ma, power3221_mw);
+
+		// ==========================================================
+		// 2. INA226
+		// ==========================================================
+		int16_t bus226_raw   = (int16_t)I2C1_read(226, INA226_Bus);
+		int16_t shunt226_raw = (int16_t)I2C1_read(226, INA226_Shunt);
+		int16_t power226_raw = (int16_t)I2C1_read(226, INA226_Power);
+
+		UART3_Printf("ina226 shunt raw : %d\n", shunt226_raw);
+		UART3_Printf("ina226 bus raw   : %d\n", bus226_raw);
+
+		// Bus 단위 = 1.25mV
+		int32_t bus226_mv = (bus226_raw * 125) / 100;
+
+		// Shunt 단위 = 2.5uV. 전류(mA) = (raw * 2.5uV) === 0.1옴 = (raw * 25) / 1000 mA
+		int32_t current226_ma = (shunt226_raw * 25) / 1000;
+
+		// 전력 계산 (연산 vs Power 레지스터 읽기)
+		int32_t power226_calc_mw = (bus226_mv * current226_ma) / 1000;
+		int32_t power226_reg_mw  = (int32_t)(power226_raw * 7.619);
+
+		UART3_Printf("INA226  -> Bus: %ld mV | Cur: %ld mA | Calc Power: %ld mW\n", bus226_mv, current226_ma, power226_calc_mw); // 연산
+		UART3_Printf("INA226 Reg Power: %ld mW\n", power226_reg_mw); // 레지스터 연산과 비교
+		UART3_Printf("end loop\n");
+		for (volatile int i = 0; i < 5000000; i++){};
+	}
+  /* USER CODE END 5 */
+}
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -408,20 +471,14 @@ static void MX_GPIO_Init(void)
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
-	init_ina3221();
-	UART3_Printf("senser init\n");
-  /* Infinite loop */
+//	init_ina3221();
+//	init_ina226();
+//	UART3_Printf("senser init\n");
+//  /* Infinite loop */
 	for(;;)
 	{
-		UART3_Printf("start loop\n");
-		I2C1_read_ready(3221, INA3221_Shunt1);
-		I2C1_read(3221);
-		UART3_Printf("%d %d\n", data_H, data_L);
-
-		I2C1_read_ready(3221, INA3221_Bus1);
-		I2C1_read(3221);
-		UART3_Printf("%d %d\n", data_H, data_L);
-		for (volatile int i = 0; i < 10000000; i++){};
+		UART3_Printf("round robin!!!!\n");
+		for (volatile int i = 0; i < 5000000; i++){};
 	}
   /* USER CODE END 5 */
 }

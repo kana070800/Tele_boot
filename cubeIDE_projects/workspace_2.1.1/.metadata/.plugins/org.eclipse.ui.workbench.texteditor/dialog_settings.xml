@@ -3,6 +3,10 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
+		<item value="txe"/>
+		<item value="init_ina226"/>
+		<item value="uart"/>
+		<item value="StartDefaultTask"/>
 		<item value="set_regs"/>
 		<item value="I2C_READ_DATA_H"/>
 		<item value="I2C_READ_DATA"/>
@@ -14,10 +18,6 @@
 		<item value="1 &lt;&lt; 8"/>
 		<item value="I2C_SET_REG"/>
 		<item value="I2C_SEND_REG8_1"/>
-		<item value="i2c"/>
-		<item value="REG_CH1_BUS_VOLT"/>
-		<item value="while"/>
-		<item value="printf"/>
 	</list>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item key="selection" value=""/>

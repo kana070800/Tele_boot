@@ -1,7 +1,7 @@
-../Core/Src/i2c.c:538:6:I2C1_init	4	static
-../Core/Src/i2c.c:566:6:I2C1_write	16	static
-../Core/Src/i2c.c:584:6:I2C1_read_ready	16	static
-../Core/Src/i2c.c:603:6:I2C1_read	16	static
-../Core/Src/i2c.c:620:6:init_ina3221	8	static
-../Core/Src/i2c.c:625:6:init_ina226	4	static
-../Core/Src/i2c.c:632:6:I2C1_EV_IRQHandler	16	static
+../Core/Src/i2c.c:299:6:I2C1_init	4	static
+../Core/Src/i2c.c:327:6:I2C1_write	16	static
+../Core/Src/i2c.c:348:6:__I2C1_read	16	static
+../Core/Src/i2c.c:363:9:I2C1_read	16	static
+../Core/Src/i2c.c:390:6:init_ina3221	8	static
+../Core/Src/i2c.c:395:6:init_ina226	8	static
+../Core/Src/i2c.c:403:6:I2C1_EV_IRQHandler	16	static
