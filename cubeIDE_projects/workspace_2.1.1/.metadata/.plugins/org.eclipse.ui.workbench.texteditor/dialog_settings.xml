@@ -3,30 +3,31 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
-		<item value="txe"/>
-		<item value="init_ina226"/>
-		<item value="uart"/>
+		<item value="UART3"/>
+		<item value="g_i2c_bus_error_flag"/>
+		<item value="I2C1_init"/>
+		<item value="UartCommPacket_t"/>
+		<item value="xSemaphoreTake"/>
+		<item value="rcv_warn"/>
+		<item value="+= "/>
+		<item value="g_shm_data"/>
+		<item value="module_id"/>
+		<item value="void StartUARTTask(void *argument)"/>
+		<item value="RPi_Shared_Data"/>
+		<item value="configUSE_QUEUE"/>
 		<item value="StartDefaultTask"/>
-		<item value="set_regs"/>
-		<item value="I2C_READ_DATA_H"/>
-		<item value="I2C_READ_DATA"/>
-		<item value="I2C1-&gt;CR1 |= (1 &lt;&lt; 10);"/>
-		<item value="I2C1-&gt;CR2"/>
-		<item value="=="/>
-		<item value="BTF "/>
-		<item value="read"/>
-		<item value="1 &lt;&lt; 8"/>
-		<item value="I2C_SET_REG"/>
-		<item value="I2C_SEND_REG8_1"/>
+		<item value="StartTelemetryTask"/>
+		<item value="xQueueCreate"/>
 	</list>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value=""/>
+		<item key="selection" value="pac"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="pac"/>
 			<item value="vPortSVCHandler"/>
 			<item value="svc"/>
 			<item value="prvPortStartFirstTask"/>

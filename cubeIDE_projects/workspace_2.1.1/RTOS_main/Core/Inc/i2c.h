@@ -9,5 +9,7 @@ void __I2C1_read(int sensor);
 void I2C1_Read_Polling(uint8_t reg, uint8_t *data_h, uint8_t *data_l);
 void init_ina3221(void);
 void init_ina226(void);
+void Current_init(void);
+void Current_Task(void *argument);
 
 #endif

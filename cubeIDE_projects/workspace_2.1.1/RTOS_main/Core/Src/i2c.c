@@ -247,6 +247,8 @@
 #include "main.h"
 #include "stm32f4xx.h"
 #include "uart.h"
+#include "string.h"
+#include "cmsis_os.h"
 
 #define INA3221_addr	(0x41)
 
@@ -290,6 +292,8 @@ typedef struct {
     I2C_State state;
 } I2C_Handle;
 
+static int g_i2c_bus_error_flag = 0;
+
 static volatile I2C_Handle h_I2C1; // 이 파일 전용 전역 변수
 
 static uint8_t data_H;
@@ -318,6 +322,8 @@ void I2C1_init(void)
 
     // APB1 = 42MHz, interrupt enable
     I2C1->CR2 |= (0x1UL << 10)|(0x1UL << 9)|(42 << 0);
+
+    I2C1->CR2 |= I2C_CR2_ITERREN; //error
 
     I2C1->CCR |= 210; // for 100kHz scl in APB1 = 42MHz
     I2C1->TRISE |= 43;
@@ -472,4 +478,111 @@ void I2C1_EV_IRQHandler(void)
 	}
 
 	return;
+}
+
+// I2C1 에러 인터럽트 핸들러 (이름은 MCU startup 파일의 벡터 테이블 참조)
+void I2C1_ER_IRQHandler(void) {
+    uint32_t sr1 = I2C1->SR1;
+
+    // 1. AF (Acknowledge Failure) - 가장 흔함! 배선 단선 또는 주소/데이터 NACK
+    if (sr1 & I2C_SR1_AF) {
+        I2C1->SR1 &= ~I2C_SR1_AF; // 플래그 클리어
+        I2C1->CR1 |= I2C_CR1_STOP; // STOP 신호 전송하여 통신 종료
+    }
+
+    // 2. BERR (Bus Error) - 통신 중 배선이 흔들려 불법적인 START/STOP 발생 시
+    if (sr1 & I2C_SR1_BERR) {
+        I2C1->SR1 &= ~I2C_SR1_BERR;
+    }
+
+    // 3. ARLO (Arbitration Lost) - 버스 충돌 또는 노이즈로 인한 라인 제어권 상실
+    if (sr1 & I2C_SR1_ARLO) {
+        I2C1->SR1 &= ~I2C_SR1_ARLO;
+    }
+
+    // 4. OVR (Overrun/Underrun) - 데이터 수신 속도를 소프트웨어가 따라가지 못할 때
+    if (sr1 & I2C_SR1_OVR) {
+        I2C1->SR1 &= ~I2C_SR1_OVR;
+    }
+
+    // 🟢 인터럽트 발생 시 통신을 중단하고 소프트웨어 리셋 및 복구 플래그 설정
+    // RTOS를 사용 중이시라면 여기서 전역 플래그를 세팅하거나 세마포어를 주어
+    // Task에서 I2C_Bus_Recovery()를 안전하게 호출하도록 유도합니다.
+    g_i2c_bus_error_flag = 1;
+}
+
+
+void Current_Task(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+	I2C1_init();
+	init_ina3221();
+	init_ina226();
+  /* Infinite loop */
+	for(;;)
+	{
+		if (g_i2c_bus_error_flag) {
+		    I2C1_init();      //초기화
+		    init_ina3221();
+		    init_ina226();
+		    g_i2c_bus_error_flag = 0;
+		    continue;                // 이번 루프는 건너뛰고 다음 주기에 재시도
+		}
+
+		// ==========================================================
+		// 1. INA3221
+		// ==========================================================
+		// 상위 13비트만 유효 >> 3
+		int16_t bus3221_raw   = (int16_t)I2C1_read(3221, INA3221_Bus1) >> 3;
+		int16_t shunt3221_raw = (int16_t)I2C1_read(3221, INA3221_Shunt1) >> 3;
+
+		UART3_Printf("ina3221 shunt1 raw : %d\n", shunt3221_raw);
+		UART3_Printf("ina3221 bus1 raw   : %d\n", bus3221_raw);
+
+		// Bus 단위 = 8mV
+		int32_t bus3221_mv = bus3221_raw * 8;
+
+		// Shunt 단위 = 40uV (0.04mV). 전류(mA) = (raw * 40uV) === 0.1옴 = (raw * 4) / 10 mA
+		int32_t current3221_ma = (shunt3221_raw * 4) / 10; // 0.1옴 기준 mA 단위
+
+		int32_t power3221_mw = (bus3221_mv * current3221_ma) / 1000;
+
+		UART3_Printf("INA3221 -> Bus: %ld mV | Cur: %ld mA | Power: %ld mW\n", bus3221_mv, current3221_ma, power3221_mw);
+
+		// ==========================================================
+		// 2. INA226
+		// ==========================================================
+		int16_t bus226_raw   = (int16_t)I2C1_read(226, INA226_Bus);
+		int16_t shunt226_raw = (int16_t)I2C1_read(226, INA226_Shunt);
+		int16_t power226_raw = (int16_t)I2C1_read(226, INA226_Power);
+
+		UART3_Printf("ina226 shunt raw : %d\n", shunt226_raw);
+		UART3_Printf("ina226 bus raw   : %d\n", bus226_raw);
+
+		// Bus 단위 = 1.25mV
+		int32_t bus226_mv = (bus226_raw * 125) / 100;
+
+		// Shunt 단위 = 2.5uV. 전류(mA) = (raw * 2.5uV) === 0.1옴 = (raw * 25) / 1000 mA
+		int32_t current226_ma = (shunt226_raw * 25) / 1000;
+
+		// 전력 계산 (연산 vs Power 레지스터 읽기)
+		int32_t power226_calc_mw = (bus226_mv * current226_ma) / 1000;
+		int32_t power226_reg_mw  = (int32_t)(power226_raw * 7.619);
+
+		UART3_Printf("INA226  -> Bus: %ld mV | Cur: %ld mA | Calc Power: %ld mW\n", bus226_mv, current226_ma, power226_calc_mw); // 연산
+		UART3_Printf("INA226 Reg Power: %ld mW\n", power226_reg_mw); // 레지스터 연산과 비교
+		UART3_Printf("end loop\n");
+		for (volatile int i = 0; i < 5000000; i++){};
+	}
+  /* USER CODE END 5 */
+}
+
+
+
+
+void Current_init(void){
+	BaseType_t ret = xTaskCreate(Current_Task, "current sensor", 128*4,NULL, osPriorityNormal,NULL);
+	if (ret != pdPASS){
+		return;
+	}
 }

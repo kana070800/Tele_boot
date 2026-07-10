@@ -1,0 +1,117 @@
+#ifndef __shm__
+#define __shm__
+
+#include <stdint.h>
+#include "FreeRTOS.h"
+#include "semphr.h"
+
+#define PACKET_SOF 0xAA
+
+/* ======================================================================== */
+/* 1. 시스템 상태 및 제어 열거형(Enum) 정의                                    */
+/* ======================================================================== */
+typedef enum
+{
+    SYS_IDLE = 0,
+    SYS_IDENTIFY,
+    SYS_AUTHENTICATE,
+    SYS_NEGOTIATE,
+    SYS_ACTIVE,
+    SYS_FAULT,
+    SYS_QUARANTINE
+} SystemState_t;
+
+typedef enum
+{
+    MODULE_NONE = 0,
+    MODULE_GENERAL,      // Module A: 일반 배송 모듈
+    MODULE_COLD_CHAIN,   // Module B: 냉장 배송 모듈
+    MODULE_UNKNOWN       // 등록되지 않았거나 알 수 없는 모듈
+} ModuleType_t;
+
+typedef enum
+{
+    FAULT_NONE = 0,
+    FAULT_IDENTIFY_TIMEOUT,
+    FAULT_AUTH_FAIL,
+    FAULT_AUTH_TIMEOUT,
+    FAULT_POWER_REJECT,
+    FAULT_NEGOTIATE_TIMEOUT,
+    FAULT_POWER_VIOLATION_MAX
+} FaultCode_t;
+
+/* ======================================================================== */
+/* 2. STM32 커널 내부 관리용 전체 공유 메모리 구조체                            */
+/* ======================================================================== */
+typedef struct
+{
+    /* System State */
+    SystemState_t system_state;
+    ModuleType_t module_type;
+    FaultCode_t latest_fault;
+
+    uint32_t module_id;
+
+    uint8_t dock_detected;
+    uint8_t auth_result;
+    uint8_t power_granted;
+    uint8_t module_function_enabled;
+
+    /* Driving */
+    float target_speed_rpm;
+    float current_speed_rpm;
+    uint16_t motor_pwm_duty;
+
+    /* Power Policy */
+    float requested_power_w;
+    float granted_power_w;
+    float reported_power_w;
+    uint8_t power_violation_count;
+
+    /* Module A */
+    float pressure_value;
+
+    /* Module B */
+    float target_temp_c;
+    float current_temp_c;
+    uint8_t peltier_pwm;
+    uint8_t fan_pwm;
+
+    /* Warning */
+    uint8_t warning_flag;
+    uint8_t sleep_flag;
+} SystemSharedData_t;
+
+/* ======================================================================== */
+/* 3. 라즈베리파이(Linux) 송신 전용 가벼운 데이터 패킷 구조체                   */
+/* ======================================================================== */
+typedef struct {
+    uint8_t       sof;             // Start of Frame (0xAA)
+
+    // System State & Identity
+    uint8_t       system_state;    // SystemState_t (1바이트 변환)
+    uint8_t       module_type;     // ModuleType_t
+    uint8_t       latest_fault;    // FaultCode_t
+    uint32_t      module_id;
+
+    // Status Flags
+    uint8_t       flags;           // 비트 필드로 묶어 용량 최적화 (dock, auth, power, enabled 등)
+
+    // Driving & Power
+    float         current_speed_rpm;
+    float         reported_power_w;
+
+    // Module Specific Data
+    float         pressure_value;  // Module A
+    float         current_temp_c;  // Module B
+
+    uint8_t       checksum;        // 8비트 체크섬
+} __attribute__((packed)) UartCommPacket_t; // 컴파일러 최적화 패딩 방지 (라즈베리파이와 싱크 일치)
+
+
+/* ======================================================================== */
+/* 4. 외부 참조 함수 선언                                                    */
+/* ======================================================================== */
+void Send_System_Packet(SystemSharedData_t* shared_data);
+
+#endif

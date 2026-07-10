@@ -1,0 +1,109 @@
+#include "uart.h"
+
+/* --- [전역 및 정적 변수 선언] --- */
+SystemSharedData_t g_shm_data;
+SemaphoreHandle_t  g_shm_mutex = NULL;
+QueueHandle_t      g_uart_rx_queue = NULL;
+
+// 인터럽트/비동기 작업에 사용될 버퍼 (스택 오염 방지를 위해 static 선언)
+static RtS_Packet_t g_rx_buffer;
+static StR_Packet_t g_tx_buffer;
+
+/* --- [1. UART Task 및 IPC 자원 초기화] --- */
+void UART_Task_Init(void)
+{
+    // 1. 공유 메모리 보호용 Mutex 생성
+    g_shm_mutex = xSemaphoreCreateMutex();
+    configASSERT(g_shm_mutex != NULL);
+
+    // 2. RX 인터럽트에서 수신된 패킷을 Task로 전달할 Queue 생성 (최대 5개 버퍼링)
+    g_uart_rx_queue = xQueueCreate(5, sizeof(RtS_Packet_t));
+    configASSERT(g_uart_rx_queue != NULL);
+
+    // 3. 첫 RX 인터럽트 수신 개시 (1바이트가 아닌 패킷 전체 크기만큼 비동기 수신 대기)
+    HAL_UART_Receive_IT(&huart3, (uint8_t*)&g_rx_buffer, sizeof(RtS_Packet_t));
+}
+
+/* --- [2. FreeRTOS UART 메인 태스크 (주기적 송신 & 이벤트 기반 수신)] --- */
+void StartUARTTask(void *argument)
+{
+    (void)argument;
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    const TickType_t xFrequency = pdMS_TO_TICKS(50); // 50ms 주기 송신
+
+    RtS_Packet_t rx_pkt;
+
+    for(;;)
+    {
+        /* =========================================================
+         * [수신 처리] 큐에 쌓인 패킷이 있는지 확인 (Non-blocking)
+         * 수신 타이밍을 모르므로, 송신 주기마다 큐를 모두 비우며 최신 상태 반영
+         * ========================================================= */
+        while (xQueueReceive(g_uart_rx_queue, &rx_pkt, 0) == pdTRUE)
+        {
+            // Mutex 획득 후 공유 데이터 업데이트
+            if (xSemaphoreTake(g_shm_mutex, pdMS_TO_TICKS(10)) == pdTRUE)
+            {
+                g_shm_data.module_type      = (ModuleType_t)rx_pkt.module_type;
+                g_shm_data.module_id        = rx_pkt.module_id;
+                g_shm_data.granted_power_w  = rx_pkt.granted_power_w;
+                g_shm_data.target_temp_c    = rx_pkt.target_temp_c;
+                g_shm_data.warning_flag     = rx_pkt.warning_flag;
+                g_shm_data.target_speed_rpm = rx_pkt.target_speed_rpm;
+
+                xSemaphoreGive(g_shm_mutex);
+            }
+        }
+
+        /* =========================================================
+         * [송신 처리] 주도적으로 50ms마다 STM32 -> RPi 패킷 전송
+         * ========================================================= */
+        if (xSemaphoreTake(g_shm_mutex, pdMS_TO_TICKS(10)) == pdTRUE)
+        {
+            // 공유 데이터에서 송신할 데이터 추출하여 static 전역 버퍼에 복사
+            g_tx_buffer.module_type      = (uint32_t)g_shm_data.module_type;
+            g_tx_buffer.module_id        = 1;//g_shm_data.module_id;
+            g_tx_buffer.reported_power_w = g_shm_data.reported_power_w;
+            g_tx_buffer.current_pressure = g_shm_data.pressure_value;
+            g_tx_buffer.current_temp_c   = 0.2;//g_shm_data.current_temp_c;
+            g_tx_buffer.warning_flag     = g_shm_data.warning_flag;
+            g_tx_buffer.current_speed_rpm= 0.4;//g_shm_data.current_speed_rpm;
+
+            xSemaphoreGive(g_shm_mutex);
+
+            // 인터럽트 기반 비동기 송신 시작 (g_tx_buffer가 전역이므로 안전함)
+            HAL_UART_Transmit_IT(&huart3, (uint8_t*)&g_tx_buffer, sizeof(StR_Packet_t));
+        }
+
+        /* 다음 주기(50ms)까지 정확한 정주기 대기 */
+        vTaskDelayUntil(&xLastWakeTime, xFrequency);
+    }
+}
+
+/* --- [3. HAL UART 수신 완료 인터럽트 콜백 (ISR)] --- */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == USART3)
+    {
+        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+        // 1. 수신된 패킷을 FreeRTOS Queue에 Safe하게 전송
+        xQueueSendFromISR(g_uart_rx_queue, &g_rx_buffer, &xHigherPriorityTaskWoken);
+
+        // 2. 다음 패킷 수신을 위해 인터럽트 다시 활성화 (Re-arm)
+        HAL_UART_Receive_IT(&huart3, (uint8_t*)&g_rx_buffer, sizeof(RtS_Packet_t));
+
+        // 3. Queue 전송으로 인해 더 높은 우선순위 태스크가 깨어났다면 즉시 문맥 교환
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
+}
+
+/* --- [4. HAL UART 에러 콜백 (통신 회복용)] --- */
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == USART3)
+    {
+        // 노이즈나 Framing Error 등으로 인터럽트가 멈추는 것 방지 (상태 리셋 후 재개)
+        HAL_UART_Receive_IT(&huart3, (uint8_t*)&g_rx_buffer, sizeof(RtS_Packet_t));
+    }
+}

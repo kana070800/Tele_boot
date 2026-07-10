@@ -64,8 +64,8 @@ all: main-build
 main-build: RTOS_main.elf secondary-outputs
 
 # Tool invocations
-RTOS_main.elf RTOS_main.map: $(OBJS) $(USER_OBJS) C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+RTOS_main.elf RTOS_main.map: $(OBJS) $(USER_OBJS) C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

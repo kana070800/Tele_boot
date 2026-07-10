@@ -1,0 +1,398 @@
+//#include "shm.h"
+//#include "main.h"
+//#include "stdio.h"
+//#include "stdarg.h"
+//#include "uart.h"
+//
+//
+//// 인터럽트 동기화를 위한 전역 변수 및 버퍼 선언
+//#define RX_BUF_SIZE 128
+//#define TX_BUF_SIZE 128
+//
+//volatile char rx_buffer[RX_BUF_SIZE];
+//volatile uint16_t rx_head = 0;
+//volatile uint16_t rx_tail = 0;
+//
+//volatile char tx_buffer[TX_BUF_SIZE];
+//volatile uint16_t tx_head = 0;
+//volatile uint16_t tx_tail = 0;
+//volatile uint8_t tx_active = 0; // 현재 송신이 진행 중인지 나타내는 플래그
+//
+//
+//extern SemaphoreHandle_t shm_mutex;
+//
+//void UART3_Init(){
+//    // 1. 클록 및 GPIO 설정 (기존 코드 유지)
+//    RCC->AHB1ENR |= (0x1 << 3);  // gpiod clk enable
+//    RCC->APB1ENR |= (0x1 << 18); // uart3 clk enable
+//
+//    GPIOD->MODER &= ~((0x3 << 8*2) | (0x3 << 9*2));
+//    GPIOD->MODER |=  ((0x2 << 8*2) | (0x2 << 9*2));  // AF mode
+//    GPIOD->AFR[1] = ((GPIOD->AFR[1] & ~(0xff<<0))| (0x77<<0));
+//    GPIOD->OSPEEDR |= ((0x3 << 8*2) | (0x3 << 9*2));
+//
+//    // 2. UART 기본 설정
+//    USART3->CR1 |= (0x1 << 13);  // uart3 enable
+//    USART3->CR1 &= ~(0x1 << 12); // 8bit length set
+//    USART3->CR2 &= ~(0x3 << 12); // stop bit 1 length
+//    USART3->BRR = 0x16D;         // 42MHz 기준 115200
+//
+//    // 3. [추가] 인터럽트 활성화 설정
+//    // CR1 레지스터의 RXNEIE(5번 비트) 활성화 -> 데이터 수신 시 인터럽트 발생
+//    USART3->CR1 |= (0x1 << 5);
+//
+//    // TXEIE(7번 비트)는 송신할 데이터가 버퍼에 들어왔을 때만 켤 것이므로 초기에는 끕니다.
+//    USART3->CR1 &= ~(0x1 << 7);
+//
+//    // 4. [추가] NVIC(내장 인터럽트 컨트롤러)에서 USART3 인터럽트 활성화
+//    // USART3_IRQn 번호는 39번입니다. (F4 시리즈 기준)
+//    NVIC_SetPriority(USART3_IRQn, 5); // 우선순위 설정 (적절히 조절 가능)
+//    NVIC_EnableIRQ(USART3_IRQn);      // 인터럽트 채널 허용
+//
+//    // 5. Tx, Rx 기능 활성화
+//    USART3->CR1 |= (0x3 << 2);
+//}
+//
+///**
+// * @brief 인터럽트 방식 1byte 송신 함수
+// * @details 데이터를 링 버퍼에 넣고, TX 인터럽트를 켜서 비동기로 전송합니다.
+// */
+//void UART3_Send_Byte_IT(char ch) {
+//    // 링 버퍼가 가득 찼는지 확인 (Full 대기)
+//    uint16_t next_head = (tx_head + 1) % TX_BUF_SIZE;
+//    while (next_head == tx_tail);
+//
+//    // 버퍼에 데이터 저장
+//    tx_buffer[tx_head] = ch;
+//    tx_head = next_head;
+//
+//    // 송신 인터럽트(TXEIE) 활성화 -> 즉시 또는 다음 단계에서 ISR이 처리함
+//    USART3->CR1 |= (0x1 << 7);
+//}
+//
+///**
+// * @brief 인터럽트 방식 1byte 수신 함수
+// * @details 수신 버퍼에 데이터가 있다면 1byte를 읽어오고 1을 반환, 없으면 0을 반환 (Non-blocking)
+// */
+//uint8_t UART3_Receive_Byte_IT(char* pData) {
+//    // 버퍼가 비어있는지 확인
+//    if (rx_head == rx_tail) {
+//        return 0; // 수신 데이터 없음
+//    }
+//
+//    // 버퍼에서 데이터 꺼내기
+//    *pData = rx_buffer[rx_tail];
+//    rx_tail = (rx_tail + 1) % RX_BUF_SIZE;
+//
+//    return 1; // 수신 성공
+//}
+//
+///**
+// * @brief USART3 인터럽트 서비스 루틴 (ISR)
+// * @details startup_stm32f4xxxx.s에 정의된 벡터 이름과 정확히 일치해야 합니다.
+// */
+//void USART3_IRQHandler(void) {
+//    uint32_t sr = USART3->SR;
+//    uint32_t cr1 = USART3->CR1;
+//
+//    // [Case 1] 수신 인터럽트 처리 (RXNE가 셋 되었고, RXNEIE가 켜져 있을 때)
+//    if ((sr & (0x1 << 5)) && (cr1 & (0x1 << 5))) {
+//        char rx_data = (char)(USART3->DR & 0xFF); // DR을 읽으면 RXNE 플래그가 자동 clear 됨
+//
+//        // 수신 링 버퍼에 저장
+//        uint16_t next_head = (rx_head + 1) % RX_BUF_SIZE;
+//        if (next_head != rx_tail) { // 버퍼 오버플로우가 아니면 저장
+//            rx_buffer[rx_head] = rx_data;
+//            rx_head = next_head;
+//        }
+//    }
+//
+//    // [Case 2] 송신 가능 인터럽트 처리 (TXE가 셋 되었고, TXEIE가 켜져 있을 때)
+//    if ((sr & (0x1 << 7)) && (cr1 & (0x1 << 7))) {
+//        if (tx_head != tx_tail) {
+//            // 보낼 데이터가 있다면 DR에 넣음 (DR에 쓰면 TXE 플래그가 자동 clear 됨)
+//            USART3->DR = tx_buffer[tx_tail];
+//            tx_tail = (tx_tail + 1) % TX_BUF_SIZE;
+//        } else {
+//            // 더 이상 보낼 데이터가 없다면 TXE 인터럽트를 꺼서 ISR 반복 진입을 막음
+//            USART3->CR1 &= ~(0x1 << 7);
+//        }
+//    }
+//}
+//
+//void UART3_Send_String(char* p){
+//    while (*p){
+//        // 개행 문자 처리 로직 유지 대상이라면 추가
+//        if(*p == '\n') {
+//            UART3_Send_Byte_IT('\r');
+//        }
+//        UART3_Send_Byte_IT(*p++);
+//    }
+//}
+//
+//uint32_t UART3_Printf(const char* msg, ...){
+//	va_list args;
+//	char res_msg[200];
+//	uint32_t cnt_rtn = 0;
+//	va_start(args, msg);
+//	vsprintf(res_msg, msg, args);
+//	va_end(args);
+//
+//	UART3_Send_String(res_msg);
+//
+//	return cnt_rtn; // 출력한 문자 수 반환
+//}
+//
+//
+////--------------------------------------------------------
+//
+//// 공유 메모리에서 데이터를 긁어와 송신 패킷을 만드는 함수
+//void Send_System_Packet(SystemSharedData_t* shared_data) {
+//    UartCommPacket_t pkt;
+//
+//    // 1. FreeRTOS 뮤텍스 락 (포트블록 시간은 최대 대기 portMAX_DELAY 또는 10ms 수준 권장)
+//	if (shm_mutex != NULL) {
+//		if (xSemaphoreTake(shm_mutex, pdMS_TO_TICKS(10)) == pdTRUE) {
+//
+//			pkt.sof = PACKET_SOF;
+//			pkt.system_state = (uint8_t)shared_data->system_state;
+//			pkt.module_type  = (uint8_t)shared_data->module_type;
+//			pkt.latest_fault  = (uint8_t)shared_data->latest_fault;
+//			pkt.module_id     = shared_data->module_id;
+//
+//			pkt.flags = shared_data->dock_detected;
+//
+//			pkt.current_speed_rpm = shared_data->current_speed_rpm;
+//			pkt.reported_power_w  = shared_data->reported_power_w;
+//			pkt.pressure_value    = shared_data->pressure_value;
+//			pkt.current_temp_c    = shared_data->current_temp_c;
+//
+//			// 2. 뮤텍스 언락
+//			xSemaphoreGive(shm_mutex);
+//		} else {
+//			// 뮤텍스를 획득하지 못했을 때의 예외 처리 (자원 점유 실패 시 리턴)
+//			return;
+//		}
+//	}
+//
+//    // 2. 2의 보수 기반 체크섬 계산 (SOF와 Checksum 필드 자체는 제외)
+//    uint8_t* base_ptr = (uint8_t*)&pkt;
+//    uint32_t sum = 0;
+//
+//    // SOF 다음 바이트(index 1)부터 데이터 끝(Checksum 직전)까지 합산
+//    for (size_t i = 1; i < sizeof(UartCommPacket_t) - 1; i++) {
+//        sum += base_ptr[i];
+//    }
+//
+//    // 합산 값에 마이너스를 취해 2의 보수 생성
+//    pkt.checksum = (uint8_t)((~sum) + 1);
+//
+//    // 3. UART 인터럽트 송신 버퍼로 push
+//    for (size_t i = 0; i < sizeof(UartCommPacket_t); i++) {
+//        UART3_Send_Byte_IT((char)base_ptr[i]);
+//    }
+//}
+
+#include "shm.h"
+#include "main.h"
+#include "stdio.h"
+#include "stdarg.h"
+#include "uart.h"
+
+
+// 인터럽트 동기화를 위한 전역 변수 및 버퍼 선언
+#define RX_BUF_SIZE 128
+#define TX_BUF_SIZE 128
+
+volatile char rx_buffer[RX_BUF_SIZE];
+volatile uint16_t rx_head = 0;
+volatile uint16_t rx_tail = 0;
+
+volatile char tx_buffer[TX_BUF_SIZE];
+volatile uint16_t tx_head = 0;
+volatile uint16_t tx_tail = 0;
+volatile uint8_t tx_active = 0; // 현재 송신이 진행 중인지 나타내는 플래그
+
+
+extern SemaphoreHandle_t shm_mutex;
+
+void UART3_Init(){
+    // 1. 클록 및 GPIO 설정 (기존 코드 유지)
+    RCC->AHB1ENR |= (0x1 << 3);  // gpiod clk enable
+    RCC->APB1ENR |= (0x1 << 18); // uart3 clk enable
+
+    GPIOD->MODER &= ~((0x3 << 8*2) | (0x3 << 9*2));
+    GPIOD->MODER |=  ((0x2 << 8*2) | (0x2 << 9*2));  // AF mode
+    GPIOD->AFR[1] = ((GPIOD->AFR[1] & ~(0xff<<0))| (0x77<<0));
+    GPIOD->OSPEEDR |= ((0x3 << 8*2) | (0x3 << 9*2));
+
+    // 2. UART 기본 설정
+    USART3->CR1 |= (0x1 << 13);  // uart3 enable
+    USART3->CR1 &= ~(0x1 << 12); // 8bit length set
+    USART3->CR2 &= ~(0x3 << 12); // stop bit 1 length
+    USART3->BRR = 0x16D;         // 42MHz 기준 115200
+
+    // 3. 인터럽트 활성화 설정
+    // CR1 레지스터의 RXNEIE(5번 비트) 활성화 -> 데이터 수신 시 인터럽트 발생
+    USART3->CR1 |= (0x1 << 5);
+
+    // TXEIE(7번 비트)는 송신할 데이터가 버퍼에 들어왔을 때만 켤 것이므로 초기에는 끕니다.
+    USART3->CR1 &= ~(0x1 << 7);
+
+    // 4. NVIC(내장 인터럽트 컨트롤러)에서 USART3 인터럽트 활성화
+    // USART3_IRQn 번호는 39번입니다. (F4 시리즈 기준)
+    NVIC_SetPriority(USART3_IRQn, 5); // 우선순위 설정 (적절히 조절 가능)
+    NVIC_EnableIRQ(USART3_IRQn);      // 인터럽트 채널 허용
+
+    // 5. Tx, Rx 기능 활성화
+    USART3->CR1 |= (0x3 << 2);
+}
+
+/**
+ * @brief 인터럽트 방식 1byte 송신 함수
+ * @details 데이터를 링 버퍼에 넣고, TX 인터럽트를 켜서 비동기로 전송합니다.
+ */
+void UART3_Send_Byte_IT(char ch) {
+    // 링 버퍼가 가득 찼는지 확인 (Full 대기)
+    uint16_t next_head = (tx_head + 1) % TX_BUF_SIZE;
+    while (next_head == tx_tail);
+
+    // 버퍼에 데이터 저장
+    tx_buffer[tx_head] = ch;
+    tx_head = next_head;
+
+    // 송신 인터럽트(TXEIE) 활성화 -> 즉시 또는 다음 단계에서 ISR이 처리함
+    USART3->CR1 |= (0x1 << 7);
+}
+
+/**
+ * @brief 인터럽트 방식 1byte 수신 함수
+ * @details 수신 버퍼에 데이터가 있다면 1byte를 읽어오고 1을 반환, 없으면 0을 반환 (Non-blocking)
+ */
+uint8_t UART3_Receive_Byte_IT(char* pData) {
+    // 버퍼가 비어있는지 확인
+    if (rx_head == rx_tail) {
+        return 0; // 수신 데이터 없음
+    }
+
+    // 버퍼에서 데이터 꺼내기
+    *pData = rx_buffer[rx_tail];
+    rx_tail = (rx_tail + 1) % RX_BUF_SIZE;
+
+    return 1; // 수신 성공
+}
+
+/**
+ * @brief USART3 인터럽트 서비스 루틴 (ISR)
+ * @details startup_stm32f4xxxx.s에 정의된 벡터 이름과 정확히 일치해야 합니다.
+ */
+void USART3_IRQHandler(void) {
+    uint32_t sr = USART3->SR;
+    uint32_t cr1 = USART3->CR1;
+
+    // [Case 1] 수신 인터럽트 처리 (RXNE가 셋 되었고, RXNEIE가 켜져 있을 때)
+    if ((sr & (0x1 << 5)) && (cr1 & (0x1 << 5))) {
+        char rx_data = (char)(USART3->DR & 0xFF); // DR을 읽으면 RXNE 플래그가 자동 clear 됨
+
+        // 수신 링 버퍼에 저장
+        uint16_t next_head = (rx_head + 1) % RX_BUF_SIZE;
+        if (next_head != rx_tail) { // 버퍼 오버플로우가 아니면 저장
+            rx_buffer[rx_head] = rx_data;
+            rx_head = next_head;
+        }
+    }
+
+    // [Case 2] 송신 가능 인터럽트 처리 (TXE가 셋 되었고, TXEIE가 켜져 있을 때)
+    if ((sr & (0x1 << 7)) && (cr1 & (0x1 << 7))) {
+        if (tx_head != tx_tail) {
+            // 보낼 데이터가 있다면 DR에 넣음 (DR에 쓰면 TXE 플래그가 자동 clear 됨)
+            USART3->DR = tx_buffer[tx_tail];
+            tx_tail = (tx_tail + 1) % TX_BUF_SIZE;
+        } else {
+            // 더 이상 보낼 데이터가 없다면 TXE 인터럽트를 꺼서 ISR 반복 진입을 막음
+            USART3->CR1 &= ~(0x1 << 7);
+        }
+    }
+}
+
+void UART3_Send_String(char* p){
+    while (*p){
+        // 개행 문자 처리 로직 유지 대상이라면 추가
+        if(*p == '\n') {
+            UART3_Send_Byte_IT('\r');
+        }
+        UART3_Send_Byte_IT(*p++);
+    }
+}
+
+uint32_t UART3_Printf(const char* msg, ...){
+	va_list args;
+	char res_msg[200];
+	uint32_t cnt_rtn = 0;
+	va_start(args, msg);
+	vsprintf(res_msg, msg, args);
+	va_end(args);
+
+	UART3_Send_String(res_msg);
+
+	return cnt_rtn; // 출력한 문자 수 반환
+}
+
+
+//--------------------------------------------------------
+
+// 공유 메모리에서 데이터를 긁어와 송신 패킷을 만드는 함수
+void Send_System_Packet(SystemSharedData_t* shared_data) {
+    UartCommPacket_t pkt;
+
+    // 1. FreeRTOS 뮤텍스 락 (포트블록 시간은 10ms 수준 권장)
+	if (shm_mutex != NULL) {
+		if (xSemaphoreTake(shm_mutex, pdMS_TO_TICKS(10)) == pdTRUE) {
+
+			pkt.sof = PACKET_SOF;
+			pkt.system_state = (uint8_t)shared_data->system_state;
+			pkt.module_type  = (uint8_t)shared_data->module_type;
+			pkt.latest_fault  = (uint8_t)shared_data->latest_fault;
+			pkt.module_id     = shared_data->module_id;
+
+			// --- [중요 가공 단계] 라즈베리파이 수신 비트 연산 스펙 매핑 ---
+			// RPi 스펙: bit 0 = dock, bit 1 = auth
+			uint8_t packed_flags = 0;
+			if (shared_data->dock_detected) {
+				packed_flags |= (1 << 0);
+			}
+			if (shared_data->auth_result) {
+				packed_flags |= (1 << 1);
+			}
+			pkt.flags = packed_flags;
+
+			pkt.current_speed_rpm = shared_data->current_speed_rpm;
+			pkt.reported_power_w  = shared_data->reported_power_w;
+			pkt.pressure_value    = shared_data->pressure_value;
+			pkt.current_temp_c    = shared_data->current_temp_c;
+
+			// 2. 뮤텍스 언락
+			xSemaphoreGive(shm_mutex);
+		} else {
+			// 뮤텍스를 획득하지 못했을 때의 예외 처리 (자원 점유 실패 시 리턴)
+			return;
+		}
+	}
+
+    // 2. 2의 보수 기반 체크섬 계산 (SOF와 Checksum 필드 자체는 제외)
+    uint8_t* base_ptr = (uint8_t*)&pkt;
+    uint32_t sum = 0;
+
+    // SOF 다음 바이트(index 1)부터 데이터 끝(Checksum 직전)까지 합산
+    for (size_t i = 1; i < sizeof(UartCommPacket_t) - 1; i++) {
+        sum += base_ptr[i];
+    }
+
+    // 합산 값에 마이너스를 취해 2의 보수 생성
+    pkt.checksum = (uint8_t)((~sum) + 1);
+
+    // 3. UART 인터럽트 송신 버퍼로 push
+    for (size_t i = 0; i < sizeof(UartCommPacket_t); i++) {
+        UART3_Send_Byte_IT((char)base_ptr[i]);
+    }
+}

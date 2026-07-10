@@ -1,0 +1,45 @@
+
+#ifndef __UART_H__
+#define __UART_H__
+
+#include <stdint.h>
+#include "FreeRTOS.h"
+#include "semphr.h"
+#include "shm.h" // SystemSharedData_t 및 ModuleType_t 포함
+
+/* --- [요구사항 기반 1바이트 정렬 패킷 정의] --- */
+#pragma pack(push, 1)
+
+// RPi to STM32 수신 패킷 (24 Bytes)
+typedef struct {
+    uint32_t module_type;
+    uint32_t module_id;
+    float    granted_power_w;
+    float    target_temp_c;
+    uint8_t  warning_flag;
+    float    target_speed_rpm;
+} RtS_Packet_t;
+
+// STM32 to RPi 송신 패킷 (28 Bytes - module_type 2번 포함 요구사항 반영)
+typedef struct {
+	uint8_t  sof;
+    // 4바이트 그룹
+    uint32_t module_type;       // 0-3
+    uint32_t module_id;         // 4-7
+    float    reported_power_w;  // 8-11
+    float    current_pressure;  // 12-15
+    float    current_temp_c;    // 16-19
+    float    current_speed_rpm; // 20-23
+    // 1바이트 그룹
+    uint8_t  warning_flag;      // 24
+} StR_Packet_t;
+
+#pragma pack(pop)
+
+/* --- [함수 프로토타입] --- */
+void UART3_Init(void);
+void UART3_Send_Byte_IT(char ch);
+void UART_Task_Init(void);
+void StartUARTTask(void *argument);
+
+#endif /* __UART_H__ */

@@ -1,0 +1,7 @@
+../Core/Src/pwm.c:6:6:Fan_GPIO_Init	1
+../Core/Src/pwm.c:20:6:Fan_PWM_GPIO_Init	1
+../Core/Src/pwm.c:34:6:Fan_PWM_Init	1
+../Core/Src/pwm.c:64:6:Fan_Init	1
+../Core/Src/pwm.c:75:6:Fan_SetDuty	3
+../Core/Src/pwm.c:93:6:Fan_On	1
+../Core/Src/pwm.c:99:6:Fan_Off	1

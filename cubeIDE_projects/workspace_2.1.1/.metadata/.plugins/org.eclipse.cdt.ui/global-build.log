@@ -1,14 +1,98 @@
-16:07:52 **** Incremental Build of configuration Debug for project RTOS_main ****
+18:40:05 **** Incremental Build of configuration Debug for project test_pwm1 ****
 make -j12 all 
 arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-arm-none-eabi-gcc -o "RTOS_main.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kana0\source\repos\Tele_boot\cubeIDE_projects\workspace_2.1.1\RTOS_main\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: RTOS_main.elf
+arm-none-eabi-gcc -o "test_pwm1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\test_pwm1\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="test_pwm1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: test_pwm1.elf
  
-arm-none-eabi-size  RTOS_main.elf 
-arm-none-eabi-objdump -h -S RTOS_main.elf  > "RTOS_main.list"
+arm-none-eabi-size  test_pwm1.elf 
+arm-none-eabi-objdump -h -S test_pwm1.elf  > "test_pwm1.list"
    text	   data	    bss	    dec	    hex	filename
-  30116	     96	  22568	  52780	   ce2c	RTOS_main.elf
+  21904	     16	  20976	  42896	   a790	test_pwm1.elf
 Finished building: default.size.stdout
  
-Finished building: RTOS_main.list
+Finished building: test_pwm1.list
+ 
+18:40:20 **** Incremental Build of configuration Debug for project test_pwm1 ****
+make -j12 all 
+arm-none-eabi-size  test_pwm1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  21904	     16	  20976	  42896	   a790	test_pwm1.elf
+Finished building: default.size.stdout
+ 
+19:20:01 **** Incremental Build of configuration Debug for project test_pwm1 ****
+make -j12 all 
+arm-none-eabi-size  test_pwm1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  21904	     16	  20976	  42896	   a790	test_pwm1.elf
+Finished building: default.size.stdout
+ 
+19:21:17 **** Incremental Build of configuration Debug for project test_pwm1 ****
+make -j12 all 
+arm-none-eabi-size  test_pwm1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  21904	     16	  20976	  42896	   a790	test_pwm1.elf
+Finished building: default.size.stdout
+ 
+21:38:49 **** Incremental Build of configuration Debug for project test_pwm1 ****
+make -j12 all 
+arm-none-eabi-size  test_pwm1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  21904	     16	  20976	  42896	   a790	test_pwm1.elf
+Finished building: default.size.stdout
+ 
+21:40:47 **** Incremental Build of configuration Debug for project test_pwm1 ****
+make -j12 all 
+arm-none-eabi-size  test_pwm1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  21904	     16	  20976	  42896	   a790	test_pwm1.elf
+Finished building: default.size.stdout
+ 
+21:42:05 **** Incremental Build of configuration Debug for project test_pwm1 ****
+make -j12 all 
+arm-none-eabi-size  test_pwm1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  21904	     16	  20976	  42896	   a790	test_pwm1.elf
+Finished building: default.size.stdout
+ 
+21:44:12 **** Incremental Build of configuration Debug for project test_pwm1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'StartDefaultTask':
+../Core/Src/main.c:377:9: error: implicit declaration of function 'Fan_set' [-Wimplicit-function-declaration]
+  377 |         Fan_set();
+      |         ^~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+21:44:20 **** Incremental Build of configuration Debug for project test_pwm1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'StartDefaultTask':
+../Core/Src/main.c:377:9: error: implicit declaration of function 'Fan_Set' [-Wimplicit-function-declaration]
+  377 |         Fan_Set();
+      |         ^~~~~~~
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+21:44:38 **** Incremental Build of configuration Debug for project test_pwm1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'StartDefaultTask':
+../Core/Src/main.c:377:9: error: implicit declaration of function 'Fan_On'; did you mean 'Fan_Init'? [-Wimplicit-function-declaration]
+  377 |         Fan_On();
+      |         ^~~~~~
+      |         Fan_Init
+make: *** [Core/Src/subdir.mk:40: Core/Src/main.o] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+21:45:03 **** Incremental Build of configuration Debug for project test_pwm1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "test_pwm1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\test_pwm1\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="test_pwm1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: test_pwm1.elf
+ 
+arm-none-eabi-size  test_pwm1.elf 
+arm-none-eabi-objdump -h -S test_pwm1.elf  > "test_pwm1.list"
+   text	   data	    bss	    dec	    hex	filename
+  21952	     16	  20976	  42944	   a7c0	test_pwm1.elf
+Finished building: default.size.stdout
+ 
+Finished building: test_pwm1.list
  

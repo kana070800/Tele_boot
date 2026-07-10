@@ -1,0 +1,9 @@
+../Drivers/CMSIS/Include/core_cm4.h:1684:22:__NVIC_EnableIRQ	2
+../Drivers/CMSIS/Include/core_cm4.h:1814:22:__NVIC_SetPriority	2
+../Core/Src/uart.c:32:6:UART3_Init	1
+../Core/Src/uart.c:56:6:UART3_Send_Byte_IT	2
+../Core/Src/uart.c:66:6:USART3_IRQHandler	7
+../Core/Src/uart.c:92:17:Get_RX_Buffer_Count	2
+../Core/Src/uart.c:98:16:Pop_RX_Byte	2
+../Core/Src/uart.c:106:6:UART_Task_Init	1
+../Core/Src/uart.c:112:6:StartUARTTask	11

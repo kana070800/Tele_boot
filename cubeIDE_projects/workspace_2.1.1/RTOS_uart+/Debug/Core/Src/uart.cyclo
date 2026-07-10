@@ -1,0 +1,9 @@
+../Drivers/CMSIS/Include/core_cm4.h:1684:22:__NVIC_EnableIRQ	2
+../Drivers/CMSIS/Include/core_cm4.h:1814:22:__NVIC_SetPriority	2
+../Core/Src/uart.c:219:6:UART3_Init	1
+../Core/Src/uart.c:255:6:UART3_Send_Byte_IT	2
+../Core/Src/uart.c:272:9:UART3_Receive_Byte_IT	2
+../Core/Src/uart.c:289:6:USART3_IRQHandler	7
+../Core/Src/uart.c:318:6:UART3_Send_String	3
+../Core/Src/uart.c:328:10:UART3_Printf	1
+../Core/Src/uart.c:345:6:Send_System_Packet	5

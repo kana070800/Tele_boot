@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;RTOS_debug2(fail)&apos; to &apos;RTOS_uart+&apos;" description="Rename resource &apos;RTOS_debug2(fail)&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/RTOS_debug2(fail)" name="RTOS_uart+" stamp="1783331761004" updateReferences="true"/>&#x0A;<refactoring comment="Delete resource &apos;RTOS_uart+&apos;" deleteContents="false" description="Delete resource &apos;RTOS_uart+&apos;" element1="/RTOS_uart+" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1783384496998"/>
+</session>

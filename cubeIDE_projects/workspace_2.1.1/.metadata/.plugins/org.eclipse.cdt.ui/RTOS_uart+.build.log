@@ -1,0 +1,14 @@
+20:49:01 **** Incremental Build of configuration Debug for project RTOS_uart+ ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "RTOS_uart+.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\kanaw\Documents\Telechips4\cubeIDE_projects\workspace_2.1.1\RTOS_uart+\STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="RTOS_uart+.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_2.1.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o: in function `PendSV_Handler':
+C:/Users/kanaw/Documents/Telechips4/cubeIDE_projects/workspace_2.1.1/RTOS_uart+/Debug/../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c:497:(.text.PendSV_Handler+0x78): undefined reference to `xQueue'
+C:/ST/STM32CubeIDE_2.1.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.14.3.rel1.win32_1.0.100.202602081740/tools/bin/../lib/gcc/arm-none-eabi/14.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.o: in function `xPortSysTickHandler':
+C:/Users/kanaw/Documents/Telechips4/cubeIDE_projects/workspace_2.1.1/RTOS_uart+/Debug/../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c:519:(.text.xPortSysTickHandler+0x54): undefined reference to `xQueue'
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:68: RTOS_uart+.elf] Error 1
+"make -j12 all" terminated with exit code 2. Build might be incomplete.
+
+20:49:03 Build Failed. 3 errors, 0 warnings. (took 1s.18ms)
+

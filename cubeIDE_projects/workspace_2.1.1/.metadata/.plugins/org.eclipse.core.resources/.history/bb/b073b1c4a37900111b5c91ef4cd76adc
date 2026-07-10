@@ -1,0 +1,96 @@
+#include "uart.h"
+
+/* --- [전역 및 정적 변수 선언] --- */
+SystemSharedData_t g_shm_data;
+SemaphoreHandle_t  g_shm_mutex = NULL;
+QueueHandle_t      g_uart_rx_queue = NULL;
+
+static RtS_Packet_t g_rx_buffer;
+static StR_Packet_t g_tx_buffer;
+
+void UART_Task_Init(void)
+{
+    g_shm_mutex = xSemaphoreCreateMutex();
+    configASSERT(g_shm_mutex != NULL);
+
+    g_uart_rx_queue = xQueueCreate(5, sizeof(RtS_Packet_t));
+    configASSERT(g_uart_rx_queue != NULL);
+
+    // 첫 수신 인터럽트 활성화
+    HAL_UART_Receive_IT(&huart3, (uint8_t*)&g_rx_buffer, sizeof(RtS_Packet_t));
+}
+
+void StartUARTTask(void *argument)
+{
+    (void)argument;
+    TickType_t xLastWakeTime = xTaskGetTickCount();
+    const TickType_t xFrequency = pdMS_TO_TICKS(50); // 50ms 주기
+
+    RtS_Packet_t rx_pkt;
+
+    for(;;)
+    {
+        /* [1. 수신 처리] 큐에 패킷이 있으면 공유 메모리 업데이트 */
+        while (xQueueReceive(g_uart_rx_queue, &rx_pkt, 0) == pdTRUE)
+        {
+            if (xSemaphoreTake(g_shm_mutex, pdMS_TO_TICKS(5)) == pdTRUE)
+            {
+                g_shm_data.module_type      = (ModuleType_t)rx_pkt.module_type;
+                g_shm_data.module_id        = rx_pkt.module_id;
+                g_shm_data.granted_power_w  = rx_pkt.granted_power_w;
+                g_shm_data.target_temp_c    = rx_pkt.target_temp_c;
+                g_shm_data.warning_flag     = rx_pkt.warning_flag;
+                g_shm_data.target_speed_rpm = rx_pkt.target_speed_rpm;
+
+                xSemaphoreGive(g_shm_mutex);
+            }
+        }
+
+        /* [2. 송신 처리 - 핵심 수정!] 수신과 무관하게 무조건 송신을 주도함 */
+        if (xSemaphoreTake(g_shm_mutex, pdMS_TO_TICKS(10)) == pdTRUE)
+        {
+            g_tx_buffer.module_type      = (uint32_t)g_shm_data.module_type;
+            g_tx_buffer.module_id        = g_shm_data.module_id;
+            g_tx_buffer.reported_power_w = g_shm_data.reported_power_w;
+            g_tx_buffer.current_pressure = g_shm_data.pressure_value;
+            g_tx_buffer.current_temp_c   = g_shm_data.current_temp_c;
+            g_tx_buffer.warning_flag     = g_shm_data.warning_flag;
+            g_tx_buffer.current_speed_rpm= g_shm_data.current_speed_rpm;
+
+            xSemaphoreGive(g_shm_mutex);
+
+            // 이전 송신이 아직 진행 중이면 강제로 중단하고 새 패킷 전송 (Lock 방지)
+            if (huart3.gState != HAL_UART_STATE_READY) {
+                HAL_UART_AbortTransmit(&huart3);
+            }
+
+            // 비동기 송신 시작
+            HAL_UART_Transmit_IT(&huart3, (uint8_t*)&g_tx_buffer, sizeof(StR_Packet_t));
+        }
+
+        vTaskDelayUntil(&xLastWakeTime, xFrequency);
+    }
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == USART3)
+    {
+        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+        xQueueSendFromISR(g_uart_rx_queue, &g_rx_buffer, &xHigherPriorityTaskWoken);
+
+        // 다음 수신 대기
+        HAL_UART_Receive_IT(&huart3, (uint8_t*)&g_rx_buffer, sizeof(RtS_Packet_t));
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    }
+}
+
+/* [핵심 수정] 에러 발생 시 RX 하드웨어를 완전 리셋하여 Deadlock 탈출 */
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == USART3)
+    {
+        HAL_UART_AbortReceive(&huart3); // 진행 중인 꼬인 수신 강제 종료
+        HAL_UART_Receive_IT(&huart3, (uint8_t*)&g_rx_buffer, sizeof(RtS_Packet_t)); // 재개
+    }
+}

@@ -1,7 +1,10 @@
-../Core/Src/i2c.c:299:6:I2C1_init	1
-../Core/Src/i2c.c:327:6:I2C1_write	4
-../Core/Src/i2c.c:348:6:__I2C1_read	3
-../Core/Src/i2c.c:363:9:I2C1_read	5
-../Core/Src/i2c.c:390:6:init_ina3221	1
-../Core/Src/i2c.c:395:6:init_ina226	1
-../Core/Src/i2c.c:403:6:I2C1_EV_IRQHandler	13
+../Core/Src/i2c.c:303:6:I2C1_init	1
+../Core/Src/i2c.c:333:6:I2C1_write	4
+../Core/Src/i2c.c:354:6:__I2C1_read	3
+../Core/Src/i2c.c:369:9:I2C1_read	5
+../Core/Src/i2c.c:396:6:init_ina3221	1
+../Core/Src/i2c.c:401:6:init_ina226	1
+../Core/Src/i2c.c:409:6:I2C1_EV_IRQHandler	13
+../Core/Src/i2c.c:484:6:I2C1_ER_IRQHandler	5
+../Core/Src/i2c.c:515:6:Current_Task	3
+../Core/Src/i2c.c:583:6:Current_init	1
