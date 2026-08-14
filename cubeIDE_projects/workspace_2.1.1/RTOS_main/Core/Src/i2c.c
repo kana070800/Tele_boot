@@ -413,6 +413,7 @@ void I2C1_EV_IRQHandler(void)
 
 	// start condition = EV5
 	if (sr1 & I2C_SR1_SB) {
+		//UART3_Printf("S %d\n", h_I2C1.state);
 		I2C1->DR = h_I2C1.slave_addr;
 		return;
 	}
@@ -424,6 +425,7 @@ void I2C1_EV_IRQHandler(void)
 			h_I2C1.state = I2C_READ_DATA_H;
 			I2C1->CR1 |= (1 << 10); // ACK set++++++++++++++++++++++++++++
 		}
+		//UART3_Printf("add %d\n", h_I2C1.state);
 		sr1 = I2C1->SR2; //clear ADDR
 		return;
 	}
@@ -516,14 +518,15 @@ void Current_Task(void *argument)
 {
   /* USER CODE BEGIN 5 */
 	I2C1_init();
-	init_ina3221();
+	//init_ina3221();
 	init_ina226();
   /* Infinite loop */
 	for(;;)
 	{
+		UART3_Printf("start loop \n");
 		if (g_i2c_bus_error_flag) {
 		    I2C1_init();      //초기화
-		    init_ina3221();
+		    //init_ina3221();
 		    init_ina226();
 		    g_i2c_bus_error_flag = 0;
 		    continue;                // 이번 루프는 건너뛰고 다음 주기에 재시도
@@ -533,21 +536,21 @@ void Current_Task(void *argument)
 		// 1. INA3221
 		// ==========================================================
 		// 상위 13비트만 유효 >> 3
-		int16_t bus3221_raw   = (int16_t)I2C1_read(3221, INA3221_Bus1) >> 3;
-		int16_t shunt3221_raw = (int16_t)I2C1_read(3221, INA3221_Shunt1) >> 3;
-
-		UART3_Printf("ina3221 shunt1 raw : %d\n", shunt3221_raw);
-		UART3_Printf("ina3221 bus1 raw   : %d\n", bus3221_raw);
-
-		// Bus 단위 = 8mV
-		int32_t bus3221_mv = bus3221_raw * 8;
-
-		// Shunt 단위 = 40uV (0.04mV). 전류(mA) = (raw * 40uV) === 0.1옴 = (raw * 4) / 10 mA
-		int32_t current3221_ma = (shunt3221_raw * 4) / 10; // 0.1옴 기준 mA 단위
-
-		int32_t power3221_mw = (bus3221_mv * current3221_ma) / 1000;
-
-		UART3_Printf("INA3221 -> Bus: %ld mV | Cur: %ld mA | Power: %ld mW\n", bus3221_mv, current3221_ma, power3221_mw);
+//		int16_t bus3221_raw   = (int16_t)I2C1_read(3221, INA3221_Bus1) >> 3;
+//		int16_t shunt3221_raw = (int16_t)I2C1_read(3221, INA3221_Shunt1) >> 3;
+//
+//		UART3_Printf("ina3221 shunt1 raw : %d\n", shunt3221_raw);
+//		UART3_Printf("ina3221 bus1 raw   : %d\n", bus3221_raw);
+//
+//		// Bus 단위 = 8mV
+//		int32_t bus3221_mv = bus3221_raw * 8;
+//
+//		// Shunt 단위 = 40uV (0.04mV). 전류(mA) = (raw * 40uV) === 0.1옴 = (raw * 4) / 10 mA
+//		int32_t current3221_ma = (shunt3221_raw * 4) / 10; // 0.1옴 기준 mA 단위
+//
+//		int32_t power3221_mw = (bus3221_mv * current3221_ma) / 1000;
+//
+//		UART3_Printf("INA3221 -> Bus: %ld mV | Cur: %ld mA | Power: %ld mW\n", bus3221_mv, current3221_ma, power3221_mw);
 
 		// ==========================================================
 		// 2. INA226
@@ -583,6 +586,7 @@ void Current_Task(void *argument)
 void Current_init(void){
 	BaseType_t ret = xTaskCreate(Current_Task, "current sensor", 128*4,NULL, osPriorityNormal,NULL);
 	if (ret != pdPASS){
+		UART3_Printf("end loop\n");
 		return;
 	}
 }

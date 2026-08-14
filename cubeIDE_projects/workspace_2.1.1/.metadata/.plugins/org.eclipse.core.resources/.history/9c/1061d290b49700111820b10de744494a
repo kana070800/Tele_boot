@@ -456,8 +456,8 @@ void StartDefaultTask(void *argument)
   for(;;)
   {
 	//UART3_Send_Byte('a');
-	//Check_JTAG_SWD_Pins();
-    osDelay(10);
+	Check_JTAG_SWD_Pins();
+    osDelay(100);
   }
   /* USER CODE END 5 */
 }

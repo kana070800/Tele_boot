@@ -3,6 +3,8 @@
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<item key="replaceBarOpen" value="false"/>
 	<list key="searchhistory">
+		<item value="INA226_addr"/>
+		<item value="uart"/>
 		<item value="UART3"/>
 		<item value="g_i2c_bus_error_flag"/>
 		<item value="I2C1_init"/>
@@ -16,8 +18,6 @@
 		<item value="RPi_Shared_Data"/>
 		<item value="configUSE_QUEUE"/>
 		<item value="StartDefaultTask"/>
-		<item value="StartTelemetryTask"/>
-		<item value="xQueueCreate"/>
 	</list>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item key="selection" value="pac"/>

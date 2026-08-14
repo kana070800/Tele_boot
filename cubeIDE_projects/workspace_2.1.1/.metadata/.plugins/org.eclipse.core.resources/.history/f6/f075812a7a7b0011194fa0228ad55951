@@ -1,9 +1,0 @@
-// GPIO: PB15
-void Fan_GPIO_Init(void);
-
-// PWM GPIO: PA3 (TIM9_CH2)
-void Fan_PWM_GPIO_Init(void);
-// TIM9 PWM INIT (CH2)
-void Fan_PWM_Init(void);
-// INIT ALL
-void Fan_Init(void);

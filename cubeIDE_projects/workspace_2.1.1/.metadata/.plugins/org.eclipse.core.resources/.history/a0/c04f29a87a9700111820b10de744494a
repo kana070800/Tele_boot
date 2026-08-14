@@ -384,62 +384,7 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-// JTAG/SWD 핀 상태 확인 함수
-void Check_JTAG_SWD_Pins(void) {
-    uint32_t moder, afr;
 
-    // 레지스터 값을 정확히 읽기 위해 GPIOA, GPIOB 클럭 활성화
-    RCC->AHB1ENR |= (1 << 0) | (1 << 1);
-
-    UART3_Printf("\r\n--- JTAG / SWD Pin Status Check ---\r\n");
-
-    // 1. PA13 (JTMS / SWDIO)
-    moder = (GPIOA->MODER >> (13 * 2)) & 0x03;
-    afr   = (GPIOA->AFR[1] >> ((13 - 8) * 4)) & 0x0F;
-    if (moder == 2 && afr == 0) {
-        UART3_Printf("[OK] PA13: Assigned to JTMS / SWDIO\r\n");
-    } else {
-        UART3_Printf("[!]  PA13: NOT JTAG/SWD (MODER: %lu, AF: %lu)\r\n", moder, afr);
-    }
-
-    // 2. PA14 (JTCK / SWCLK)
-    moder = (GPIOA->MODER >> (14 * 2)) & 0x03;
-    afr   = (GPIOA->AFR[1] >> ((14 - 8) * 4)) & 0x0F;
-    if (moder == 2 && afr == 0) {
-        UART3_Printf("[OK] PA14: Assigned to JTCK / SWCLK\r\n");
-    } else {
-        UART3_Printf("[!]  PA14: NOT JTAG/SWD (MODER: %lu, AF: %lu)\r\n", moder, afr);
-    }
-
-    // 3. PA15 (JTDI)
-    moder = (GPIOA->MODER >> (15 * 2)) & 0x03;
-    afr   = (GPIOA->AFR[1] >> ((15 - 8) * 4)) & 0x0F;
-    if (moder == 2 && afr == 0) {
-        UART3_Printf("[OK] PA15: Assigned to JTDI\r\n");
-    } else {
-        UART3_Printf("[!]  PA15: NOT JTAG/SWD (MODER: %lu, AF: %lu)\r\n", moder, afr);
-    }
-
-    // 4. PB3 (JTDO / TRACESWO)
-    moder = (GPIOB->MODER >> (3 * 2)) & 0x03;
-    afr   = (GPIOB->AFR[0] >> (3 * 4)) & 0x0F;
-    if (moder == 2 && afr == 0) {
-        UART3_Printf("[OK] PB3 : Assigned to JTDO / TRACESWO\r\n");
-    } else {
-        UART3_Printf("[!]  PB3 : NOT JTAG/SWD (MODER: %lu, AF: %lu)\r\n", moder, afr);
-    }
-
-    // 5. PB4 (NJTRST)
-    moder = (GPIOB->MODER >> (4 * 2)) & 0x03;
-    afr   = (GPIOB->AFR[0] >> (4 * 4)) & 0x0F;
-    if (moder == 2 && afr == 0) {
-        UART3_Printf("[OK] PB4 : Assigned to NJTRST\r\n");
-    } else {
-        UART3_Printf("[!]  PB4 : NOT JTAG/SWD (MODER: %lu, AF: %lu)\r\n", moder, afr);
-    }
-
-    UART3_Printf("-----------------------------------\r\n\n");
-}
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -455,8 +400,7 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-	//UART3_Send_Byte('a');
-	//Check_JTAG_SWD_Pins();
+	UART3_Send_Byte('A');
     osDelay(10);
   }
   /* USER CODE END 5 */

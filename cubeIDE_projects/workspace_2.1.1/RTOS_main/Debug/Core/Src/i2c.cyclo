@@ -5,6 +5,6 @@
 ../Core/Src/i2c.c:396:6:init_ina3221	1
 ../Core/Src/i2c.c:401:6:init_ina226	1
 ../Core/Src/i2c.c:409:6:I2C1_EV_IRQHandler	13
-../Core/Src/i2c.c:484:6:I2C1_ER_IRQHandler	5
-../Core/Src/i2c.c:515:6:Current_Task	3
-../Core/Src/i2c.c:583:6:Current_init	1
+../Core/Src/i2c.c:486:6:I2C1_ER_IRQHandler	5
+../Core/Src/i2c.c:517:6:Current_Task	3
+../Core/Src/i2c.c:586:6:Current_init	2
